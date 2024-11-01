@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+
+\bibitem{CC01a}
+Chih-Chung Chang and Chih-Jen Lin.
+\newblock {LIBSVM}: A library for support vector machines.
+\newblock {\em ACM Transactions on Intelligent Systems and Technology}, 2:27:1--27:27, 2011.
+\newblock Software available at \url{http://www.csie.ntu.edu.tw/~cjlin/libsvm}.
+
+\bibitem{司守奎}
+司守奎 and 孙玺菁.
+\newblock {\em 数学建模算法与应用（第三版）}.
+\newblock 数学建模算法与应用, 2021.
+
+\bibitem{周志华}
+周志华.
+\newblock {\em 机器学习}.
+\newblock Qing hua da xue chu ban she, 2016.
+
+\bibitem{夏爱生}
+夏爱生 and 刘俊峰.
+\newblock {\em 数学建模与 MATLAB 应用}.
+\newblock 北京理工大学出版社, 2016.
+
+\bibitem{梅正阳}
+梅正阳 and 韩志斌.
+\newblock {\em 数学建模教程}.
+\newblock 科学出版社, 2012.
+
+\bibitem{清风}
+清风.
+\newblock {\em 数模新版视频教程}.
+\newblock B站, 2021.
+
+\bibitem{韩中庚}
+韩中庚.
+\newblock {\em 数学建模方法及其应用（第3版）}.
+\newblock 高等教育出版社, 2017.
+
+\end{thebibliography}

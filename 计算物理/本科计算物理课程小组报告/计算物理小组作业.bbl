@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{shen2011spectral}
+Jie Shen, Tao Tang, and Li-Lian Wang.
+\newblock {\em Spectral methods: algorithms, analysis and applications}, volume~41.
+\newblock Springer Science \& Business Media, 2011.
+
+\bibitem{trefethen2000spectral}
+Lloyd~N Trefethen.
+\newblock {\em Spectral methods in MATLAB}.
+\newblock SIAM, 2000.
+
+\end{thebibliography}

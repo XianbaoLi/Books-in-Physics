@@ -1,0 +1,687 @@
+\documentclass[12pt]{ctexart}
+
+\usepackage{cite}
+\usepackage[backref]{hyperref}
+% 导言区设置
+\usepackage{lipsum} % 示例文本
+\usepackage{multicol} % 多栏排版
+
+% % 设置页边距
+% \usepackage[margin=2cm]{geometry}
+
+% 设置页面格式
+\usepackage[a4paper, margin=1in]{geometry} % 设置页面大小为A4，页边距为1英寸
+
+% 设置中文字体和编码
+\usepackage{xeCJK}
+\setCJKmainfont{宋体} % 设置中文字体为宋体
+
+% 设置段落缩进
+\usepackage{indentfirst}
+\setlength{\parindent}{2em} % 设置段落缩进为2个字符
+
+% 设置行间距
+\usepackage{setspace}
+\linespread{1.5} % 设置行间距为1.5倍
+
+% 设置标题格式
+\usepackage{titlesec}
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{\thesection}{1em}{} % 设置一级标题格式为居中加粗，字号为Large
+\titleformat{\subsection}[block]{\large\bfseries}{\thesubsection}{1em}{} % 设置二级标题格式为加粗，字号为large
+\titleformat{\subsubsection}[block]{\normalsize\bfseries}{\thesubsubsection}{1em}{} % 设置三级标题格式为加粗，字号为normalsize
+
+% 设置参考文献格式
+\usepackage{natbib}
+\bibliographystyle{plainnat} % 设置参考文献格式为plainnat
+
+% 设置页面页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage} % 页眉右侧显示页码
+\lhead{\textit{\small 理论力学研讨报告}} % 页眉左侧显示标题
+\renewcommand{\headrulewidth}{0pt} % 设置页眉分隔线宽度为0
+
+% 设置公式字体为Segoe UI Symbol
+\usepackage{unicode-math}
+\setmathfont{Segoe UI Symbol}
+
+\author{李先宝 2022141220008}
+\date{}
+\title{理论力学中的矩阵表示与正则变换}
+\begin{document}
+\maketitle
+\begin{abstract}
+    本文深入探讨了理论力学中的哈密顿正则方程的矩阵表示方法及其在正则变换中的应用。首先，文章通过定义一个2n维矢量和相应的2n×2n维方阵，将哈密顿正则方程转化为矩阵形式，即辛形式，从而简化了方程的表示和计算。接着，文章讨论了正则变换的条件，即辛条件，并推导出满足该条件的变换矩阵，称为辛矩阵。此外，文章还探讨了泊松括号的矩阵形式及其正则不变性，证明了正则变换不会改变泊松括号的值，从而确认了泊松括号作为正则不变量的性质。
+
+进一步地，文章分析了无穷小正则变换（I.C.T）的概念，推导出其生成函数和生成元，并展示了如何通过无穷小正则变换来描述相空间中点的演化。文章还提出了演化即是正则变换的观点，将相空间的时间演化视为一种正则变换，从而将哈密顿流与相流联系起来。
+
+最后，文章探讨了诺特定理的哈密顿形式，阐述了对称性与守恒量之间的关系，并简要讨论了从经典力学到量子力学的过渡，通过引入厄米算符来描述量子力学中的平移、时间演化和空间转动。
+
+本文不仅为理论力学中的数学表述提供了新的视角，也为理解经典力学与量子力学之间的联系提供了有益的思考。
+
+\end{abstract}
+\newpage
+\tableofcontents % 生成目录
+\newpage
+\section{引言}
+本文是读者为了增强对哈密顿力学和量子力学的理解，收集资料整理而成。一方面，作为理论力学的研讨报告；另一方面，作为一份笔记，便于以后的复习和整理。
+% \section{时空对称性与守恒量}
+% \subsection{空间的均匀性与各向同性}
+% 考虑$N$个粒子组成的粒子系统。既然谈论空间，广义坐标自然就是普通的直角坐标：
+% \begin{equation}
+% \{\vec{x}_\alpha\}=\{\vec{x}_1,\vec{x}_2,\cdots,\vec{x}_N\}\:\label{eq:1}.
+% \end{equation}
+% 考虑空间连续变换：
+% \begin{equation}
+%     \vec{x}_{\alpha}\left(t\right)\to\tilde{\vec{x}}_{\alpha}\left(t\right)=\vec{x}_{\alpha}\left(t\right)+\delta\vec{x}_{\alpha}\left(t\right),\quad\alpha=1,\cdots,N
+% \label{eq:2}
+% \end{equation}
+% 在空间变换(\ref{eq:2})下，
+% $$\begin{aligned}\delta S&=\quad\int\mathrm{d}t\:L\\&=\quad\int\mathrm{d}t\:\sum_{\alpha}\left(\frac{\partial L}{\partial\vec{x}_{\alpha}}\cdot\delta\vec{x}_{\alpha}+\frac{\partial L}{\partial\vec{\vec{x}}_{\alpha}}\cdot\delta\dot{\vec{x}}_{\alpha}\right)\\&=\quad\int\mathrm{d}t\sum_{\alpha}\left(\left(\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\vec{x}_{\alpha}}\right)\cdot\delta\vec{x}_{\alpha}+\frac{\partial L}{\partial\dot{\vec{x}}_{\alpha}}\cdot\delta\vec{\vec{x}}_{\alpha}\right)\\&\equiv\quad\int\mathrm{d}t\:\frac{\mathrm{d}}{\mathrm{d}t}\left(\sum_{\alpha}\frac{\partial L}{\partial\vec{x}_{\alpha}}\cdot\delta\vec{x}_{\alpha}\right),\end{aligned}$$
+% \par (利用运动方程：$\frac{\partial L}{\partial\vec{x}_\alpha}=\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\vec{x}_\alpha})$
+
+% 所以，如果要求作用量在空间连续变换下不变，即$\delta S=0$,
+% $$\frac{\mathrm{d}}{\mathrm{d}t}\left(\sum_\alpha\frac{\partial L}{\partial\dot{\vec{x}}_\alpha}\cdot\delta\vec{x}_\alpha\right)=0,$$
+% 即
+% $$\boxed{\sum_\alpha\frac{\partial L}{\partial\dot{\vec{x}}_\alpha}\cdot\delta\vec{x}_\alpha=\text{常数}}.$$
+% \subsection{空间的均匀性与动量守恒}
+
+% \bibliography{yourbibfile} % Include your bibliography file name here
+
+% \begin{multicols}{2} % 开始双栏排版
+\section{用矩阵表示哈密顿正则方程}
+
+我们熟知的Hamilton正则方程为
+\begin{equation}
+    \begin{cases}\dot{q}_i=\dfrac{\partial H}{\partial p_i}\\\dot{p}_i=-\dfrac{\partial H}{\partial q_i}\end{cases}\quad i=1,\cdots,n
+    \label{eq:1}
+\end{equation}
+
+注意到这个方程本身的某种“对称性”,这诱导我们把广义坐标和广义动量放到同一个矢量里面，即定义一个$2n$维矢量$\eta$ :
+\begin{equation}
+    \boldsymbol{\eta}=(q_1,\cdots,q_n,p_1,\cdots,p_n)^T
+    \label{eq:2}
+\end{equation}
+
+亦即分量为
+\begin{equation}
+\left.\left\{\begin{array}{ll}\eta_i=q_i\\\eta_{i+n}=p_i\end{array}\right.\right.\quad i=1,\cdots,n
+\label{eq:3}
+\end{equation}
+
+
+然后我们再定义一个$ 2n \times 2n $的方阵:
+
+\begin{equation}
+    \begin{aligned}
+    &\boldsymbol{J} = \begin{pmatrix}
+    \boldsymbol{0}_{n\times n} & \boldsymbol{I}_{n} \\
+    -\boldsymbol{I}_{n} & \boldsymbol{0}_{n\times n}
+    \end{pmatrix} = \begin{pmatrix}
+    0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0 \\
+    0 & 0 & \cdots & 0 & 0 & 1 & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \cdots & 0 & 0 & 0 & \cdots & 1 \\
+    -1 & 0 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+    0 & -1 & \cdots & 0 & 0 & 0 & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \cdots & -1 & 0 & 0 & \cdots & 0 \\
+    \end{pmatrix} 
+\end{aligned}
+\label{eq:4}
+\end{equation}
+
+    (未标出的元素均为0)
+
+    不难验证矩阵 $\boldsymbol{J} $具有以下性质:
+    \begin{equation}
+        \begin{aligned}
+    &\boldsymbol{J}^T = \begin{pmatrix}
+    \boldsymbol{0}_{n\times n} & -\boldsymbol{I}_n \\
+    \boldsymbol{I}_n & \boldsymbol{0}_{n\times n}
+    \end{pmatrix},\quad \boldsymbol{J}^T\boldsymbol{J} = \boldsymbol{J}\boldsymbol{J}^T = \boldsymbol{I}_{2n} \\
+    &\boldsymbol{J}^T = -\boldsymbol{J} = \boldsymbol{J}^{-1},\quad \boldsymbol{J}^2 = -\boldsymbol{I}_{2n}, |\boldsymbol{J}| = 1
+    \end{aligned}
+    \label{eq:5}
+    \end{equation}
+ 
+       现在与哈密顿正则方程去联系。观察到,$\eta$ 的前$n$个元素是 $q$ , 后$n$个是 $p $, 再根据方程,可以得到
+
+        \begin{equation}
+            \begin{aligned}
+        &\boxed{\dot{\boldsymbol{\eta}} = \boldsymbol{J} \frac{\partial H}{\partial \boldsymbol{\eta}}.} \\
+    \end{aligned}
+    \label{eq:6}
+\end{equation}
+
+       这就是 Hamilton 方程的矩阵形式，又称为辛形式（symplectic notation）。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{正则变换的条件(辛条件)}
+
+考虑将原坐标 ($q$,$p$) 变换到一组新坐标 ($Q$,$P$)：
+
+\begin{equation}
+\begin{aligned}
+&\left\{\begin{array}{ll}Q_i=Q_i(q,p,t)\\P_i=P_i(q,p,t)\end{array}\right.\quad i=1,\cdots,n \\
+\end{aligned}
+\label{eq:7}
+\end{equation}
+
+记 $2n$ 维矢量 $\boldsymbol{\zeta}=(Q_1,\cdots,Q_n,P_1,\cdots,P_n)^T$，则变换可以写成：
+
+\begin{equation}
+\begin{aligned}
+&\boldsymbol{\zeta} = \boldsymbol{\zeta}(\boldsymbol{\eta}) \\
+\end{aligned}
+\label{eq:8}
+\end{equation}
+
+对 t 求导，得到
+\begin{equation}
+    \begin{aligned}
+&\dot{\zeta}_{i} = \frac{\partial \zeta_{i}}{\partial \eta_{j}} \dot{\eta}_{j} \\
+\end{aligned}
+\label{eq:9}
+\end{equation}
+
+矩阵形式下
+\begin{equation}
+    \begin{aligned}
+&\dot{\boldsymbol{\zeta}} = \boldsymbol{M} \dot{\boldsymbol{\eta}}, \quad \boldsymbol{M}=(M_{ij})_{2n\times 2n}, \quad M_{ij} = \frac{\partial \zeta_i}{\partial \eta_j} 
+\end{aligned}
+\label{eq:10}
+\end{equation}
+
+即 M 就是坐标变换的 Jacobian 矩阵$\boldsymbol{M}$。或者写成 
+\begin{equation}
+    \begin{aligned}
+&\boldsymbol{M} = \begin{pmatrix}\frac{\partial Q}{\partial q} & \frac{\partial Q}{\partial p}\\ \frac{\partial P}{\partial q} & \frac{\partial P}{\partial p}\end{pmatrix}
+\end{aligned}
+\label{eq:11}
+\end{equation}
+
+
+其中使用了记号$\frac {\partial \boldsymbol{f}}{\partial \boldsymbol{x}}= \left ( \frac {\partial f_i}{\partial x_j}\right ) _{m\times m}$, $i, j= 1, \cdots , m$ 。
+
+多元函数微积分告诉我们，逆变换的雅可比矩阵Q满足
+\begin{equation}
+    \boldsymbol{M}^{-1}=\begin{pmatrix}\frac{\partial\boldsymbol{q}}{\partial\boldsymbol{Q}}&\frac{\partial\boldsymbol{q}}{\partial\boldsymbol{P}}\\\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{Q}}&\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{P}}\end{pmatrix}
+    \label{eq:12}
+\end{equation}
+
+然后代入
+\begin{equation}
+\dot{\eta}=\boldsymbol{J}\frac{\partial H}{\partial\eta}
+\label{eq:13}
+\end{equation}
+
+得到
+\begin{equation}
+    \dot{\boldsymbol{\zeta}}=M\boldsymbol{J}\frac{\partial H}{\partial\boldsymbol{\eta}}
+    \label{eq:14}
+\end{equation}
+
+右边还是有$\eta$ 。但注意到$H=H(\zeta)=H(\eta)$ ,因此右边的偏导满足
+\begin{equation}\frac{\partial H}{\partial\eta_i}=\frac{\partial H}{\partial\zeta_j}\frac{\partial\zeta_j}{\partial\eta_i}=\frac{\partial H}{\partial\zeta_j}M_{ji}\implies\frac{\partial H}{\partial\eta}=\boldsymbol{M}^T\frac{\partial H}{\partial\boldsymbol{\zeta}}
+    \label{eq:15}
+\end{equation}
+
+从而
+\begin{equation}
+\dot{\zeta}=\boldsymbol{MJM}^T\frac{\partial H}{\partial\boldsymbol{\zeta}}
+\label{eq:16}
+\end{equation}
+
+而根据正则变换的定义。
+
+
+\begin{equation}
+    \dot{\zeta}=\boldsymbol{J}\frac{\partial K}{\partial\zeta}
+    \label{eq:17}
+\end{equation}
+
+$K$是正则变换后的哈密顿量
+
+考虑\textbf{受限正则变换}，即生成函数不显含$t$，哈密顿量不变
+
+\begin{eqnarray}
+    H=K
+    \label{eq:18}
+\end{eqnarray}
+
+此时
+\begin{equation}\dot{\boldsymbol{\zeta}}=\boldsymbol{MJM}^T\frac{\partial H}{\partial\boldsymbol{\zeta}}=\boldsymbol{J}\frac{\partial H}{\partial\boldsymbol{\zeta}}
+    \label{eq:19}
+\end{equation}
+
+这要求
+\begin{equation}
+    MJM^T=J
+    \label{eq:20}
+\end{equation}
+
+注意到如果运用$J$的性质，不难得到
+\begin{equation}
+    MJ=\boldsymbol{J}(\boldsymbol{M}^T)^{-1}\implies-\boldsymbol{J}\boldsymbol{M}=-(\boldsymbol{M}^T)^{-1}\boldsymbol{J}\implies\boldsymbol{M}^T\boldsymbol{J}\boldsymbol{M}=\boldsymbol{J}
+    \label{eq:21}
+\end{equation}
+亦即
+\begin{equation}
+    \boxed{M^TJM=MJM^T=J}
+    \label{eq:22}
+\end{equation}
+
+此即正则变换的辛条件(symplectic condition),而满足上式的矩阵$M$ 又称为辛矩阵
+(symplectic matrix)。
+
+将矩阵形式展开：
+
+\begin{equation}
+\begin{pmatrix}\dfrac{\partial\boldsymbol{Q}}{\partial\boldsymbol{q}}&\dfrac{\partial\boldsymbol{Q}}{\partial\boldsymbol{p}}\\\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{q}}&\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{p}}\end{pmatrix}\begin{pmatrix}\boldsymbol{0}_{n\times n}&\boldsymbol{I}_n\\-\boldsymbol{I}_n&\boldsymbol{0}_{n\times n}\end{pmatrix}\begin{pmatrix}\dfrac{\partial\boldsymbol{Q}}{\partial\boldsymbol{q}}&\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{q}}\\\dfrac{\partial\boldsymbol{Q}}{\partial\boldsymbol{p}}&\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{p}}\end{pmatrix}=\begin{pmatrix}\boldsymbol{0}_{n\times n}&\boldsymbol{I}_n\\-\boldsymbol{I}_n&\boldsymbol{0}_{n\times n}\end{pmatrix}
+\label{eq:23}
+\end{equation}
+
+即
+
+\begin{equation}
+\begin{aligned}\begin{pmatrix}\dfrac{\partial Q}{\partial\boldsymbol{q}}&\dfrac{\partial Q}{\partial\boldsymbol{p}}\\\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{q}}&\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{p}}\end{pmatrix}\begin{pmatrix}\boldsymbol{0}_{n\times n}&\boldsymbol{I}_n\\-\boldsymbol{I}_n&\boldsymbol{0}_{n\times n}\end{pmatrix}&=\begin{pmatrix}\boldsymbol{0}_{n\times n}&\boldsymbol{I}_n\\-\boldsymbol{I}_n&\boldsymbol{0}_{n\times n}\end{pmatrix}\left(\begin{pmatrix}\dfrac{\partial\boldsymbol{Q}}{\partial\boldsymbol{q}}&\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{q}}\\\dfrac{\partial\boldsymbol{Q}}{\partial\boldsymbol{p}}&\dfrac{\partial\boldsymbol{P}}{\partial\boldsymbol{p}}\end{pmatrix}^{-1}\right)^T\\&=\begin{pmatrix}0_{n\times n}&\boldsymbol{I}_n\\-\boldsymbol{I}_n&\boldsymbol{0}_{n\times n}\end{pmatrix}\begin{pmatrix}\left(\dfrac{\partial\boldsymbol{q}}{\partial\boldsymbol{Q}}\right)^T&\left(\dfrac{\partial\boldsymbol{p}}{\partial\boldsymbol{Q}}\right)^T\\\left(\dfrac{\partial\boldsymbol{q}}{\partial\boldsymbol{P}}\right)^T&\left(\dfrac{\partial\boldsymbol{p}}{\partial\boldsymbol{P}}\right)^T\end{pmatrix}\end{aligned}
+\label{eq:24}
+\end{equation}
+
+
+亦即
+\begin{equation}
+    \begin{pmatrix}-\frac{\partial\boldsymbol{Q}}{\partial\boldsymbol{p}}&\frac{\partial\boldsymbol{Q}}{\partial\boldsymbol{q}}\\-\frac{\partial\boldsymbol{P}}{\partial\boldsymbol{p}}&\frac{\partial\boldsymbol{P}}{\partial\boldsymbol{q}}\end{pmatrix}=\begin{pmatrix}\left(\frac{\partial\boldsymbol{q}}{\partial\boldsymbol{Q}}\right)^T&\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{Q}}\right)^T\\\left(\frac{\partial\boldsymbol{q}}{\partial\boldsymbol{P}}\right)^T&\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{P}}\right)^T\end{pmatrix}
+    \label{eq:25}
+\end{equation}
+
+即
+\begin{equation}
+    \boxed{\begin{cases}\frac{\partial\boldsymbol{Q}}{\partial\boldsymbol{q}}=\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{P}}\right)^T\\\frac{\partial\boldsymbol{P}}{\partial\boldsymbol{p}}=\left(\frac{\partial\boldsymbol{q}}{\partial\boldsymbol{Q}}\right)^T\\\frac{\partial\boldsymbol{Q}}{\partial\boldsymbol{p}}=-\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{Q}}\right)^T\\\frac{\partial\boldsymbol{P}}{\partial\boldsymbol{q}}=-\left(\frac{\partial\boldsymbol{q}}{\partial\boldsymbol{P}}\right)^T\end{cases}}
+    \label{eq:26}
+\end{equation}
+
+这也被称作正则变换的直接条件(direct condition)。
+
+\section{泊松括号的矩阵形式及其正则不变性}
+我们熟知的对$(q,p)$ 的泊松括号为
+
+\begin{equation}
+\begin{aligned}
+    &[u,v]_{q,p}=\frac{\partial u}{\partial q_i}\frac{\partial v}{\partial p_i}-\frac{\partial u}{\partial p_i}\frac{\partial v}{\partial q_i} 
+\end{aligned}
+\end{equation}
+    
+而如果写成矩阵形式,注意到 
+\begin{equation}
+\begin{aligned}
+    &\frac{\partial u}{\partial q_i}\frac{\partial v}{\partial p_i}-\frac{\partial u}{\partial p_i}\frac{\partial v}{\partial q_i}&& =\left(\frac{\partial u}{\partial\boldsymbol{q}}\right)^T\frac{\partial v}{\partial\boldsymbol{p}}-\left(\frac{\partial u}{\partial\boldsymbol{p}}\right)^T\frac{\partial v}{\partial\boldsymbol{q}} \\
+    &&&=\left(\left(\frac{\partial u}{\partial\boldsymbol{q}}\right)^T,\left(\frac{\partial u}{\partial\boldsymbol{p}}\right)^T\right)\begin{pmatrix}\frac{\partial v}{\partial\boldsymbol{p}}\\-\frac{\partial v}{\partial\boldsymbol{q}}\end{pmatrix} \\
+    &&&=\left(\left(\frac{\partial u}{\partial\boldsymbol{q}}\right)^T,\left(\frac{\partial u}{\partial\boldsymbol{p}}\right)^T\right)\left(\begin{array}{cc}\boldsymbol{0}&\boldsymbol{I}_n\\-\boldsymbol{I}_n&\boldsymbol{0}\end{array}\right)\left(\begin{array}{c}\frac{\partial v}{\partial\boldsymbol{q}}\\\frac{\partial v}{\partial\boldsymbol{p}}\end{array}\right) \\
+    &&&=\left(\frac{\partial u}{\partial\boldsymbol{\eta}}\right)^T\boldsymbol{J}\left(\frac{\partial v}{\partial\boldsymbol{\eta}}\right)
+    \end{aligned}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+即
+\begin{equation}
+  \boxed{[u,v]_{\boldsymbol{\eta}} = \left(\frac{\partial u}{\partial \boldsymbol{\eta}}\right)^T \boldsymbol{J} \left(\frac{\partial v}{\partial \boldsymbol{\eta}}\right)}
+    \end{equation}
+  
+这便是泊松括号的矩阵形式
+
+我们也可以对定义进行拓展，一一考虑标量和矢量、矢量和矢量的泊松括号，可以直接按照上式去定义：
+    \begin{equation}
+    [\boldsymbol{f},v]_{\boldsymbol{\eta}} = \left(\frac{\partial \boldsymbol{f}}{\partial \boldsymbol{\eta}}\right)^T \boldsymbol{J} \left(\frac{\partial v}{\partial \boldsymbol{\eta}}\right)
+    \end{equation}
+    是一个$n$维列向量
+  
+    \begin{equation}
+    [u,\boldsymbol{g}]_{\boldsymbol{\eta}} = \left(\frac{\partial u}{\partial \boldsymbol{\eta}}\right)^T \boldsymbol{J} \left(\frac{\partial \boldsymbol{g}}{\partial \boldsymbol{\eta}}\right)
+    \end{equation}
+是一个$n$维行向量
+    \begin{equation}
+    [\boldsymbol{f},\boldsymbol{g}]_{\boldsymbol{\eta}} = \left(\frac{\partial \boldsymbol{f}}{\partial \boldsymbol{\eta}}\right)^T \boldsymbol{J} \left(\frac{\partial \boldsymbol{g}}{\partial \boldsymbol{\eta}}\right)
+    \end{equation}
+是一个$n$阶方阵。(又称为方阵泊松括号)
+而且很容易看出，每一列对应$f$的对应元素，而每一行对应$g$的对应元素。
+
+考虑$( q, p) \to ( Q, P)$, $\eta \to \zeta$,则不难看出
+\begin{equation}
+    [\boldsymbol{\eta},\boldsymbol{\eta}]_n=\boldsymbol{I}_n\boldsymbol{J}\boldsymbol{I}_n=\boldsymbol{J}
+    \end{equation}
+以及
+
+$[\zeta,\zeta]_n=\left(\frac{\partial\zeta}{\partial\eta}\right)^T\boldsymbol{J}\left(\frac{\partial\zeta}{\partial\eta}\right)=\boldsymbol{M}^T\boldsymbol{J}\boldsymbol{M}$($M$是$\zeta$对$\eta$的Jacobi阵)
+
+注意到，因为该变换为正则变换，根据辛条件Q
+
+$M^T\boldsymbol{J}M=\boldsymbol{J}$
+
+可知$[\zeta,\zeta]_n=J=[\zeta,\zeta]_\zeta$ ,反过来也成立。
+
+亦即：正则变换不改变基本泊松括号的值。
+
+那对任意的泊松括号是否成立？不妨作一推导：
+\begin{equation}
+    [u,v]_{\boldsymbol{\eta}}=\left(\frac{\partial u}{\partial\eta}\right)^T\boldsymbol{J}\left(\frac{\partial v}{\partial\eta}\right)
+\end{equation}
+然后将偏导变换到新坐标$\zeta$。注意到$\frac{\partial u}{\partial\eta}=M^T\frac{\partial u}{\partial\zeta}$
+从而
+\begin{equation}
+    [u,v]_\eta=\left(\frac{\partial u}{\partial\boldsymbol{\zeta}}\right)^T\boldsymbol{MJM}^T\left(\frac{\partial v}{\partial\boldsymbol{\zeta}}\right)=\left(\frac{\partial u}{\partial\boldsymbol{\zeta}}\right)^T\boldsymbol{J}\left(\frac{\partial v}{\partial\boldsymbol{\zeta}}\right)=[u,v]_\zeta
+\end{equation}
+
+可见正则变换不改变任意泊松括号的值。即泊松括号为正则不变量。
+\section{无穷小正则变换}
+
+我们考虑坐标变换$( q, p) \to ( Q, P) :$ (目前仅讨论受限正则变换，即变换不显含时间， $K=H)$
+
+\begin{equation}
+\left\{
+\begin{array}{l}
+Q_i=q_i+\delta q_i\\
+P_i=p_i+\delta p_i
+\end{array}
+\right.
+\label{eq:27}
+\end{equation}
+
+或者写成
+\begin{equation}
+    \zeta=\eta+\delta\eta
+    \label{eq:28}
+\end{equation}
+
+假定这是一个无穷小正则变换 (Infinitesimal Canonical Transformation, I.C.T)。
+
+我们取第二类生成函数，并引入一个与无穷小量 成正比的项 $\varepsilon G(q,p)$ 试探
+
+\begin{equation}
+F_2(q,P,t)=q_iP_i+\varepsilon G(q,P,t),\quad F(t)=F_2(q,P,t)-Q_iP_i
+\label{eq:29}
+\end{equation}
+
+其中 $\varepsilon$ 是无穷小量。
+
+而取的这个生成函数又要求
+
+\begin{equation}
+\begin{cases}
+p_i=\dfrac{\partial F_2}{\partial q_i}=P_i+\varepsilon\dfrac{\partial G}{\partial q_i}\\
+Q_i=\dfrac{\partial F_2}{\partial P_i}=q_i+\varepsilon\dfrac{\partial G}{\partial P_i}
+\end{cases}
+\label{eq:30}
+\end{equation}
+
+结合(\ref{eq:27})式和(\ref{eq:30})式，可以得到
+
+\begin{equation}
+    \delta q_i=\varepsilon\frac{\partial G}{\partial P_i},\quad\delta p_i=-\varepsilon\frac{\partial G}{\partial q_i}
+    \end{equation}
+    
+    但因为是无穷小变换,$\frac{\partial G}{\partial P_i}\approx\frac{\partial G}{\partial p_i}$，即
+    \begin{equation}
+    \boxed{\delta q_i=\varepsilon\frac{\partial G}{\partial p_i},\quad\delta p_i=-\varepsilon\frac{\partial G}{\partial q_i}}
+    \end{equation}
+    
+    对比前面的(\ref{eq:6})式，我们自然可以将上式写成
+    \begin{equation}
+    \boxed{\delta\boldsymbol{\eta}=\varepsilon J\frac{\partial G}{\partial\boldsymbol{\eta}}}
+    \label{eq:33}
+    \end{equation}
+    
+    而前一部分推导了辛条件
+    \begin{equation}
+    MJM^T=J
+    \end{equation}
+    
+    通过(\ref{eq:28})式，我们可将变换矩阵写成如下形式
+    \begin{equation}M=\frac{\partial\boldsymbol{\zeta}}{\partial\boldsymbol{\eta}}=\boldsymbol{I}_n+\frac{\partial\delta\boldsymbol{\eta}}{\partial\boldsymbol{\eta}}=\boldsymbol{I}_n+\varepsilon\boldsymbol{J}\frac{\partial^2G}{\partial\boldsymbol{\eta}\partial\boldsymbol{\eta}}
+    \end{equation}
+
+  这里 $\boldsymbol{I}_n$是一个恒等变换矩阵， $\left(\frac{\partial^2G}{\partial\eta\partial\eta}\right)_{ij}=\frac{\partial^2G}{\partial\eta_i\partial\eta_j}$ 是对称阵，
+    $\boldsymbol{J}$ 是反对称阵，因此
+    \begin{equation}
+    \boldsymbol{M}^T=\boldsymbol{I}_n-\varepsilon\frac{\partial^2G}{\partial\boldsymbol{\eta}\partial\boldsymbol{\eta}}\boldsymbol{J}
+    \end{equation}
+    
+    从而
+    \begin{equation}\boldsymbol MJM^T=\left(\boldsymbol{I}_n+\varepsilon\boldsymbol{J}\frac{\partial^2G}{\partial\boldsymbol{\eta}\partial\boldsymbol{\eta}}\right)\boldsymbol{J}\left(\boldsymbol{I}_n-\varepsilon\frac{\partial^2G}{\partial\boldsymbol{\eta}\partial\boldsymbol{\eta}}\boldsymbol{J}\right)\approx\boldsymbol{J}\left(\boldsymbol{-}\text{阶近似}\right)
+    \end{equation}
+
+故(\ref{eq:28})式满足正则变换的条件，称为\textbf{无穷小正则变换}(Infinitesimal Canonical Transformation, I.C.T)
+
+这里
+\begin{equation}
+    G=G(q,p)=G(\boldsymbol{\eta})
+\end{equation}
+
+被称作无穷小正则变换的\textbf{生成函数}(generation function)，为相空间上的标量函数。
+
+而(\ref{eq:33})式的每个分量称为无穷小正则变换的\textbf{生成元}(generator),是相空间上的矢量场。
+
+可以得到(\ref{eq:33})式泊松括号的形式
+
+\begin{equation}
+    \delta \boldsymbol{\eta}=\varepsilon  [ \boldsymbol{\eta},G  ]
+\end{equation}
+
+故(\ref{eq:28})式可写成如下形式
+
+\begin{equation}
+\boxed{\boldsymbol{\zeta}=\boldsymbol{\eta} + \varepsilon[ \boldsymbol{\eta},G ]}
+\end{equation}
+\section{演化即是正则变换}
+通过上面的努力，我们得到了一种观点：正则变换将$\boldsymbol{\eta}$变成了$\boldsymbol{\zeta}$。即正则变换的将同一个相空间的点映射到不同的相空间点。按照坐标变换的语言，相当于坐标系在变，对象在变。这种观点即所谓的\textbf{主动观点}(active view)。
+
+在主动观点下，无穷小正则变换相当于把相空间中的一点，变换到其相邻的另一点。
+
+\begin{equation}
+    \boldsymbol{\eta}\to\boldsymbol{\eta}+\varepsilon[\boldsymbol{\eta},G]\equiv\boldsymbol{\eta}+\mathrm{d}\boldsymbol{\eta}\equiv\boldsymbol{\eta}(\lambda_0 +\varepsilon).
+    \end{equation}
+    这里$\varepsilon$是一个无穷小参量，即$\mathrm{d}\lambda=\varepsilon$
+
+然后再以新的相点作为出发点，再做无穷小正则变换，变换到另外一个临近点。重复此步骤，就可以在相空
+间中划出一条连续的曲线$\boldsymbol{\eta}\left(\lambda\right)$。重要的是，在曲线上的任一点，都有
+\begin{equation}\boxed{\frac{\mathrm{d}\boldsymbol{\eta}\left(\lambda\right)}{\mathrm{d}\lambda}=[\boldsymbol{\eta},G]}.
+    \label{eq:42}
+\end{equation}
+
+
+
+所以，给一个相空间上的标量函数$G\left(\boldsymbol{\eta}\right)$,就存在一个单参数的正则变换，其在相空间中划出一条光滑曲线，可以被视为相空间上的\textbf{相流(phase flow)}或者\textbf{哈密顿流(Hamiltonian flow)}。相流的切线方向即
+\begin{equation}X_G:=[\boldsymbol{\eta},G]
+\end{equation}
+
+
+这里的$X_G$也被称为哈密顿矢量场。
+
+对比(\ref{eq:42})式和哈密顿正则方程
+
+可以得到
+$$\frac{\mathrm{d}\boldsymbol{\eta}\left(t\right)}{\mathrm{d}t}=[\boldsymbol{\eta},H]\equiv X_H,$$
+
+于是我们可以说相空间的时间演化即是一种正则变换。
+\section{诺特定理的哈式形式}
+考虑由$G$生成的某个无穷小正则变换。在这个变换下，哈密顿量的变化为：
+
+
+ \begin{equation}
+        \begin{aligned}
+            \delta H &= \left(\frac{\partial H}{\partial\boldsymbol{\eta}}\right)^T\delta \boldsymbol{\eta}\\
+            &= \left(\frac{\partial H}{\partial\boldsymbol{\eta}}\right)^T\delta\lambda\left[\boldsymbol\eta,G\right]\\
+            &= \delta\lambda \left(\frac{\partial H}{\partial\boldsymbol{\eta}}\right)^T \left(\frac{\partial \boldsymbol{\boldsymbol{\eta}}}{\partial \boldsymbol{\eta}}\right)^T \boldsymbol{J} \left(\frac{\partial G}{\partial \boldsymbol{\eta}}\right)\\
+            &=\delta\lambda \left(\frac{\partial H}{\partial\boldsymbol{\eta}}\right)^T  \boldsymbol{J} \left(\frac{\partial G}{\partial \boldsymbol{\eta}}\right)\\
+            &= \delta\lambda\left[H,G\right].
+        \end{aligned}
+        \label{eq:43}
+\end{equation}
+    如果这个变换是一个对称性，即意味着
+\begin{equation}
+    \delta H=\delta\lambda[H,G]=0.
+\end{equation}
+
+则
+\begin{equation}
+    \frac{\mathrm{d}G}{\mathrm{d}t}=[G,H]=0.
+\end{equation}
+即我们得到如下结论：如果$G$ 是某个对称性，则$G$ 必守恒。反过来，如果$G$ 守恒，则其必是某个对称性的正则变换的生成函数。
+\begin{itemize}
+    \item 动量是无穷小空间平移的生成函数
+    \item 哈密顿量是无穷小时间平移的生成函数
+    \item 角动量是无穷小空间转转动的生成函数
+\end{itemize}
+\section{经典力学到量子力学的过渡}
+研究的平移、时间演化和空间转动这几种情况下，适用的无穷小算符都可以用一个厄米算符$G$ 写成
+
+\begin{equation}U_{\epsilon}=1-iG\varepsilon.
+\end{equation}
+    
+
+具体说来，对于沿$x$方向位移$dx^\prime$的无穷小平移取
+\begin{equation}G\to\frac{p_x}{\hbar},\quad\varepsilon\to dx^{\prime}
+\end{equation}
+    
+
+
+而对于时间平移$dt$的无穷小时间演化取
+\begin{equation}
+    G\to\frac H\hbar,\quad\varepsilon\to dt
+\end{equation}
+
+对于空间转动的$d\phi$无穷小转动取
+\begin{equation}G\to\frac{J_k}{\hbar},\quad\varepsilon\to d\phi 
+\end{equation}
+
+通过对比经典力学，一定程度上也增强了作者对量子力学的理解。
+
+
+
+
+\section*{参考文献}
+[1]《经典力学概论》李书民著 \ 中国科学技术大学出版社
+
+[2]《经典力学讲义》高显著 
+
+[3]《现代量子力学》樱井纯著 \ 世界图书出版公司
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \end{multicols}
+\end{document}

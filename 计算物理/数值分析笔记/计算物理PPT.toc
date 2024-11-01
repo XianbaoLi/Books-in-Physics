@@ -1,0 +1,6 @@
+\babel@toc {nil}{}\relax 
+\beamer@sectionintoc {1}{带电粒子的电磁激发}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{引言}{2}{0}{1}
+\beamer@subsectionintoc {1}{2}{定态薛定谔方程}{7}{0}{1}
+\beamer@subsectionintoc {1}{3}{含时的薛定谔方程}{22}{0}{1}
+\beamer@subsectionintoc {1}{4}{结果展示}{27}{0}{1}

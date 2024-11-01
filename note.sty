@@ -1,0 +1,119 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{note}[2024/07/09 Custom tcolorbox environments]
+\RequirePackage{tcolorbox}
+\tcbuselibrary{breakable,theorems,skins}
+
+% Define colors
+\definecolor{tuiluncolor}{HTML}{0B16A4} % 自定义颜色 tuiluncolor
+\definecolor{dinglicolor}{rgb}{0.5, 0.0, 0.13} % 自定义颜色 burgundy
+\definecolor{liticolor}{HTML}{6F366E} % 自定义颜色 liticolor
+\definecolor{dingyicolor}{HTML}{006419} % 自定义颜色 dingyicolor
+\definecolor{safecolor}{rgb}{0.2, 0.4, 0.8} % 自定义颜色 safecolor
+
+% Custom theorem environment
+\newtcbtheorem[number within=section]{mytheo}{定理}{%
+  fonttitle=\bfseries\upshape,
+  colframe=dinglicolor,
+  colback=dinglicolor!2!white,
+  rightrule=0pt, leftrule=0pt, bottomrule=2pt,
+  colbacktitle=dinglicolor,
+  theorem style=standard,
+  breakable,
+  arc=0pt
+}{tha}
+
+% Custom corollary environment
+\newtcolorbox[auto counter,number within=section]{mycor}[2][]{%
+  colback=tuiluncolor!2!white,
+  colframe=tuiluncolor,
+  rightrule=0pt, leftrule=0pt, bottomrule=2pt,
+  fonttitle=\bfseries\color{white},
+  colbacktitle=tuiluncolor!80,
+  coltitle=white,
+  title={推论~\thetcbcounter: #2},
+  breakable,
+  arc=0pt,
+  #1
+}
+
+% Custom proof environment
+\newtcolorbox{mypro}{
+  enhanced,
+  left=10pt,right=10pt,
+  top=10pt,bottom=10pt,
+  arc=0mm,
+  colback=gray!10,
+  colframe=black,
+  attach boxed title to top left={},
+  boxed title style={skin=enhancedfirst jigsaw,arc=1mm,bottom=0mm,boxrule=0mm},
+  sharp corners=northwest,
+  drop fuzzy shadow,
+  breakable,
+  fonttitle=\bfseries,
+  fontupper=\kaishu,
+  title={证明},
+}
+
+% Custom example environment
+\newcounter{reidaibangou}[section]
+\newtcolorbox{myex}[1][]{
+  enhanced,
+  boxrule=0.5mm,
+  top=2pt,
+  left=44pt,
+  right=4pt,
+  bottom=2pt,
+  arc=0mm,
+  colframe=liticolor!30!gray,
+  underlay={
+    \node[inner sep=1pt,blue!50!black,fill=blue!10!white] at ([xshift=22pt,yshift=-9pt]interior.north west) {
+      \stepcounter{reidaibangou}\bfseries 例题\thesection.\thereidaibangou
+    };
+  },
+  segmentation code={
+    \draw[dashed] (segmentation.west)--(segmentation.east);
+    \node[inner sep=1pt,blue!50!black,fill=blue!10!white] at ([xshift=22pt,yshift=-8pt]segmentation.south west) {
+      \bfseries 解
+    };
+  },
+  before upper={\setlength{\parindent}{1pt}},
+  before lower={\setlength{\parindent}{1pt}},
+  #1
+}
+
+% Custom definition environment
+\newtcolorbox[auto counter,number within=section]{mydef}[2][]{%
+  colback=dingyicolor!2!white,
+  colframe=dingyicolor,
+  rightrule=0pt, leftrule=0pt, bottomrule=2pt,
+  fonttitle=\bfseries\color{white},
+  colbacktitle=dingyicolor!80,
+  coltitle=white,
+  title={定义~\thetcbcounter: #2},
+  breakable,
+  arc=0pt,
+  #1
+}
+
+% Custom boxed text environment
+\newtcolorbox{kousiki}[2][]{
+  enhanced,
+  left=22pt,right=22pt,
+  fonttitle=\bfseries\large,
+  coltitle=white,
+  colbacktitle=blue!50!black,
+  attach boxed title to top left={},
+  boxed title style={skin=enhancedfirst jigsaw,arc=1mm,bottom=0mm,boxrule=0mm},
+  boxrule=0.5pt,
+  colback=safecolor!5!,
+  colframe=safecolor,
+  sharp corners=northwest,
+  drop fuzzy shadow,
+  breakable,
+  title=\vspace{3mm}#2,
+  arc=1mm,
+  fontupper=\gtfamily,
+  #1
+}
+
+\endinput

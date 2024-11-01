@@ -1,0 +1,1212 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{ctex} % 中文支持
+\usepackage{hyperref}
+\usepackage{amsmath} % 导入数学公式宏包
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage{latexsym,amsfonts,amssymb,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+\usepackage{caption,subcaption}
+
+% 设置 Beamer 文档的页眉
+\setbeamertemplate{headline}
+{
+  \begin{beamercolorbox}[ht=3ex,dp=1ex,center]{section in head/foot}
+    \includegraphics[height=6cm]{pic/scuname.png} % 插入图片
+    \quad
+    \insertshorttitle % 插入标题
+  \end{beamercolorbox}
+}
+% \setbeamertemplate{footline}
+% {
+%   \begin{beamercolorbox}[sep=0.5cm,wd=\paperwidth,leftskip=0.5cm,rightskip=0.5cm]{footlinecolor}
+%     \includegraphics[height=1cm]{pic/scuname.png}\hfill
+%     \insertframenumber/\inserttotalframenumber
+%   \end{beamercolorbox}
+% }
+
+\usepackage{listings}
+
+% 定义MATLAB代码的颜色样式
+\definecolor{mComment}{rgb}{0.133,0.545,0.133} % 绿色
+\definecolor{mString}{rgb}{0.627,0.126,0.941} % 紫色
+\definecolor{mKeyword}{rgb}{0,0,1} % 蓝色
+\definecolor{mBackground}{rgb}{0.9,0.9,0.9} % 背景色
+
+% 设置MATLAB代码的样式
+\lstset{
+    language=Matlab, % 设置语言为MATLAB
+    backgroundcolor=\color{mBackground}, % 设置背景色
+    commentstyle=\color{mComment}, % 设置注释的颜色
+    keywordstyle=\color{mKeyword}, % 设置关键词的颜色
+    stringstyle=\color{mString}, % 设置字符串的颜色
+    basicstyle=\ttfamily\footnotesize, % 设置基本样式
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+% Setup TikZ
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\mode<presentation>
+{
+  \usetheme{CambridgeUS} % 使用主题
+  \setbeamercovered{transparent} % 设置覆盖效果
+}
+
+% 设置演示文稿信息
+\title[谱方法及其应用]{谱方法及其应用}
+\author{李先宝 \and 林子熙 \and 刘子宁 \and 陈睿 \and 段尚福 \and 郑文龙}
+\institute[Sichuan University]{Sichuan University}
+\date{}
+% 在每个 subsection 开始时显示导航条
+\AtBeginSubsection[]
+{
+  \begin{frame}{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    \titlepage
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.2\textwidth]{pic/sculogo.png}
+    \end{figure}
+\end{frame}
+
+
+  \section{带电粒子的电磁激发}
+\subsection{引言}
+
+\begin{frame}
+    \centering
+\includegraphics[height=0.5\linewidth,width=0.5\linewidth]{pictures/rabi.png}
+\end{frame}
+\begin{frame}{引言}
+    在这部分中，我们将展示如何解决一维薛定谔方程，描述一个粒子置于势阱中并受到电磁脉冲激发的情况。在位置表象$|\vec{r}>$ 并以\textbf{原子单位制}中，这种情况下的方程可以表示为：
+    \begin{equation}
+    i\dfrac{\partial\psi}{\partial t}(x,t)=\left[\dfrac{1}{2}\hat{P}^2+V(x)+A(t)\hat{P}\right]\psi(x,t)
+   \label{eq:薛定谔方程}
+\end{equation}
+在这里$\hat{P}$是动量算符，$A(t)$ 是磁矢势，$V(x)$粒子所处的势场。
+\pause
+其中$A(t)$和$V(x)$满足
+\begin{itemize}
+    \item $V(x)=-V_0e^{-\alpha x^2}$ 
+    \item $A(t)=A_0e^{-\frac{t^2}\sigma}\sin\omega t.$
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{势函数图象}
+    \centering
+    \includegraphics[height=0.5\linewidth,width=1\linewidth]{picture/_figure_V_0=4.png}
+
+\end{frame}
+
+
+\subsection{定态薛定谔方程}
+\begin{frame}{将定态方程展开成基函数的形式}
+要解决这个方程，首先需要找到定态薛定谔方程的本征函数$\phi_n$及其对应的能量$E_n$。
+\begin{equation}
+    \left[\dfrac{1}{2}\hat{P}^2+V(x)\right]\phi(x)=E\phi(x)
+\label{eq:定态薛定谔方程}
+\end{equation}
+\pause
+我们将尝试一个形式的近似解:
+\begin{equation}\phi(x)=\sum_{k=0}^Na_k\varphi_k(x)
+    \label{eq:定态薛定谔方程近似解}
+\end{equation}
+    
+式中$\varphi_k(x)=c_kH_k(x)e^{-\frac{x^2}2}$ 厄密函数
+
+其中$H_k(x)$是 Hermite 多项式，
+$c_k=\frac{1}{\sqrt{2^kk!\sqrt
+\pi}}$
+\pause
+定义实数域上，满足以下正交关系。
+\begin{equation}
+         \int_{-\infty}^{+\infty}\varphi_k(x)\varphi_{k'}(x)dx=\delta_{kk'}
+\label{eq:正交性关系}
+        \end{equation}
+\end{frame}
+\begin{lstlisting}
+    % 定义生成 Hermite 函数的函数
+function [out] = Hermite(x, N)
+% 通过递推生成 N-1 阶 Hermite 函数（注意Hermite函数是从0阶开始的）
+H(:, 1) = 1 / sqrt(sqrt(pi)) * exp(-x .^ 2 / 2); % H_0
+H(:, 2) = 1 / sqrt(2 * sqrt(pi)) * 2 * x .* exp(-x .^ 2 / 2); % H_1
+for k = 3:N
+H(:, k) = sqrt(2 / (k - 1)) * x .* H(:, k - 1) - sqrt((k - 1 - 1) / (k - 1)) * H(:, k - 2);
+end
+out = H; % 返回0到 N-1 阶厄米函数共N个厄密函数
+end
+\end{lstlisting}
+\begin{frame}{求展开系数}
+
+    为了求得展开系数系数$a_k$，我们将近似解代入方程（\ref{eq:定态薛定谔方程}）。
+
+
+    \begin{equation}
+       \sum_{k=0}^{N}-\frac{1}{2}\frac{d^{2}}{dx^{2}}a_{k}\varphi_{k}(x)+\sum_{k=0}^{N}V(x)a_{k}\varphi_{k}(x)=E\sum_{k=0}^{N}a_{k}\varphi_{k}(x)
+   \end{equation}
+   
+   然后，我们将其乘以$\varphi_l(x)$并在整个实数域上进行积分。这样我们得到：
+   \begin{equation}
+        \sum_{k=0}^{N}-\frac{1}{2}a_{k}\int_{-\infty}^{+\infty}\varphi_{l}(x)\frac{d^{2}\varphi_{k}}{dx^{2}}(x)+\sum_{k=0}^{N}a_{k}\int_{-\infty}^{+\infty}\varphi_{l}(x)V(x)\varphi_{k}(x)=E\sum_{k=0}^{N}a_{k}\int_{-\infty}^{+\infty}\varphi_{l}(x)\varphi_{k}(x)
+   \label{eq:定态薛定谔方程近似解}
+       \end{equation}
+       \pause
+       因此我们需要三个积分写成矩阵形式
+\end{frame}
+\begin{frame}{利用厄密函数的性质求解第一个积分矩阵}
+    因厄密函数有
+    \begin{equation}
+        \boxed{ \varphi_{k}^{\prime\prime}(x)=\frac{\sqrt{k(k-1)}}{2}\varphi_{k-2} + \frac{2k+1}{2}\varphi_{k} + \frac{\sqrt{(k+1)(k+2)}}{2}\varphi_{k+2}}
+        \label{eq:二阶导递推}
+    \end{equation}
+代入我们的第一个积分得矩阵元：
+\begin{align}
+    F_{kl} &= \int_{-\infty}^{+\infty}\varphi_{l}(x)\varphi_{k}^{\prime\prime}(x)dx \notag \\
+    &= \int_{-\infty}^{+\infty}\left(\frac{\sqrt{k(k-1)}}{2}\varphi_{l}\varphi_{k-2}+\frac{2k+1}{2}\varphi_{l}\varphi_{k}+\frac{\sqrt{(k+1)(k+2)}}{2}\varphi_{l}\varphi_{k+2}\right)dx \notag \\
+    &= \frac{\sqrt{k(k-1)}}{2}\delta_{k-2,l} + \frac{2k+1}{2}\delta_{kl} + \frac{\sqrt{(k+1)(k+2)}}{2}\delta_{k+2,l}
+\end{align} 
+\end{frame}
+
+\begin{frame}{代入势函数求解第二个积分}
+紧接着，我们处理方程（\ref{eq:定态薛定谔方程近似解}）式中左边的第二个积分，我们代入势函数。
+\begin{equation}
+\begin{aligned}
+    & \int_{-\infty}^{+\infty}\varphi_{l}(x)V(x)\varphi_{k}(x)dx \\
+    & = -V_{0}\int_{-\infty}^{+\infty}\varphi_{l}(x)e^{-\alpha x^{2}}\varphi_{k}(x)dx \\
+    & = -\frac{V_{0}}{\sqrt{\alpha}}\int_{-\infty}^{+\infty}\varphi_{l}\left(\frac{y}{\sqrt{\alpha}}\right)e^{-y^{2}}\varphi_{k}\left(\frac{y}{\sqrt{\alpha}}\right)dy \\
+    & = \int_{-\infty}^{+\infty}f_{l,k}(y)e^{-y^{2}}dy
+\end{aligned}
+\end{equation}
+这里$f_{k,l}=-\frac{V_{0}}{\sqrt{\alpha}}\varphi_{l}(\frac{y}{\sqrt{\alpha}})\varphi_{k}(\frac{y}{\sqrt{\alpha}}).$
+\end{frame}
+
+\begin{frame}{}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|c|}
+        \hline
+        $[a,b]$ & $\omega(x)$ & $\mathbf{Symbol}$ & Name \\ \hline
+        $[-1,1]$ & $1$ & $P_n(x)$ & \text{勒让德多项式}\\ \hline
+        $[-1,1]$ & $(1-x^{2})^{-1/2}$ & $T_n(x)$ & \text{切比雪夫多项式} \\ \hline
+        $[-1,1]$ & $(1-x^{2})^{-1/2}$ & $U_n(x)$ & \text{第二类切比雪夫多项式} \\ \hline
+        $[0,\infty)$ & $\exp(-x)$ & $L_n(x)$ & \text{拉盖尔多项式}\\ \hline
+        $(-\infty,\infty)$ & $e^{-x^2}$ & $H_n(x)$ & \text{厄米多项式} \\ \hline
+        \end{tabular}
+        \end{table}
+\end{frame}
+\begin{frame}{利用高斯型求积公式得到第二个矩阵元}
+    所以这里将$e^{-y^2}$视作一个权函数，则其对应的是\textbf{厄密-高斯型求积公式}
+    \begin{equation}
+        \boxed{ U_{kl}=\int_{-\infty}^{+\infty}f_{l,k}(y)e^{-y^2}dy\approx\sum_{i=0}^{N}\omega_if_{l,k}(y_i)}
+        \end{equation}
+\end{frame}
+\begin{lstlisting}
+    % 定义计算 Hermite 多项式的权重和节点的函数
+function [out] = GaussHermite(n)
+% 利用 Gauss 积分法确定权重和节点
+% 构建伴随矩阵 CM
+i = 1:n-1;
+a = sqrt(i / 2);
+CM = diag(a, 1) + diag(a, -1);
+% 确定节点 (x) 和权重值 (w)
+[V, L] = eig(CM);
+[x, ind] = sort(diag(L));
+V = V(:, ind)';
+w = sqrt(pi) * V(:, 1) .^ 2;
+out = [x, w]; % 返回 n 阶厄米多项式的节点对应的权重
+end
+\end{lstlisting}
+\begin{frame}{\textbf{定态薛定谔方程的矩阵形式}}
+\begin{equation}
+        \boxed{ \left[-\frac{1}{2}F+U\right]\vec{a}=E\vec{a}}
+\end{equation}
+    这是一个特征值问题，利用MATLAB中的eig函数求得特征值$E_n$和特征向量$\vec{a_n}$。
+    \begin{exampleblock}{}
+        \pause
+    通过设置参数
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|}
+        \hline
+        $\mathrm{N}=50$ & $\alpha=1$ & $\mathrm{V}_0=3$ \\
+        \hline
+        \end{tabular}
+        
+        得到系统的本征能量$E_n$
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        $\mathrm{E}_0$ & $\mathrm{E}_1$ & $\mathrm{E}_2$ & $\mathrm{E}_3$ & $\mathrm{E}_4$ & $\mathrm{E}_5$ & $\mathrm{E}_6$ \\
+        \hline
+        -1.9637 & -0.3699 & 0.0451 & 0.0697 & 0.1847 & 0.2688 & 0.4263 \\
+        \hline
+        \end{tabular}
+        \end{table}
+    \end{exampleblock}
+\end{frame}
+\begin{lstlisting}
+    % 定义求解定态本征值问题的函数
+function [out] = Pbvaps(N, alpha, V0)
+% 求解定态本征值问题
+% 构建矩阵 F
+F = zeros(N + 1, N + 1);
+for i = 1:N+1
+if (i > 2)
+F(i, i - 2) = sqrt((i - 1) * ((i - 1) - 1)) / 2;
+end
+F(i, i) = - (2 * (i - 1) + 1) / 2;
+if (i < N)
+F(i, i + 2) = sqrt(((i - 1) + 1) * ((i - 1) + 2)) / 2;
+end
+end
+% 构建矩阵 U
+U = zeros(N + 1, N + 1);
+H = GaussHermite(2 * (N + 1) + 1); 
+x = H(:, 1); % 横坐标点
+w = H(:, 2); % 权重
+Phi = Hermite(x / sqrt(alpha), N + 1);
+for i = 1:N + 1
+for j = 1:N + 1
+U(i, j) = -V0 / sqrt(alpha) * dot(w, Phi(:, j) .* Phi(:, i));
+end
+end
+[V, D] = eig(-1 / 2 * F + U); % 求解特征值问题
+E = zeros(N + 1, 1);
+E = diag(D);
+[E, ind] = sort(E); % 对特征值排序
+V = V(:, ind);
+out = [V, E]; % 返回特征向量和特征值
+end
+
+\end{lstlisting}
+\begin{lstlisting}
+    function out = phi(n, x, a)% 定义计算定态波函数 phi 
+% 返回的是 n-1 阶定态波函数(注意波函数的阶数从0阶开始)
+v = a(:, n); % 提取 a 的第 n 列
+out = zeros(length(x), 1); % 初始化输出
+H = Hermite(x, length(v)); % 定义 N 阶厄米函数
+for i = 1:length(v)
+out = out + v(i) .* H(:, i); % 计算波函数
+end
+end
+\end{lstlisting}
+\subsection{含时的薛定谔方程}
+
+\begin{frame}{将波函数展开成基函数的形式}
+    确定了系统的本征值，我们就可以求解系统的含时演化。我们将（\ref{eq:薛定谔方程}）式写为以下形式：
+    \begin{equation}
+        i\dfrac{\partial\psi}{\partial t}(x,t)=\left[\hat{H}-iA(t)\dfrac{\partial}{\partial x}\right]\psi(x,t)
+    \label{eq:系统的本征方程}
+    \end{equation}
+    其中$\hat{H}$是系统的哈密顿量，$A(t)$是系统的外场。
+    
+这里，$\hat{H}=-\frac{\partial^{2}}{\partial x^{2}}+V(x).$为系统的哈密顿算符，$E_n$为其本征值，$A(t)$为系统的外场。
+     
+设本征态具有形式：
+\begin{align}
+ \psi_n(x,t) &= b_n(t)\phi_n(x)e^{-iE_nt}
+\end{align}
+
+则一般解是这些函数的线性叠加
+\end{frame}
+\begin{frame}{代入系统的方程}
+    我们将$\psi_n(x,t)$代入方程（\ref{eq:薛定谔方程}）经过一系列的数学操作得到：
+        \begin{equation}
+            \boxed{ b'_{m}(t)=\sum_{n=0}^{N}-A(t)b_{n}(t)e^{-i(E_{n}-E_{m})t}\left[\sum_{k=0}^{N}a_{nk}\left(\sqrt{\frac{k}{2}}a_{m,k-1}-\sqrt{\frac{k+1}{2}}a_{l,k+1}\right)\right]}
+         \end{equation}
+    利用了matlab的ode15s函数可以求解该微分方程
+\end{frame}
+\begin{lstlisting}
+ % 定义计算微分方程中 b 系数的函数
+function [G] = g(N, a, A0,t,w,sig, E,b)
+I = zeros(N + 1, N + 1);
+M = zeros(N + 1, N + 1);
+A = A0*sin(w*t)*exp(-t^2/sig);%%定义激励源
+for m = 1:N+1
+for n = 1:N+1
+for k = 1:N+1
+if (k == 1)
+I(m, n) = I(m, n) - a(n, k) * sqrt((k-1+1) / 2) * a(m, k + 1);
+elseif (k == N+1)
+I(m, n) = I(m, n) + a(n, k) * sqrt((k-1) / 2) * a(m, k - 1);
+else
+I(m, n) = I(m, n) + a(n, k) * (sqrt((k-1) / 2) * a(m, k - 1) - sqrt((k-1+1) / 2) * a(m, k + 1));
+end
+end
+M(m,n) = -A*exp(-1i*(E(n,1)-E(m,1))*t) * I(m,n);
+end
+end
+G = M * b; % 计算微分方程中的 b 系数
+end
+\end{lstlisting}
+\subsection{结果展示}
+\begin{frame}{结果展示(1)}
+    通过设置参数
+     \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $\mathrm{A_0=1}$ & $\sigma=20$ & $\mathrm{N=50}$ & $\alpha=1$ & $V_0=3$ \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \pause
+    \centering
+    \includegraphics[height=0.4\linewidth,width=0.5\linewidth]{pictures/_figureA0=1_w=1.5938.png}
+\end{frame}
+\begin{frame}{结果展示（1）}
+
+    在这种情况下，我们发现2个束缚态，能量分别为$E_0 = -1.9637$和$E_1 = -0.3699$。我们将频率取为前两个束缚态能量的绝对差值，即在这种情况下$\omega = 1.5938$。
+    
+
+    我们观察到，一旦脉冲变得显著，粒子处于基态的概率急剧下降，并且它转移到第一个束缚态或连续态的概率增加。
+  
+    实际上，尽管势能很窄，但并不是很深，因此不需要大量能量来改变粒子的状态。我们看到一旦频率变得可以忽略不计，基态的概率就会增加。这是因为粒子会自发地发射能量量子。
+    
+\end{frame}
+\begin{frame}{结果展示(2)}
+    通过设置参数
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $\mathrm{A_0=1}$ & $\sigma=20$ & $\mathrm{N=50}$ & $\alpha=0.1$ & $V_0=10$ \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \pause
+    \begin{center}
+        \includegraphics<2->[height=0.4\linewidth,width=0.5\linewidth]{pictures/_figureA0=1_w=2.7275.png}
+    \end{center}
+\end{frame}
+\begin{frame}{结果展示（2）}
+    我们发现了13个束缚态！在这种情况下，频率为$\omega= 2.7275$，因此与之前的值相当接近。
+我们观察到三个主要差异：
+\begin{itemize}
+    \item 出现了大量束缚态，
+\item 粒子电离的概率很低，
+\item 最终概率的分布显示，粒子更有可能结束在第一个束缚态而不是基态。
+第二个结果可以解释为势能更深，脉冲太弱以至于不足以使粒子进入连续态。最后一个结果可以解释为现在有更多的束缚态，粒子可以结束在其中，因此留在基态的概率更低。
+通过增加激发的幅度，可以增加粒子在其他束缚态中停留一段时间的概率。"
+\end{itemize}
+\end{frame}
+\begin{frame}{拉比振荡}
+
+    拉比振荡是指在量子系统中，当一个外加电磁场以与系统共振的频率作用时，系统中的量子态会发生周期性的振荡。这种振荡通常在原子或分子的能级之间发生，特别是在存在能级间跃迁的情况下。
+    \pause
+    通过设置参数
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            $\mathrm{A_0=1}$ & $\sigma=40$ & $\mathrm{N=50}$ & $\alpha=0.01$ & $V_0=60$ \\
+            \hline
+        \end{tabular}
+    \end{table}
+\pause
+\begin{columns}
+    \column{.7\textwidth}
+    \begin{center}
+    \includegraphics<3->[height=0.4\linewidth,width=0.5\linewidth]{pictures/_figureA0=1_w=25.0725.png}
+\end{center}
+    \column{.3\textwidth}
+    \pause
+    在基态和第一束缚态之间确实观察到了拉比振荡。其他束缚态和连续态的概率几乎为零。因此，两个最低能级之间的振荡几乎在0和1之间。
+\end{columns}
+\end{frame}
+\begin{frame}
+    \centering
+\includegraphics[height=0.5\linewidth,width=0.5\linewidth]{pictures/liang.jpg}
+\end{frame}
+\begin{lstlisting}
+    % 设置扰动振幅和 sigma
+A0 = 1;% 扰动振幅，用于描述系统的外部扰动
+sig = 40; % sigma，用于描述扰动的宽度
+% 修改能量的参数
+N = 50; % 物态函数的数量，这是我们要计算的物态的数量
+alpha = 0.01; % 物态函数的 alpha 参数，这是势能函数的参数
+V0 = 60; % 势能深度，描述势能井的深度
+
+
+
+
+
+% 设置时间范围和时间点
+t_i = -15; % 初始时间，描述我们要模拟的时间范围的开始
+t_f = 15; % 最终时间，描述我们要模拟的时间范围的结束
+tgrid=1000;%设置格点的数目
+tspan = linspace(t_i, t_f, tgrid); % 生成包含 tgrid个时间点的时间范围，这是我们要在其上求解微分方程的时间点
+
+
+% 计算物态与能量
+B = Pbvaps(N, alpha, V0); % 调用 Pbvaps 函数计算物态与能量
+E = B(:, N+2); % 提取能量
+a = B(:, 1:N+1); % 提取物态(a的每一列指每一个定态本征态的展开系数a)
+w = abs(E(1,1)-E(2,1)) ; % Fr閝uence 
+% 初始化初始条件
+c = zeros(N+1, 1); % 初始化 c，c 是微分方程的初始条件
+c(1, 1) = 1; % 设置第一个元素为 1
+
+
+
+
+% 求解微分方程
+[t, b] = ode15s(@(t, b) g(N, a, A0,t,w,sig,E, b), tspan, c); % 调用 ode15s 函数求解微分方程
+% 纠缠态和连续态计算
+b1 = abs(b(:, 1)).^2; % 计算第一个物态的概率
+b2 = abs(b(:, 2)).^2; % 计算第二个物态的概率
+% 阈值处理
+for i = 1:N
+if (b1(i, 1) > 1)
+b1(i, 1) = 1; % 如果第一个物态的概率大于 1，则将其设置为 1
+end
+if (b2(i, 1) > 1)
+b2(i, 1) = 1; % 如果第二个物态的概率大于 1，则将其设置为 1
+end
+end
+% 判断能量小于 0 的态的数量
+p = 0;
+for i = 1:N
+if (E(i) < 0)
+p = p + 1; % 如果能量小于 0，则 p 加 1
+end
+end
+% 计算低于 0 能量态的叠加态
+EL = zeros(tgrid, 1);
+if (p > 2)
+for i = 3:p
+EL = EL + abs(b(:, i)).^2; % 计算低于 0 能量态的叠加态
+end
+end
+% 计算连续态
+CO = 1 - abs(b(:, 1)).^2 - abs(b(:, 2)).^2 - EL; % 计算连续态
+% 处理连续态中小于 0 的情况
+for i = 1:100
+if (CO(i, 1) < 0)
+CO(i, 1) = 0; % 如果连续态小于 0，则将其设置为 0
+end
+end
+%绘制概率随时间的变化图
+figure(1)
+subplot(2,1,1)
+plot(t, b1, 'color', '#FFBE7A', 'LineWidth', 2);
+hold on;
+plot(t, b2, 'color', '#FA7F6F', 'LineWidth', 2);
+plot(t, EL, 'color', 'g', 'LineWidth', 2);
+plot(t, CO, 'color', '#2878b5', 'LineWidth', 2);
+legend('基态', '第一束缚态', '其他束缚态', '连续态', 'Location', 'best') % 添加图例，放在最佳位置
+xlabel('时间 (单位)') % 添加 x 轴标签
+ylabel('概率') % 添加 y 轴标签
+title(sprintf('概率随时间的变化, A_0=%.2f, ω=%.2f, V_0=%.2f', A0, w, V0));
+grid on; % 添加网格线
+
+% 计算激发图
+t0 = linspace(t_i, t_f, tgrid); % 生成包含 tgrid个时间点的时间范围
+A = A0 * sin(w .* t0).* exp(-t0 .^ 2 / sig); % 计算激发
+subplot(2,1,2)
+plot(t0, A, 'm-') % 绘制激发图，使用品红色线条
+title('激发') % 添加标题
+xlabel('时间 (单位)') % 添加 x 轴标签
+ylabel('A(t)') % 添加 y 轴标签
+grid on; % 添加网格线
+hold off
+fileName1 = ['_figureA0=', num2str(A0), '_w=', num2str(w), '.png'];
+saveas(figure(1), fullfile("C:\latex\ 模版\pictures", fileName1));
+
+% figure(2)
+% %绘制势能图
+% x = linspace(-25, 25, 3000); % 生成包含 300 个位置点的位置范围
+% x = x';
+% V = -V0 * exp(-alpha * x .^ 2); % 计算势能
+% plot(x, V, 'b-') % 绘制势能图，使用蓝色线条
+% title('势能') % 添加标题
+% xlabel('位置 (单位)') % 添加 x 轴标签
+% ylabel('V(x)') % 添加 y 轴标签
+% grid on; % 添加网格线
+% fileName2 = ['_figure', '_V_0=', num2str(V0), '.png'];
+% saveas(figure(2), fullfile("C:\Users\40147\Desktop\pictures", fileName2));
+
+
+% %定义文件夹路径
+% folderPath ="C:\Users\aheic\Desktop\计算物理";
+% 
+% % 定义文件名
+% filename = sprintf('wave_animation_A0=%.2f_w=%.2f', A0, w);
+% 
+% % 创建视频对象
+% writerObj = VideoWriter(folderPath, 'MPEG-4');
+% open(writerObj);
+% % 创建动画
+% 
+% for i = 1:length(t)
+%     bt = b(i, :);
+%     psi1 = 0; % 定义连续态
+%     psi2 = 0; % 定义束缚态
+%     for j = p+1:N+1
+%         psi1 = psi1 + bt(j) * phi(j, x, a) .* exp(-1i * E(j) * t(i));
+%     end
+%     psi2 = psi2 + (b1(i) * phi(1, x, a) .* exp(-1i * E(1) * t(i))) + (b2(i) * phi(2, x, a) .* exp(-1i * E(2) * t(i)));
+% 
+%     psi1 = abs(psi1).^2;
+%     psi2 = abs(psi2).^2;
+% 
+%     subplot(3,1,1)
+%     plot(x, psi1)
+%     title(sprintf('连续态波函数 (t=%.2f， A_0=%.2f, ω=%.2f, V_0=%.2f)', t(i), A0, w, V0));
+%     xlabel('位置（单位）')
+%     ylabel('概率')
+%     grid on
+%     subplot(3,1,2)
+%     plot(x, psi2)
+%     xlim([-25, 25]);
+%     ylim([0, 1]);
+%     title(sprintf('束缚态波函数 (t=%.2f， A_0=%.2f, ω=%.2f, V_0=%.2f)', t(i), A0, w, V0));
+%     grid on
+%     subplot(3,1,3)
+%     plot(t(1:i),A(1:i))
+%      xlabel('时间 (单位)') % 添加 x 轴标签
+%      ylabel('A(t)') % 添加 y 轴标签
+%     xlim([-15,15])
+%     ylim([-A0,A0])
+%     title('激发') % 添加标题
+%     pause(0.000002) % 调整暂停时间，以适应你的可视化速度
+% 
+%     % 将当前帧添加到视频中
+%     frame = getframe(gcf);
+%     writeVideo(writerObj, frame);
+% end
+% 
+% % 关闭视频文件
+% close(writerObj);
+
+
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

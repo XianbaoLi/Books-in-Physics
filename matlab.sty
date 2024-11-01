@@ -1,0 +1,27 @@
+% 定义MATLAB代码的颜色样式
+\usepackage{listings} % 引入 listings 宏包
+\usepackage{xcolor}   % 引入颜色宏包
+\definecolor{mComment}{rgb}{0.133,0.545,0.133} % 绿色
+\definecolor{mString}{rgb}{0.627,0.126,0.941} % 紫色
+\definecolor{mKeyword}{rgb}{0,0,1} % 蓝色
+\definecolor{mBackground}{rgb}{0.9,0.9,0.9} % 背景色
+
+% 设置MATLAB代码的样式
+\lstset{
+    language=Matlab, % 设置语言为MATLAB
+    backgroundcolor=\color{mBackground}, % 设置背景色
+    commentstyle=\color{mComment}, % 设置注释的颜色
+    keywordstyle=\color{mKeyword}, % 设置关键词的颜色
+    stringstyle=\color{mString}, % 设置字符串的颜色
+    basicstyle=\ttfamily\footnotesize, % 设置基本样式
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}

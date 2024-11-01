@@ -1,0 +1,81 @@
+\documentclass[aspectratio=169]{beamer} % Beamer document class with 16:9 aspect ratio
+
+\usepackage{ctex} % 中文支持，如果不需要中文可以删除此行
+\usepackage{hyperref} % 超链接支持
+\usepackage{amsmath} % 数学公式支持
+\usepackage{babel} % 多语言支持
+\usepackage[T1]{fontenc} % 字体编码
+\usepackage{latexsym,amsfonts,amssymb,xcolor,multicol,booktabs,calligra} % 其他常用宏包
+\usepackage{graphicx,pstricks,listings,stackengine} % 图形、代码显示等宏包
+\usepackage{caption,subcaption} % 图表标题和子图支持
+
+% 设置 Beamer 文档的页眉
+\setbeamertemplate{headline}{
+  \begin{beamercolorbox}[ht=3ex,dp=1ex,center]{section in head/foot}
+    \includegraphics[height=6cm]{pic/scuname.png} % 插入标题图片
+    \quad
+    \insertshorttitle % 插入标题
+  \end{beamercolorbox}
+}
+
+% 设置MATLAB代码的颜色样式
+\definecolor{mComment}{rgb}{0.133,0.545,0.133} % 绿色
+\definecolor{mString}{rgb}{0.627,0.126,0.941} % 紫色
+\definecolor{mKeyword}{rgb}{0,0,1} % 蓝色
+\definecolor{mBackground}{rgb}{0.9,0.9,0.9} % 背景色
+
+% 设置MATLAB代码的样式
+\lstset{
+    language=Matlab, % 设置语言为MATLAB
+    backgroundcolor=\color{mBackground}, % 设置背景色
+    commentstyle=\color{mComment}, % 设置注释的颜色
+    keywordstyle=\color{mKeyword}, % 设置关键词的颜色
+    stringstyle=\color{mString}, % 设置字符串的颜色
+    basicstyle=\ttfamily\footnotesize, % 设置基本样式
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+% 设置演示文稿主题和覆盖效果
+\mode<presentation>{
+  \usetheme{CambridgeUS} % 使用主题
+  \setbeamercovered{transparent} % 设置覆盖效果
+}
+
+% 设置演示文稿信息
+\title{乌拉乌拉轰} % 演示文稿标题
+\author{李先宝} % 作者
+\institute[Sichuan University]{Sichuan University} % 机构
+\date{} % 日期
+
+% 在每个 subsection 开始时显示导航条
+\AtBeginSubsection[]{
+  \begin{frame}{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.2\textwidth]{pic/sculogo.png}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
+    6666666666
+\end{frame}
+
+\end{document}

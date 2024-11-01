@@ -1,0 +1,36 @@
+\contentsline {section}{\numberline {1}实验背景}{3}{}%
+\contentsline {section}{\numberline {2}研究特色}{3}{}%
+\contentsline {section}{\numberline {3}实验原理}{3}{}%
+\contentsline {subsection}{\numberline {3.1}法拉第磁致旋光效应}{3}{}%
+\contentsline {subsection}{\numberline {3.2}光自旋霍尔效应}{4}{}%
+\contentsline {subsection}{\numberline {3.3}偏振相消干涉}{5}{}%
+\contentsline {section}{\numberline {4}实验现象}{6}{}%
+\contentsline {section}{\numberline {5}实验流程}{8}{}%
+\contentsline {section}{\numberline {6}数据处理}{8}{}%
+\contentsline {subsection}{\numberline {6.1}微弱磁场的表征}{8}{}%
+\contentsline {subsection}{\numberline {6.2}质心偏移量的测量}{10}{}%
+\contentsline {subsection}{\numberline {6.3}实验结果}{12}{}%
+\contentsline {section}{\numberline {7}误差分析}{13}{}%
+\contentsline {subsection}{\numberline {7.1}理论公式近似的有效区间}{13}{}%
+\contentsline {subsection}{\numberline {7.2}磁化效应的讨论}{14}{}%
+\contentsline {subsection}{\numberline {7.3}不确定度分析}{15}{}%
+\contentsline {section}{\numberline {8}注意事项}{15}{}%
+\contentsline {section}{\numberline {9}应用前景}{15}{}%
+\contentsline {section}{\numberline {10}成员分工}{16}{}%
+\contentsline {section}{\numberline {附录 A}光自旋霍尔效应}{17}{}%
+\contentsline {subsection}{\numberline {附录 A.1}基本思路}{17}{}%
+\contentsline {subsection}{\numberline {附录 A.2}反射矩阵的推导}{17}{}%
+\contentsline {subsection}{\numberline {附录 A.3}光自旋霍尔效应}{20}{}%
+\contentsline {section}{\numberline {附录 B}偏振相消干涉原理}{22}{}%
+\contentsline {section}{\numberline {附录 C}任意线偏振入射角与质心偏移量的关系}{24}{}%
+\contentsline {section}{\numberline {附录 D}法拉第磁致旋光原理}{25}{}%
+\contentsline {subsection}{\numberline {附录 D.1}唯象理论}{25}{}%
+\contentsline {subsection}{\numberline {附录 D.2}从电动力学角度解释磁致旋光效应}{26}{}%
+\contentsline {section}{\numberline {附录 E}实验仪器的规格}{30}{}%
+\contentsline {subsection}{\numberline {附录 E.1}半导体激光器}{30}{}%
+\contentsline {subsection}{\numberline {附录 E.2}偏振片}{30}{}%
+\contentsline {subsection}{\numberline {附录 E.3}CCD相机}{30}{}%
+\contentsline {subsection}{\numberline {附录 E.4}磁光晶体}{30}{}%
+\contentsline {subsection}{\numberline {附录 E.5}透镜}{30}{}%
+\contentsline {subsection}{\numberline {附录 E.6}三棱镜}{31}{}%
+\contentsline {subsection}{\numberline {附录 E.7}各仪器成本}{31}{}%

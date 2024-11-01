@@ -1,0 +1,2364 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{a4paper,left=3cm,right=3cm,top=3.5cm,bottom=3.5cm}
+% 定义 Python 代码样式
+\lstdefinestyle{mystyle}{
+    language=Python,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{green},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    emph={[2]__init__, __repr__, __str__},
+    emphstyle={[2]\color{orange}},
+    frame=tb,
+    captionpos=b,
+    belowcaptionskip=1\baselineskip,
+    xleftmargin=\parindent,
+    % Add your own background color here if you want:
+    % backgroundcolor=\color{gray!10},
+    % otherkeywords={self},             % Add keywords here
+    % keywordstyle={\color{magenta}},
+    % emph={[2]MyClass,__init__,__repr__,__str__}, % Custom highlighting
+    % emphstyle={[2]\color{blue}},
+    % emph={[3]True,False,None},         % Custom highlighting
+    % emphstyle={[3]\color{blue}},
+}
+
+% 应用定义的 Python 代码样式
+\lstset{style=mystyle}
+\date{}
+\title{\heiti Python}
+\author{\heiti 李先宝 }
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    本文基于我在参加天格数据组招新期间学习Python的经历而撰写。我按照教材中关于Python的相关内容以及B站上的网络讲解整理了知识点纲要，并借助常见的OpenAI技术进行了对话式Python学习。文中包含丰富的示例和全面的内容，系统地介绍了Python的常用方面。我将所有对话文档整理成了一份资料，以便日后查阅。
+
+另外，我也希望入门LaTeX，因此本文也采用LaTeX编写。我将会持续更新和完善这份文档，记录自己的学习过程和心得体会。我希望能与有需要的人分享这些内容，并将其视作自己的学习笔记，以备日后参考。
+\end{abstract}
+\tableofcontents % 生成目录
+\section{变量}
+\subsection{赋值}
+\subsubsection{一值多赋}
+a=b=1024
+
+这里的赋值，允许多个变量指向同一值，储存地址相同
+\subsubsection{数组分解赋值}
+\begin{lstlisting}[caption={示例 Python 代码}]
+ vector=[1,2,3,4]
+ x,y,z,w=vector
+\end{lstlisting}
+
+\subsection{数据类型}
+\subsection{进制数}
+
+
+    \begin{itemize}
+          \item 二进制前面加0b
+          \item 八进制前面加0o
+          \item 十六进制前加0x
+        
+      
+    
+          \end{itemize}
+
+
+\subsection{浮点数}
+表示带有小数点的数值,如：3表示的是整数，3.0000001表示的是浮点数
+\subsection{复数}
+.real表示实数部分，而.image表是实数
+如：
+
+\begin{lstlisting}[caption={示例Python代码}]
+    x=1+1i
+    print('实数部分',x.real)
+\end{lstlisting}
+
+
+\subsection{字符串}
+\subsubsection{字符串也具有分解赋值的功能}
+\begin{lstlisting}[caption={示例Python代码}]
+a,b,c,d='fine'
+\end{lstlisting}
+\subsubsection{布尔类型}
+True表示1，False表示0.
+\par 使用bool函数可以测试布尔值
+\par 非0的布尔值和非空的字符串都表示True
+\par False、None、0、空序列都是False
+
+\subsubsection{字符串内嵌}
+.format按照\{\}标明被替换的字符串
+\begin{lstlisting}[caption={示例Python代码}]
+ p='年龄{}'.format(20)
+ print(p)#输出:年龄20
+
+\end{lstlisting}
+\par 或者在\{\}中加入format中的索引也可以
+
+\section{运算符}
+\subsection{比较运算符}
+\begin{itemize}
+ \item 不等于:!=
+ \item 等于：==
+\subsubsection{逻辑运算符}
+\end{itemize}
+\par 
+在Python中，有几种基础的逻辑运算符用于比较和操作布尔值。这些逻辑运算符包括：
+\begin{itemize}
+    \item 与 (and)：如果两个条件都为 True，则返回 True，否则返回 False。
+    \begin{lstlisting}[caption={示例Python代码}]
+        x=1
+        if x > 0 and x < 10:
+           print('x is between 0 and 10')
+    \end{lstlisting}
+    \item 或 (or)：如果两个条件中至少有一个为 True，则返回 True，否则返回 False。
+    \begin{lstlisting}[caption={示例Python代码}]
+        name = 'Alice'
+        if name == "Alice" or name == "Bob":
+            print('Hello, Alice or Bob!')
+    \end{lstlisting}
+    \item 非 (not)：用于对条件取反，如果条件为 True，则返回 False，如果条件为 False，则返回 True。
+    \par 非运算示例
+    \par if not condition:
+        \par print( "Condition is not True")
+\end{itemize}
+\section{分支和循环}
+ \subsection{分支}
+ \subsubsection{基础}
+ 分支结构用于根据条件执行不同的代码块。Python中的常见分支结构包括：
+ \begin{itemize}
+    \item if语句： if 语句用于根据条件执行代码块。如果条件为真，则执行 if 代码块；否则，可以选择执行 else 或者 elif 代码块（elif 是 else if 的缩写）。
+    \par if condition:
+    \par 如果条件为真，执行这里的代码
+    \par elif another\_condition:
+    \par 如果另一个条件为真，执行这里的代码
+    \par  else:
+    \par 如果以上条件都不满足，执行这里的代码
+    
+\item  三元条件表达式： 三元条件表达式提供了一种简洁的方法来根据条件选择不同的值或表达式。
+    \par value = true\_expression if condition else false\_expression
+    \begin{lstlisting}[caption={示例Python代码}]
+    x = 5
+    classification = "even" if x % 2 == 0 else "odd"
+    print(classification)  # 输出：odd
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{ 高级函数}
+在函数式编程中，高阶函数是指接受函数作为参数或者返回函数作为结果的函数。Python 中的函数可以作为一等公民，因此可以很容易地创建和使用高阶函数。
+\begin{lstlisting}[caption={示例Python代码}]
+def apply_operation(x, y, operation):
+    return operation(x, y)
+
+def add(x, y):
+    return x + y
+
+def subtract(x, y):
+    return x - y
+
+result = apply_operation(5, 3, add)
+print(result)  # 输出：8
+
+result = apply_operation(5, 3, subtract)
+print(result)  # 输出：2
+\end{lstlisting}
+在上面的示例中，apply\_operation() 是一个高阶函数，它接受两个参数 x 和 y，以及一个操作函数 operation。根据传入的不同操作函数，可以实现不同的计算逻辑。
+ \subsection{循环}
+\subsubsection{基础}
+循环结构用于重复执行代码块，直到满足特定条件为止。Python中的常见循环结构包括：
+\begin{itemize}
+    \item for循环： for 循环用于迭代序列（如列表、元组、字符串等）中的每个元素，或者执行固定次数的循环。
+\par for item in iterable:
+    对于迭代器中的每个元素，执行这里的代码
+
+\par for i in range(start, stop, step):
+    根据指定的范围和步长，执行这里的代码
+    \item while循环： while 循环用于在条件为真时重复执行代码块，直到条件为假为止。
+\par while condition:
+    当条件为真时，重复执行这里的代码
+\end{itemize}
+
+\subsubsection{迭代器和生成器}
+迭代器（Iterators）：
+迭代器是一种对象，它允许你逐个访问集合中的元素，而不必事先知道集合的长度。迭代器提供了一个统一的接口，让你可以对序列进行迭代，这样无论集合的内部表示是什么样的，你都可以以相同的方式进行访问。
+
+Python 中的许多内置数据结构都是可迭代的，比如列表、元组、字典、集合等。你可以使用 iter() 函数来创建一个迭代器对象，然后使用 next() 函数来逐个访问元素，直到遍历结束。当遍历结束后，再次调用 next() 会触发 StopIteration 异常。
+\begin{lstlisting}[caption={示例Python代码}]
+my_list = [1, 2, 3, 4, 5]
+my_iterator = iter(my_list)
+
+print(next(my_iterator))  # 输出：1
+print(next(my_iterator))  # 输出：2
+\end{lstlisting}
+生成器（Generators）：
+生成器是一种特殊类型的迭代器，它以惰性的方式生成值，而不是一次性生成所有值。生成器函数是使用 yield 关键字定义的函数，当调用生成器函数时，它返回一个生成器对象，而不是执行函数体内的代码。每次调用生成器的 next() 方法或者使用迭代器进行迭代时，生成器函数会执行，直到遇到 yield 关键字返回一个值，并暂停函数的执行状态。
+\begin{lstlisting}[caption={示例Python代码}]
+def my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+gen = my_generator()
+
+print(next(gen))  # 输出：1
+print(next(gen))  # 输出：2
+\end{lstlisting}
+生成器非常适合处理大量数据或者需要逐个处理数据的情况，因为它们只在需要时才生成值，这样可以节省内存和提高效率。
+\subsubsection{迭代工具}
+Python 的 itertools 模块提供了一些用于创建和操作迭代器的函数，这些函数可以帮助你更高效地处理各种迭代需求。
+
+排列（Permutations）：
+itertools.permutations() 函数返回可迭代对象，其中包含了指定长度的所有可能的排列。
+\begin{lstlisting}[caption={示例Python代码}]
+import itertools
+
+permutations = itertools.permutations([1, 2, 3])
+print(list(permutations))  # 输出：[(1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), (3, 2, 1)]
+\end{lstlisting}
+组合（Combinations）：
+itertools.combinations() 函数返回可迭代对象，其中包含了指定长度的所有可能的组合。
+\begin{lstlisting}[caption={示例Python代码}]
+import itertools
+
+combinations = itertools.combinations([1, 2, 3], 2)
+print(list(combinations))  # 输出：[(1, 2), (1, 3), (2, 3)]
+\end{lstlisting}
+通过使用迭代工具，你可以更方便地处理排列、组合等问题，而不必自己编写复杂的逻辑。这些工具提供了高效的算法实现，并且在处理大量数据时也能够保持良好的性能。
+\subsubsection{并行迭代}
+在Python中，zip() 函数用于将多个可迭代对象中对应位置的元素打包成元组，并返回由这些元组组成的迭代器。这样一来，你就可以在循环中同时迭代多个可迭代对象的元素，实现并行迭代。
+
+让我们来详细解释一下给出的代码示例：
+\begin{lstlisting}[caption={示例Python代码}]
+
+names = ['Alice', 'Bob', 'Charlie']
+ages = [30, 35, 40]
+
+for name, age in zip(names, ages):
+    print(f'{name} is {age} years old.')
+\end{lstlisting}
+    
+
+在这段代码中，有两个列表 names 和 ages，它们分别存储了人名和对应的年龄。我们想要同时遍历这两个列表，并打印出每个人的姓名和年龄。
+
+zip(names, ages) 创建了一个迭代器，它会逐个取出 names 和 ages 中对应位置的元素，然后将它们打包成元组返回。因此，在循环中，每次迭代时 name 变量会取得 names 中的元素，而 age 变量会取得 ages 中的对应元素。
+
+在循环的每一次迭代中，name 和 age 分别表示当前遍历到的人名和年龄，我们使用 print() 函数打印出这两个值，形成一句类似 “Alice is 30 years old.” 的输出。
+
+这样，通过 zip() 函数，我们实现了对两个列表的并行迭代，从而方便地处理多个相关联的数据。
+\subsection{循环控制}
+1. break语句：
+break语句用于终止当前循环，并跳出循环体。当循环遇到 break 语句时，即使循环条件仍然为真，循环也会立即停止执行，控制流程跳转到循环之后的代码块。
+\begin{lstlisting}[caption={示例Python代码}]
+# 使用 break 终止循环
+for i in range(5):
+    print(i)  # 打印当前迭代的值
+    if i == 3:
+        break  # 当迭代到 i 等于 3 时，终止循环
+
+# 输出结果可能为：
+# 0
+# 1
+# 2
+# 3
+\end{lstlisting}
+2. continue语句：
+continue语句用于跳过当前循环中剩余的代码，并继续下一次循环的执行。当循环遇到 continue 语句时，它会立即停止当前迭代的执行，跳转到下一次迭代。
+\begin{lstlisting}[caption={示例Python代码}]
+# 使用 continue 跳过某次循环
+for i in range(5):
+    if i == 2:
+        continue  # 当迭代到 i 等于 2 时，跳过本次循环，进入下一次迭代
+    print(i)  # 打印当前迭代的值
+
+# 输出结果可能为：
+# 0
+# 1
+# 3
+# 4
+\end{lstlisting}
+3. pass语句：
+pass语句在 Python 中用作占位符，它在语法上不执行任何操作。通常情况下，pass 语句用于占据需要语句的地方，但又不需要执行任何操作的情况下，以保持代码结构的完整性。
+\begin{lstlisting}[caption={示例Python代码}]
+# 使用 pass 什么也不做
+for i in range(5):
+    pass  # pass 语句用作占位符，什么也不做
+
+# 该循环并没有输出任何内容，因为 pass 语句在循环中没有实际操作
+
+\end{lstlisting}
+\section{列表}
+\subsection{索引和切片}
+\subsubsection{索引}
+在Python中,可以使用索引来访问序列中的单个元素。索引是从0开始的整数,用于标识序列中元素的位置。
+
+正向索引：从左到右,从0开始。
+
+反向索引：从右到左，从-1开始。
+\begin{itemize}  
+\item 字符串索引示例：
+\begin{lstlisting}[caption={示例Python代码}]
+s = "Hello, World!"
+end
+  print(s[0])   #输出:H
+  print(s[7])   #输出:W
+  print(s[-1])  #输出:!
+\end{lstlisting}
+\item 列表索引示例：
+\begin{lstlisting}[caption={示例Python代码}]
+ lst = [1, 2, 3, 4, 5]
+ print(lst[0])   # 输出:1
+ print(lst[-1])  # 输出:5
+\end{lstlisting}
+\end{itemize}
+\subsubsection{切片}
+切片用于从序列中提取子序列。切片使用[start:stop:step]的形式，其中：
+\begin{itemize}
+\item start:起始索引（包含）。
+\item stop:结束索引（不包含）。
+\item step:步长(默认为1)。
+\end{itemize}
+字符串切片示例：
+\begin{lstlisting}[caption={示例Python代码}]
+    s = "Hello, World!"
+    print(s[0:5])    #输出:Hello,
+    print(s[7:])     #输出:orld!
+    print(s[:5])     #输出:Hello
+    print(s[::2])    #输出:HloWrd
+\end{lstlisting}
+列表切片示例：
+\begin{lstlisting}[caption={示例Python代码}]
+     lst = [1, 2, 3, 4, 5]
+     print(lst[0:3])   #输出:[1, 2, 3]
+     print(lst[2:])    #输出:[3, 4, 5]
+     print(lst[:3])    #输出:[1, 2, 3]
+     print(lst[::2])   #输出:[1, 3, 5]
+\end{lstlisting}
+注意事项：
+索引和切片都可以用于修改序列中的元素。
+切片是左闭右开区间，即包含起始索引，不包含结束索引。
+索引和切片可以与负数结合使用，表示从序列的末尾开始计数。
+\subsection{列表元素的修改添加删除插入}
+当我们处理列表时，常常需要进行添加、修改、删除和插入等操作。以下是关于列表的添加、修改、删除和插入的知识点总结：
+\subsubsection{修改元素}
+\subsubsection{添加元素}
+\begin{itemize}
+    \item 使用 append() 方法：
+    append() 方法用于在列表的末尾添加一个元素。
+    \par 格式为listname.append(element)。
+    \par 示例：
+     \begin{lstlisting}[caption={示例Python代码}]
+        my_list = [1, 2, 3]
+my_list.append(4)  # 添加元素4
+print(my_list)  # 输出 [1, 2, 3, 4]
+     \end{lstlisting}
+     \item   
+     使用 extend() 方法：
+     \par extend() 方法用于在列表的末尾添加另一个列表中的所有元素。
+    \par  格式为 listname.extend(iterable)，其中 iterable 是可迭代对象。
+    \par  示例：
+     \begin{lstlisting}[caption={示例Python代码}]
+ my_list = [1, 2, 3]
+my_list.extend([4, 5, 6])  # 添加多个元素
+print(my_list)  # 输出 [1, 2, 3, 4, 5, 6]
+     \end{lstlisting}
+     \item 也可以通过列表的拼接实现列表元素的添加
+\end{itemize}
+\subsubsection{删除元素}
+当涉及到列表中元素的删除时，有几种常见的方法：
+\begin{itemize}
+    \item 使用 del 关键字：使用 del 关键字可以删除列表中指定位置的元素。语法：del listname[index]，其中 index 是要删除元素的位置索引。
+    \begin{lstlisting}[caption={示例Python代码}]
+      my_list = [1, 2, 3, 4]
+      del my_list[0]  # 删除第一个元素
+      print(my_list)  # 输出 [2, 3, 4]
+    \end{lstlisting}
+    \item 使用 remove() 方法：使用 remove() 方法可以删除列表中第一个匹配的指定元素。语法：listname.remove(element)，其中 element 是要删除的元素值。
+     \begin{lstlisting}[caption={示例Python代码}]
+      my_list = [1, 2, 3, 2]
+      my_list.remove(2)  # 删除第一个值为2的元素
+      print(my_list)  # 输出 [1, 3, 2]
+     \end{lstlisting}
+    \item 使用 pop() 方法：
+使用 pop() 方法可以删除并返回列表中指定位置的元素。
+语法：listname.pop(index)，其中 index 是要删除元素的位置索引。如果不指定索引，默认删除并返回列表中的最后一个元素。
+\begin{lstlisting}[caption={示例Python代码}]
+my_list = [1, 2, 3]
+deleted_element = my_list.pop(1)  # 删除索引为1的元素，并将其赋值给变量deleted_element
+print(my_list)  # 输出 [1, 3]
+print(deleted_element)  # 输出 2
+\end{lstlisting}
+\end{itemize}
+\subsubsection{插入元素}
+\subsection{组织列表}
+\subsubsection{列表的拼接}
+列表拼接是将两个或多个列表合并成一个新的列表的操作。在Python中，可以使用 + 运算符来实现列表的拼接。当使用 + 运算符连接两个列表时，会创建一个新的列表，其中包含了连接的两个列表中的所有元素。
+
+\par 以下是关于列表拼接的详细说明:
+
+\par 使用 + 运算符可以将两个列表合并成一个新的列表。
+\begin{lstlisting}[caption={示例Python代码}]
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+merged_list = list1 + list2
+print(merged_list)  # 输出 [1, 2, 3, 4, 5, 6]
+\end{lstlisting}
+创建新列表：列表拼接操作不会修改原始列表，而是创建一个新的列表来存储合并后的结果。原始列表保持不变。
+\begin{lstlisting}[caption={示例Python代码}]
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+merged_list = list1 + list2
+print(list1)  # 输出 [1, 2, 3]
+print(list2)  # 输出 [4, 5, 6]
+\end{lstlisting}
+支持多个列表拼接：+ 运算符不仅可以用于两个列表的拼接，还可以用于多个列表的拼接。
+\begin{lstlisting}[caption={示例Python代码}]
+list1 = [1, 2]
+list2 = [3, 4]
+list3 = [5, 6]
+merged_list = list1 + list2 + list3
+print(merged_list)  # 输出 [1, 2, 3, 4, 5, 6]
+\end{lstlisting}
+
+创建新列表：列表拼接操作会创建一个新的列表对象，并将合并的结果存储在新列表中。原始列表保持不变，不会受到影响。
+\begin{lstlisting}[caption={示例Python代码}]
+list1 = [1, 2]
+list2 = [3, 4]
+merged_list = list1 + list2
+list1.append(5)
+print(merged_list)  # 输出 [1, 2, 3, 4]
+\end{lstlisting}
+列表拼接是一个简单而强大的列表操作，可以方便地将多个列表合并成一个新的列表，适用于各种需要合并列表数据的场景。
+\subsubsection{列表解析}
+
+列表解析是一种简洁的语法，用于根据现有列表创建新列表。它允许在一行代码中对列表进行转换、筛选或操作，通常比使用传统的循环和条件语句更具可读性和效率。
+
+下面是列表解析的基本语法：
+\begin{lstlisting}[caption={示例Python代码}]
+new_list = [expression for item in iterable if condition]
+\end{lstlisting}
+其中：
+\begin{itemize}
+\item expression 是对列表中每个元素的操作或表达式。
+\item item 是表示当前元素的变量名。
+\item iterable 是要迭代的原始列表、范围或其他可迭代对象。
+\item condition（可选）是一个条件，只有当条件为真时才会包含在新列表中。
+\par 以下是一些示例：
+\end{itemize}
+\begin{itemize}
+    \item 基本列表解析：假设我们有一个字符串列表，我们想要将每个字符串转换为大写形式：
+    \begin{lstlisting}[caption={示例Python代码}]
+    words = ['hello', 'world', 'python', 'is', 'awesome']
+    upper_words = [word.upper() for word in words]
+    print(upper_words)  # 输出 ['HELLO', 'WORLD', 'PYTHON', 'IS', 'AWESOME']
+    \end{lstlisting}
+    \item 带条件的列表解析：假设我们有一个数字列表，我们只想要偶数的平方：
+    \begin{lstlisting}[caption={示例Python代码}]
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    even_squares = [x * x for x in numbers if x % 2 == 0]
+    print(even_squares)  # 输出 [4, 16, 36, 64, 100]
+    \end{lstlisting}
+    \item 嵌套列表解析：假设我们有一个包含多个单词的句子列表，我们想要构建一个包含每个单词及其长度的元组列表：
+    \begin{lstlisting}[caption={示例Python代码}]
+sentences = ['Python is awesome', 'Keep learning', 'Lists are versatile']
+word_lengths = [(word, len(word)) for sentence in sentences for word in sentence.split()]
+print(word_lengths)# 输出 [('Python', 6), ('is', 2), ('awesome', 7), ('Keep', 4), ('learning', 8), ('Lists', 5), ('are', 3), ('versatile', 9)]
+    \end{lstlisting}
+\item 使用条件表达式：在列表解析中可以使用条件表达式，使得逻辑更加清晰：
+  \begin{lstlisting}[caption={示例Python代码}]
+numbers = [1, 2, 3, 4, 5]
+new_list = ['Even' if num % 2 == 0 else 'Odd' for num in numbers]
+print(new_list)  # 输出 ['Odd', 'Even', 'Odd', 'Even', 'Odd']
+\end{lstlisting}
+  \item 生成矩阵：
+  使用列表解析可以方便地生成矩阵：
+  \begin{lstlisting}[caption={示例Python代码}]
+  matrix = [[i + j for j in range(3)] for i in range(3)]
+  print(matrix) # 输出 [[0, 1, 2], [1, 2, 3], [2, 3, 4]]
+  \end{lstlisting}
+
+\end{itemize}
+\subsubsection{列表的创建}
+
+    
+
+   在 Python 中，除了列表解析之外，还有一些其他常用的方法用于生成特定列表。下面是一些常见的方法：
+   \begin{itemize}
+\item 使用 range() 函数：在 Python 中，range() 函数用于生成一系列整数。它类似于 MATLAB 中的 1:n。
+\begin{lstlisting}[caption={示例Python代码}]
+    numbers = list(range(1, 6))
+    print(numbers)  # 输出 [1, 2, 3, 4, 5]
+\end{lstlisting}
+\item 使用 numpy 库：numpy 提供了类似于 MATLAB 的数组操作功能。
+\begin{lstlisting}[caption={示例Python代码}]
+
+import numpy as np
+
+# 创建一个包含 1 到 5 的数组
+arr = np.arange(1, 6)
+print(arr)  # 输出 [1 2 3 4 5]
+\end{lstlisting}
+\item 使用列表生成器：列表生成器是 Python 中另一种创建列表的方法。它类似于 MATLAB 中的数组初始化。
+\begin{lstlisting}[caption={示例Python代码}]
+
+numbers = [i for i in range(1, 6)]
+print(numbers)  # 输出 [1, 2, 3, 4, 5]
+\end{lstlisting}
+\item 使用 map() 函数：map() 函数可以将一个函数应用于序列的每个元素，并返回一个包含结果的迭代器。你可以将其转换为列表以获得所需的列表。
+\begin{lstlisting}[caption={示例Python代码}]
+
+numbers = list(map(lambda x: x, range(1, 6)))
+print(numbers)  # 输出 [1, 2, 3, 4, 5]
+\end{lstlisting}
+
+\end{itemize}
+\subsection{多维列表}
+
+\begin{lstlisting}[caption={示例Python代码}]
+
+    # 假设我们有一个二维列表，如下所示
+    matrix = [[1, 2, 3],
+              [4, 5, 6],
+              [7, 8, 9]]
+    
+    # 我们可以通过提供索引来访问多维列表中的特定元素，例如，访问第一行第二列的元素
+    element = matrix[0][1]  # 0 表示第一行，1 表示第二列
+    print(element)  # 输出结果为 2
+    
+    # 我们也可以使用列表解析来进行各种操作，比如提取某一列的所有元素
+    first_column = [row[0] for row in matrix]  # 提取第一列的所有元素
+    print(first_column)  # 输出结果为 [1, 4, 7]
+    
+
+    # 使用列表解析将二维列表转换为一维列表
+    flattened_list = [element for row in matrix for element in row]
+    
+    print(flattened_list)  # 输出结果为 [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    
+    #  列表解析结合条件语句，筛选出二维列表中大于 5 的元素
+    
+    # 使用列表解析筛选出大于 5 的元素
+    filtered_list = [element for row in matrix for element in row if element > 5]
+    
+    print(filtered_list)  # 输出结果为 [6, 7, 8, 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{lstlisting}
+    
+
+
+\subsection{元组}
+元组（Tuples）：
+
+1. 定义：
+元组是Python中的不可变序列（immutable sequence），通常用于存储一组不可修改的数据。你可以将它们视为不可变的列表。
+
+2. 创建元组：
+\begin{lstlisting}[caption={示例Python代码}]
+# 使用小括号创建元组
+
+my_tuple = (1, 2, 3, 4, 5)
+
+# 可以省略括号
+another_tuple = 1, 2, 3
+
+# 使用tuple()函数将其他可迭代对象转换为元组
+a_list = [1, 2, 3]
+tuple_from_list = tuple(a_list)
+\end{lstlisting}
+3. 访问元组元素：
+\begin{lstlisting}[caption={示例Python代码}]
+print(my_tuple[0])  # 输出第一个元素
+print(my_tuple[-1])  # 输出最后一个元素
+\end{lstlisting}
+4. 不可变性质：
+由于元组是不可变的，你不能修改其中的元素，但可以对整个元组进行重新赋值。
+\begin{lstlisting}[caption={示例Python代码}]
+# 错误示例：元组是不可变的，以下代码会引发 TypeError
+my_tuple[0] = 10
+\end{lstlisting}
+5.应用:
+\begin{itemize}
+
+
+    \item 用于函数返回多个值时：在 Python 中，一个函数可以返回多个值，而不仅仅是单个值。这在其他编程语言中可能不常见。当函数需要返回多个值时，通常会使用元组来实现。例如：
+ \begin{lstlisting}[caption={示例Python代码}]
+def get_user_info():
+    name = "John"
+    age = 30
+    email = "john@example.com"
+    return name, age, email
+
+# 调用函数并接收返回的元组
+user_info = get_user_info()
+print(user_info)  # 输出：('John', 30, 'john@example.com')
+ \end{lstlisting}   
+在这个例子中，'get\_user\_info()' 函数返回了一个包含姓名、年龄和电子邮件的元组。
+
+\item 用于函数返回多个值时：在 Python 中，一个函数可以返回多个值，而不仅仅是单个值。这在其他编程语言中可能不常见。当函数需要返回多个值时，通常会使用元组来实现。例如：
+函数可以返回一个元组，然后通过解包来获取各个返回值：Python 允许我们使用解包的方式，将元组中的各个元素分配给多个变量，这样就能方便地获取函数返回的多个值。例如：
+\begin{lstlisting}[caption={示例Python代码}]
+# 解包返回值
+name, age, email = get_user_info()
+
+print(name)   # 输出：John
+print(age)    # 输出：30
+print(email)  # 输出：john@example.com
+\end{lstlisting}
+在这个例子中，我们将函数返回的元组解包，并将其分配给了 name、age 和 email 这三个变量。
+
+\item 用于函数返回多个值时：在 Python 中，一个函数可以返回多个值，而不仅仅是单个值。这在其他编程语言中可能不常见。当函数需要返回多个值时，通常会使用元组来实现。例如：
+在映射数据到函数参数时使用元组：有时候，我们希望将一组数据作为函数的参数传递进去。如果这些数据本身就是一个元组，我们可以直接将元组传递给函数，然后在函数内部进行解包操作。这种方式在函数参数较多时可以使代码更加简洁。例如：
+\begin{lstlisting}[caption={示例Python代码}]
+def print_coordinates(x, y, z):
+    print("Coordinates:", x, y, z)
+
+# 定义一个元组
+coordinates = (10, 20, 30)
+
+# 将元组传递给函数
+print_coordinates(*coordinates)  # 输出：Coordinates: 10 20 30
+\end{lstlisting}
+在这个例子中，'print\_coordinates()' 函数接受三个参数 x、y 和 z，我们将定义好的元组 coordinates 解包后传递给函数，从而避免了显式地一个一个传递参数。
+
+这些是元组在函数返回多个值、解包返回值以及映射数据到函数参数时的应用场景。
+\end{itemize}
+
+\subsection{字典}
+
+\subsubsection{基础的用法}
+鉴于列表的讲解已经具体详细，所以这里直接上代码：
+\begin{lstlisting}[caption={示例Python代码}]
+# 定义一个字典
+my_dict = {"name": "Alice", "age": 30, "city": "New York"}
+
+# 访问字典元素
+print(my_dict["name"])  # 输出：Alice
+
+# 使用get()方法访问字典元素
+print(my_dict.get("age", "Unknown"))  # 输出：30
+print(my_dict.get("gender", "Unknown"))  # 输出：Unknown
+
+# 添加新键值对
+my_dict["job"] = "Engineer"
+
+# 修改值
+my_dict["age"] = 31
+
+# 删除键值对
+del my_dict["city"]
+
+# 字典的遍历
+for key in my_dict:
+    print(key)  # 输出：name, age, job
+
+for value in my_dict.values():
+    print(value)  # 输出：Alice, 31, Engineer
+
+for key, value in my_dict.items():
+    print(key, value)  # 输出：name Alice, age 31, job Engineer
+
+# 字典的复制
+new_dict = my_dict.copy()
+deep_copy_dict = my_dict.copy()  # 输出：同 new_dict
+
+# 字典的默认值
+value = my_dict.get("gender", "Unknown")  # 输出：Unknown
+value = my_dict.setdefault("gender", "Unknown")  # 输出：Unknown
+
+# 字典推导式
+new_dict = {key: value for key, value in my_dict.items()}
+print(new_dict)  # 输出：{'name': 'Alice', 'age': 31, 'job': 'Engineer'}
+
+
+\end{lstlisting}
+\subsubsection{字典的进阶用法}
+了解一下字典的各种方法的用法
+\begin{lstlisting}[caption={示例Python代码}]
+    # 创建一个示例字典
+    my_dict = {"name": "Alice", "age": 30, "city": "New York"}
+    
+    # 使用 keys() 方法获取所有键
+    keys = my_dict.keys()
+    # 输出所有键
+    print(keys)  # dict_keys(['name', 'age', 'city'])
+    
+    # 使用 values() 方法获取所有值
+    values = my_dict.values()
+    # 输出所有值
+    print(values)  # dict_values(['Alice', 30, 'New York'])
+    
+    # 使用 items() 方法获取所有键值对
+    items = my_dict.items()
+    # 输出所有键值对
+    print(items)  # dict_items([('name', 'Alice'), ('age', 30), ('city', 'New York')])
+    
+    # 使用 update() 方法更新字典
+    other_dict = {"age": 31, "job": "Engineer"}
+    my_dict.update(other_dict)
+    # 输出更新后的字典
+    print(my_dict)  # {'name': 'Alice', 'age': 31, 'city': 'New York', 'job': 'Engineer'}
+    
+    # 使用 pop() 方法删除一个元素并返回其值
+    age = my_dict.pop("age")
+    # 输出被删除的值和剩余的字典
+    print(age)  # 31
+    print(my_dict)  # {'name': 'Alice', 'city': 'New York', 'job': 'Engineer'}
+    
+    # 使用 popitem() 方法随机删除一个字典项
+    item = my_dict.popitem()
+    # 输出被删除的项和剩余的字典
+    print(item)  # ('job', 'Engineer') - 注意，这个输出可能会根据Python版本和字典内容变化
+    print(my_dict)  # {'name': 'Alice', 'city': 'New York'}
+    
+    # 再次使用 popitem() 方法展示字典变化
+    my_dict.popitem()
+    # 输出当前字典状态
+    print(my_dict)  # {'name': 'Alice'}
+    
+    # 注意：连续使用 popitem() 可能导致字典最终为空，进一步使用会引发 KeyError
+
+
+
+    \end{lstlisting}
+\section{函数和lamda表示}
+\subsection{基础知识}
+当我们在编写代码时，函数是一种非常有用的工具，它可以让我们组织和重复使用代码块。在Python中，函数是由def关键字定义的，函数可以接受参数并返回结果。除了常规的函数定义之外，Python还支持使用lambda表达式创建匿名函数。
+
+\subsubsection{ 函数(Function)}：
+\begin{lstlisting}[caption={示例Python代码}]
+语法：
+def function_name(parameters):
+    """docstring"""
+    # 函数体
+    return expression
+示例：
+# 定义一个简单的函数，计算两个数的和
+def add(x, y):
+    """返回两个数的和"""
+    return x + y
+
+# 调用函数
+result = add(3, 5)
+print(result)  # 输出: 8
+\end{lstlisting}
+\subsubsection{Lambda表达式}
+Lambda表达式是一种简洁的函数定义方式，通常用于需要一个简单的函数，且仅在一个地方使用时。Lambda函数可以有多个参数，但只能有一个表达式。
+
+语法：
+lambda arguments: expression
+\begin{lstlisting}[caption={示例Python代码}]
+示例：
+# 使用lambda表达式定义一个函数，计算两个数的和
+add = lambda x, y: x + y
+
+result = add(3, 5)
+print(result)  # 输出: 8
+
+# 使用lambda表达式定义一个函数，判断一个数是否为偶数
+is_even = lambda x: x % 2 == 0
+
+print(is_even(4))  # 输出: True
+print(is_even(3))  # 输出: False
+\end{lstlisting}
+注意事项：
+Lambda函数通常用于简单的函数，如果函数体较复杂，建议使用普通的函数定义方式。
+Lambda函数可以用在函数式编程中，如在map、filter、reduce等函数中使用。
+\subsection{一些常见的其他函数}
+当谈到函数式编程时，map、filter 和 reduce 是 Python 中非常有用的函数，它们可以让你以一种简洁而强大的方式处理数据集合。
+\begin{itemize}
+   \item  map 函数用于对可迭代对象中的每个元素应用一个函数，返回一个由函数应用结果组成的迭代器。
+
+    语法：
+    map(function, iterable)
+    示例：
+   
+\begin{lstlisting}[caption={示例Python代码}]
+    # 使用 map 函数将列表中的每个元素乘以 2
+    numbers = [1, 2, 3, 4, 5]
+    doubled = map(lambda x: x * 2, numbers)
+    print(list(doubled))  # 输出: [2, 4, 6, 8, 10]
+    
+    # 使用 map 函数将字符串列表转换为大写
+    names = ['alice', 'bob', 'charlie']
+    upper_case_names = map(str.upper, names)
+    print(list(upper_case_names))  # 输出: ['ALICE', 'BOB', 'CHARLIE']
+
+
+
+
+\end{lstlisting}
+\item filter 函数：
+filter 函数用于过滤可迭代对象中的元素，返回一个由满足条件的元素组成的迭代器。
+
+语法：
+filter(function, iterable)
+示例：
+
+
+\begin{lstlisting}[caption={示例Python代码}]
+    # 使用 filter 函数过滤列表中的偶数
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    even_numbers = filter(lambda x: x % 2 == 0, numbers)
+    print(list(even_numbers))  # 输出: [2, 4, 6, 8]
+    
+    # 使用 filter 函数过滤字符串列表中长度大于等于 5 的字符串
+    names = ['alice', 'bob', 'charlie', 'dave', 'emily']
+    filtered_names = filter(lambda x: len(x) >= 5, names)
+    print(list(filtered_names))  # 输出: ['alice', 'charlie']
+
+
+
+
+\end{lstlisting}
+\item reduce 函数：
+reduce 函数用于对可迭代对象中的元素进行累积操作，返回一个单一的结果。
+
+语法：
+from functools import reduce
+
+reduce(function, iterable[, initializer])
+
+
+\begin{lstlisting}[caption={示例Python代码}]
+    from functools import reduce
+
+    # 使用 reduce 函数计算列表中所有元素的乘积
+    numbers = [1, 2, 3, 4, 5]
+    product = reduce(lambda x, y: x * y, numbers)
+    print(product)  # 输出: 120
+    
+    # 使用 reduce 函数计算列表中所有元素的和，并设置初始值为 10
+    sum_with_initial = reduce(lambda x, y: x + y, numbers, 10)
+    print(sum_with_initial)  # 输出: 25
+\end{lstlisting}
+\end{itemize}
+\subsection{函数的递归调用}
+递归调用通常包括两部分：基本情况（base case）和递归情况（recursive case）。
+\begin{itemize}
+    
+
+\item 基本情况（Base Case）：基本情况是递归函数停止调用自身的条件。当递归函数达到基本情况时，它不再进行递归调用，而是直接返回一个值。没有基本情况或者基本情况写得不正确会导致递归无法停止，从而造成无限循环或栈溢出等问题。
+
+\item 递归情况（Recursive Case）：递归情况是指递归函数在没有达到基本情况时调用自身的情况。在递归情况中，递归函数通常会将问题拆解成一个或多个规模更小的子问题，然后通过递归调用来解决这些子问题。
+\end{itemize}
+示例
+
+\begin{lstlisting}[caption={示例Python代码}]
+
+def chebyshev(x,n):#定义切比雪夫多项式
+    if n==0:
+        y=1
+    elif n==1:
+        y=x
+    else :
+        y=2*x*chebyshev(x,n-1)-chebyshev(x,n-1)        
+    return y
+\end{lstlisting}
+\section{Numpy}
+\subsection{数组的初始化}
+\subsubsection{函数式数组创建}
+当创建数组时，可以利用NumPy提供的便捷函数来初始化数组。以下是一些示例：
+
+创建一个全零数组：形状来说就是不会像数组的形状不是从0开始的索引
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个形状为 (3, 4) 的全零数组
+zeros_array = np.zeros((3, 4))
+print(zeros_array)
+# 输出:
+# [[0. 0. 0. 0.]
+#  [0. 0. 0. 0.]
+#  [0. 0. 0. 0.]]
+\end{lstlisting}
+创建一个全一数组：
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个形状为 (2, 3) 的全一数组
+ones_array = np.ones((2, 3))
+print(ones_array)
+# 输出:
+# [[1. 1. 1.]
+#  [1. 1. 1.]]
+\end{lstlisting}
+创建一个等差数组：一般来说范围也是这样，都不会包括右端点
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个从 0 开始，到 9 结束，步长为 2 的等差数组
+arange_array = np.arange(0, 10, 2)
+print(arange_array)  # 输出: [0 2 4 6 8]
+\end{lstlisting}
+创建一个单位矩阵：
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个形状为 (3, 3) 的单位矩阵
+identity_matrix = np.eye(3)
+print(identity_matrix)
+# 输出:
+# [[1. 0. 0.]
+#  [0. 1. 0.]
+#  [0. 0. 1.]]
+\end{lstlisting}
+通过或者列表拼接的生成数组
+\begin{lstlisting}[caption={示例Python代码}]
+# 创建一个二维数组
+arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print("\n二维数组:")
+print(arr2d)  # [[1 2 3]
+              #  [4 5 6]
+              #  [7 8 9]]
+
+这些是常用的数组创建方式，能够快速生成特定形状或特定值的数组，提高了代码的效率和可读性。
+\end{lstlisting}
+\subsubsection{shape函数}
+在NumPy中，shape 函数是用来获取数组的形状（即维度和大小）的方法。它返回一个元组，该元组的每个元素表示数组在相应维度上的大小。以下是关于 shape 函数的一些重要信息：
+
+语法：
+
+numpy.ndarray.shape
+返回值：
+
+返回一个元组，元组的长度表示数组的维度数，每个元素表示对应维度上的大小。
+示例：
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+print(arr.shape)  # 输出 (2, 3)
+\end{lstlisting}
+表示这是一个2行3列的数组
+注意事项：
+
+如果数组是一维的，返回的形状将只有一个元素，表示数组的长度。
+shape 属性可以用来获取数组的形状信息，也可以用来修改数组的形状（通过赋值的方式）。
+示例：修改数组形状
+\begin{lstlisting}[caption={示例Python代码}]
+arr = np.array([1, 2, 3, 4, 5, 6])
+print(arr.shape)  # 输出 (6,)，表示这是一个长度为6的一维数组
+
+arr.shape = (2, 3)  # 修改数组形状为2行3列
+print(arr)
+# 输出
+# [[1 2 3]
+#  [4 5 6]]
+\end{lstlisting}
+总的来说，shape 函数是获取和修改数组形状的重要方法之一，它可以帮助你了解和操作数组的维度和大小信息。
+\subsection{改变数组的维度}
+\subsubsection{基本的函数式改变形状}
+当需要改变NumPy数组的维度时，可以使用一些方法来实现。以下是一些常用的方法：
+\begin{itemize}
+    
+
+
+    \item  reshape() 函数：reshape() 函数用于改变数组的形状，但要确保改变后的形状与原数组中的元素数量保持一致。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个一维数组
+arr = np.array([1, 2, 3, 4, 5, 6])
+
+# 将一维数组改变为二维数组（2行3列）
+reshaped_arr = arr.reshape(2, 3)
+print(reshaped_arr)
+# 输出:
+# [[1 2 3]
+#  [4 5 6]]
+\end{lstlisting}
+\item  flatten() 函数：flatten() 函数用于将多维数组转换为一维数组。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个二维数组
+arr = np.array([[1, 2, 3],
+                [4, 5, 6]])
+
+# 将二维数组转换为一维数组
+flattened_arr = arr.flatten()
+print(flattened_arr)  # 输出: [1 2 3 4 5 6]
+\end{lstlisting}
+\item ravel() 函数：ravel() 函数也可以将多维数组转换为一维数组，但与flatten()不同的是，ravel()返回的是原数组的视图，而不是拷贝。
+\par ps:数组的视图（view）是指在NumPy中一个数组的不同表示方式，它与原数组共享数据存储空间，但是具有不同的维度大小或者步长（strides）。视图允许你以不同的方式查看相同的数据，而不需要复制数据本身。
+
+当你对一个数组进行切片操作或者使用某些函数时，可能会返回原数组的视图而不是拷贝。这种情况下，对视图所做的修改会反映在原数组上，因为它们共享相同的数据存储。
+
+使用数组的视图有以下几个优点：
+
+节省内存: 视图与原数组共享内存，因此不需要额外的内存来存储数据。
+高效: 由于不需要复制数据，因此操作视图通常比操作拷贝更高效。
+实时反映原数组的修改: 如果你修改了视图中的元素，原数组也会相应地被修改。
+然而，需要注意的是，有些操作会返回原数组的拷贝而不是视图。例如，当使用 flatten() 函数时就会返回原数组的拷贝，而不是视图。
+
+了解数组的视图概念对于高效地使用NumPy库来处理大型数据集以及避免不必要的内存消耗非常重要。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个二维数组
+arr = np.array([[1, 2, 3],
+                [4, 5, 6]])
+
+# 使用ravel()将二维数组转换为一维数组
+raveled_arr = arr.ravel()
+print(raveled_arr)  # 输出: [1 2 3 4 5 6]
+\end{lstlisting}
+\end{itemize}
+\subsubsection{矩阵的转置}
+在NumPy中，你可以使用 numpy.transpose() 函数或者数组对象的 .T 属性来进行矩阵转置。以下是一些关于矩阵转置的知识：
+
+使用 numpy.transpose() 函数：
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个二维数组
+arr = np.array([[1, 2, 3],
+                [4, 5, 6]])
+
+# 使用 numpy.transpose() 函数进行转置
+transposed_arr = np.transpose(arr)
+print(transposed_arr)
+# 输出:
+# [[1 4]
+#  [2 5]
+#  [3 6]]
+\end{lstlisting}
+使用数组对象的 .T 属性：
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个二维数组
+arr = np.array([[1, 2, 3],
+                [4, 5, 6]])
+
+# 使用数组对象的 .T 属性进行转置
+transposed_arr = arr.T
+print(transposed_arr)
+# 输出:
+# [[1 4]
+#  [2 5]
+#  [3 6]]
+\end{lstlisting}
+\subsection{基本的概念}水平轴和垂直轴是在二维数组中的概念，用来指代数组的两个方向。
+
+水平轴（Horizontal Axis）：在二维数组中，水平轴通常指的是数组的第二个维度，即每一行内的元素排列方向。在数学上，水平轴通常与 x 轴平行，表示数组的列。
+
+垂直轴（Vertical Axis）：在二维数组中，垂直轴通常指的是数组的第一个维度，即数组的行之间的排列方向。在数学上，垂直轴通常与 y 轴平行，表示数组的行。
+在NumPy中，视图（view）是指一个数组的另一种表现形式，它与原始数组共享数据存储空间。换句话说，视图是原始数组的一个别名或引用，它们共享相同的数据缓冲区，但可能具有不同的维度、形状或步长设置。
+
+当你对一个数组进行切片操作时，通常会得到一个视图而不是新的独立数组。这意味着在视图中的修改会影响原始数组，反之亦然。这种共享数据的特性使得在处理大型数据集时能够更高效地操作，因为它不会占用额外的内存空间，而是直接引用原始数据。
+
+需要注意的是，并非所有的数组操作都会生成视图。有些操作会返回原始数组的副本，这意味着对这些副本的修改不会影响原始数组。因此，在NumPy中，了解何时会生成视图以及何时会生成副本是很重要的，特别是在处理大型数据集时，以避免意外的内存消耗或数据不一致性问题。
+\subsection{数组的组合}
+NumPy 中的数组组合是指将多个数组按照一定的方式组合成一个新的数组的操作。这在数据处理和科学计算中非常常见。以下是 NumPy 中数组组合的几种常见方式和知识点：
+\begin{itemize}
+    \item numpy.concatenate() 函数：
+    numpy.concatenate() 函数用于沿指定轴连接相同形状的两个或多个数组。
+    语法：numpy.concatenate((array1, array2, ...), axis=0)
+axis 参数指定连接的轴，默认为 0，表示沿着第一个轴连接数组。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建两个数组
+arr1 = np.array([[1, 2], [3, 4]])
+arr2 = np.array([[5, 6]])
+
+# 沿着第一个轴连接数组
+result = np.concatenate((arr1, arr2), axis=0)
+print(result)
+# 输出:
+# [[1 2]
+#  [3 4]
+#  [5 6]]
+\end{lstlisting}
+\item 垂直堆叠和水平堆叠：
+numpy.vstack() 用于垂直堆叠（沿着行方向堆叠）数组。
+numpy.hstack() 用于水平堆叠（沿着列方向堆叠）数组。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建两个数组
+arr1 = np.array([1, 2, 3])
+arr2 = np.array([4, 5, 6])
+
+# 垂直堆叠数组
+vertical_stack = np.vstack((arr1, arr2))
+print(vertical_stack)
+# 输出:
+# [[1 2 3]
+#  [4 5 6]]
+
+# 水平堆叠数组
+horizontal_stack = np.hstack((arr1, arr2))
+print(horizontal_stack)
+# 输出:
+# [1 2 3 4 5 6]
+\end{lstlisting}
+\item numpy.stack() 函数：
+numpy.stack() 函数用于沿着新的轴堆叠数组。
+语法：numpy.stack(arrays, axis=0)
+arrays 是包含要堆叠的数组的序列，axis 参数指定新轴的位置。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建两个数组
+arr1 = np.array([1, 2, 3])
+arr2 = np.array([4, 5, 6])
+
+# 沿着新的轴堆叠数组
+stacked_array = np.stack((arr1, arr2), axis=1)
+print(stacked_array)
+# 输出:
+# [[1 4]
+#  [2 5]
+#  [3 6]]
+\end{lstlisting}
+
+
+
+\item 在 NumPy 中，可以使用 numpy.dstack() 函数来实现深度组合。该函数将输入数组沿着第三个轴（深度轴）进行组合。这意味着它会将数组堆叠起来，形成一个新的数组，其中新数组的维度比原始数组的维度多一。
+
+以下是 numpy.dstack() 函数的基本语法：
+
+numpy.dstack(tup)
+其中 tup 是包含要组合的数组的元组。
+
+举个例子：
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建两个二维数组
+arr1 = np.array([[1, 2],
+                 [3, 4]])
+
+arr2 = np.array([[5, 6],
+                 [7, 8]])
+
+# 对 arr1 和 arr2 进行深度组合
+deep_stacked_array = np.dstack((arr1, arr2))
+
+print(deep_stacked_array)
+# 输出:
+# [[[1 5]
+#   [2 6]]
+#
+#  [[3 7]
+#   [4 8]]]
+\end{lstlisting}
+在这个例子中，arr1 和 arr2 是两个二维数组，它们被沿着深度轴（第三个轴）进行组合，形成了一个新的三维数组 deep\_stacked\_array。在新数组中，每个元素是原始数组在相同位置的元素构成的元组。
+\end{itemize}
+\subsection{数组的分割}
+在 NumPy 中，数组分割是指将一个大的数组拆分成多个较小的数组。根据拆分的方向和方式，NumPy 提供了几种不同的函数来实现数组的分割，包括 np.split(), np.hsplit(), np.vsplit(), 以及 np.array\_split()。这些函数使得根据特定的需求将数组分割成多个子数组变得简单:
+\begin{itemize}
+  
+
+    \item np.split()
+np.split() 函数可以沿指定轴分割数组。它的基本语法如下：
+
+numpy.split(ary, indices\_or\_sections, axis=0)
+ary 是要分割的数组。
+indices\_or\_sections 可以是一个整数，表示要平均分割成几个子数组；也可以是一个索引列表，表示分割的位置。
+axis 参数指定沿哪个轴分割数组，默认为 0。
+如果 indices\_or\_sections 是一个整数，数组会被尽可能均匀地分割；如果它是一个索引列表，数组会在指定的索引位置被分割。(其中按索引分割指的是,在索引之前的所有元素,但不包括该元素)
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+
+# 创建一个数组
+arr = np.arange(9)
+print("Original array:", arr)
+# 输出: Original array: [0 1 2 3 4 5 6 7 8]
+
+# 平均分割数组
+split_arr = np.split(arr, 3)
+print("Split into 3:", split_arr)
+# 输出: Split into 3: [array([0, 1, 2]), array([3, 4, 5]), array([6, 7, 8])]
+
+# 指定索引分割数组
+split_arr_indices = np.split(arr, [2, 5])
+print("Split at indices 2 and 5:", split_arr_indices)
+# 输出: Split at indices 2 and 5: [array([0, 1]), array([2, 3, 4]), array([5, 6, 7, 8])]
+\end{lstlisting}
+\item np.hsplit() 是 np.split() 的特例，用于沿水平轴（即，轴 1）分割数组，其基本语法为：
+
+numpy.hsplit(ary, indices\_or\_sections)
+np.vsplit()
+相应地，np.vsplit() 用于沿垂直轴（即，轴 0）分割数组。其语法为：
+
+numpy.vsplit(ary, indices\_or\_sections)
+适用于二维或更高维度的数组分割。
+这个函数适用于二维或更高维度的数组分割。
+\begin{lstlisting}[caption={示例Python代码}]
+import numpy as np
+# 创建二维数组
+arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+#水平分割
+hsplit_arr = np.hsplit(arr2d, 3)
+print("Horizontal split:", hsplit_arr)
+# 输出: Horizontal split: [array([[1],
+#        [4],
+#        [7]]), array([[2],
+#        [5],
+#        [8]]), array([[3],
+#        [6],
+#        [9]])]
+# 垂直分割
+vsplit_arr = np.vsplit(arr2d, 3)
+print("Vertical split:", vsplit_arr)
+# 输出: Vertical split: [array([[1, 2, 3]]), array([[4, 5, 6]]), array([[7, 8, 9]])]
+\end{lstlisting}
+\end{itemize}
+\subsection{数组之间的运算}
+在NumPy中，数组的运算包括基本的算术运算、逻辑运算、统计运算以及广播等功能。下面我将简要介绍一些常见的数组运算：
+\begin{itemize}
+    
+
+    \item 基本算术运算：
+
+NumPy数组支持常见的算术运算符，如加法 +、减法 -、乘法 *、除法 / 等。这些运算符会对数组中的每个元素进行相应的操作，生成一个新的数组作为结果。
+
+    
+\begin{lstlisting}[caption={示例Python代码}]
+    # 基本算术运算
+    import numpy as np
+    
+    # 创建两个数组
+    arr1 = np.array([[1, 2], [3, 4]])  # [[1, 2], [3, 4]]
+    arr2 = np.array([[5, 6], [7, 8]])  # [[5, 6], [7, 8]]
+    
+    # 加法
+    result_add = arr1 + arr2
+    print("加法结果：\n", result_add)  # [[ 6  8], [10 12]]
+    
+    # 乘法
+    result_multiply = arr1 * arr2
+    print("乘法结果：\n", result_multiply)  # [[ 5 12], [21 32]]
+    
+
+\end{lstlisting}
+
+\item 逻辑运算：
+
+ NumPy提供了逻辑运算符，如与 \&、或 |、非 ~ 等，用于对数组中的元素进行逻辑运算。这些运算符也会对数组中的每个元素进行操作，生成一个布尔类型的数组作为结果。
+
+ \begin{lstlisting}[caption={示例Python代码}]
+    # 逻辑运算
+    # 创建一个数组
+    arr = np.array([1, 2, 3, 4, 5])  # [1, 2, 3, 4, 5]
+    
+    # 大于2的元素
+    result_greater_than_2 = arr > 2
+    print("大于2的元素：", result_greater_than_2) 
+    # [False False  True  True  True]
+    
+    # 逻辑与运算
+    result_logical_and = (arr > 2) & (arr < 5)
+    print("大于2小于5元素:", result_logical_and) 
+    # [False False  True  True False]
+    \end{lstlisting}
+
+
+ \item 统计运算： 
+NumPy提供了许多统计函数，如求和 numpy.sum()、均值 numpy.mean()
+标准差 numpy.std()、最大值 
+numpy.max()、最小值 numpy.min() 等。这些函数可以沿着指定的轴
+进行运算，也可以应用于整个数组。
+\begin{lstlisting}[caption={示例Python代码}]
+ # 统计运算
+# 创建一个数组
+arr = np.array([[1, 2, 3], [4, 5, 6]])  # [[1, 2, 3], [4, 5, 6]]
+
+# 沿着0轴求和
+sum_along_axis_0 = np.sum(arr, axis=0)
+print("沿着0轴求和：", sum_along_axis_0)  # [5 7 9]
+
+# 沿着1轴求均值
+mean_along_axis_1 = np.mean(arr, axis=1)
+print("沿着1轴求均值：", mean_along_axis_1)  # [2. 5.]
+\end{lstlisting}
+    
+ 
+ \item 广播：
+
+ 广播是NumPy中的一种强大功能，它允许在不同形状的数组之间进行运算，而不需要进行显式的形状转换。当进行运算时，NumPy会自动调整数组的形状，使其符合运算的要求。这使得在处理不同维度的数据时更加灵活和便捷。
+\begin{lstlisting}[caption={示例Python代码}]
+# 广播
+# 创建一个数组
+arr = np.array([[1, 2, 3], [4, 5, 6]])  # [[1, 2, 3], [4, 5, 6]]
+
+# 与标量相加
+result_broadcast = arr + 10
+print("广播结果：\n", result_broadcast)  # [[11 12 13], [14 15 16]]
+\end{lstlisting}
+\item 矩阵运算：
+
+ NumPy提供了丰富的线性代数运算功能，如矩阵乘法 numpy.dot()、矩阵转置 numpy.transpose()、矩阵求逆 numpy.linalg.inv() 等。这些运算对于处理矩阵和向量非常有用，尤其是在科学计算和机器学习等领域。
+ \begin{lstlisting}[caption={示例Python代码}]
+ # 矩阵运算
+# 创建两个矩阵
+matrix1 = np.array([[1, 2], [3, 4]])  # [[1, 2], [3, 4]]
+matrix2 = np.array([[5, 6], [7, 8]])  # [[5, 6], [7, 8]]
+
+# 矩阵乘法
+result_dot_product = np.dot(matrix1, matrix2)
+print("矩阵乘法结果：\n", result_dot_product)  # [[19 22], [43 50]]
+\end{lstlisting}
+\item 元素级函数：
+
+ NumPy提供了许多元素级的数学函数，如指数函数 numpy.exp()、对数函数 numpy.log()、三角函数 numpy.sin()、numpy.cos() 等。这些函数会对数组中的每个元素进行操作，生成一个新的数组作为结果。
+ \begin{lstlisting}[caption={示例Python代码}]
+ # 元素级函数
+# 创建一个数组
+arr = np.array([1, 2, 3, 4, 5])  # [1, 2, 3, 4, 5]
+
+# 对数函数
+result_log = np.log(arr)
+print("对数函数结果：", result_log)  # [0.         0.69314718 1.09861229 1.38629436 1.60943791]
+
+# 指数函数
+result_exp = np.exp(arr)
+print("指数函数结果：", result_exp)  # [  2.71828183   7.3890561   20.08553692  54.59815003 148.4131591 ]
+
+# 平方根函数
+result_sqrt = np.sqrt(arr)
+print("平方根函数结果：", result_sqrt)  # [1.         1.41421356 1.73205081 2.         2.23606798]
+
+# 绝对值函数
+result_abs = np.abs(np.array([-1, -2, 3, -4, 5]))
+print("绝对值函数结果：", result_abs)  # [1 2 3 4 5]
+
+# 正弦函数
+result_sin = np.sin(arr)
+print("正弦函数结果：", result_sin)  # [ 0.84147098  0.90929743  0.14112001 -0.7568025  -0.95892427]
+
+# 余弦函数
+result_cos = np.cos(arr)
+print("余弦函数结果：", result_cos)  # [ 0.54030231 -0.41614684 -0.9899925  -0.65364362  0.28366219]
+
+# 正切函数
+result_tan = np.tan(arr)
+print("正切函数结果：", result_tan)  # [ 1.55740772 -2.18503986 -0.14254654  1.15782128 -3.38051501]
+
+# 反正弦函数
+result_arcsin = np.arcsin(np.array([-1, 0, 1]))
+print("反正弦函数结果：", result_arcsin)  # [-1.57079633  0.          1.57079633]
+
+# 反余弦函数
+result_arccos = np.arccos(np.array([-1, 0, 1]))
+print("反余弦函数结果：", result_arccos)  # [3.14159265 1.57079633 0.        ]
+
+# 反正切函数
+result_arctan = np.arctan(np.array([-np.inf, 0, np.inf]))
+print("反正切函数结果：", result_arctan)  # [-1.57079633  0.          1.57079633]
+ \end{lstlisting}
+
+\end{itemize}
+总的来说，NumPy提供了丰富的数组运算功能，可以满足各种科学计算和数据处理的需求。通过灵活运用这些功能，可以高效地处理各种类型和规模的数据。
+\section{面向对象编程}
+\subsection{基本概念}
+面向对象编程的核心思想是将数据和操作封装在对象中，这些对象可以相互交互和继承，从而使代码更加模块化、可维护和可扩展。
+
+以下是一些你需要了解的重要概念和知识点：
+\begin{enumerate}
+  
+
+    \item 类和对象（Class and Objects）：
+
+类（Class）：类是对象的模板或蓝图，描述了对象的属性（属性）和行为（方法）。
+对象（Object）：对象是类的一个实例，具有特定的属性和行为。
+\item 属性和方法（Attributes and Methods）：
+\begin{itemize}
+    \item 属性（Attributes）：类中的数据成员，描述对象的特征。
+    \item 方法（Methods）：类中的函数成员，描述对象的行为。
+\end{itemize}
+\item 封装（Encapsulation）：
+
+ 封装是将数据和操作（方法）打包在类中，并对外部隐藏对象内部的工作细节的概念。这可以通过使用访问控制来实现，如公开（public）、保护（protected）和私有（private）。
+\item 继承（Inheritance）：
+
+继承允许一个类（子类）继承另一个类（父类）的属性和方法。子类可以重用父类的代码，并可以在不修改原始代码的情况下添加新功能或修改行为。
+\item 多态（Polymorphism）：
+
+多态允许使用相同的方法调用来处理不同类型的对象。这使得代码更加灵活，能够根据对象的实际类型执行不同的操作。
+\item 实例化（Instantiation）：
+
+实例化是创建类的对象的过程。当你实例化一个类时，你创建了该类的一个具体实例，可以在程序中使用。
+\item 构造函数和析构函数（Constructor and Destructor）：
+
+构造函数：构造函数在创建对象时初始化对象的状态。在 Python 中，构造函数名称为\_\_init\_\_，在实例化时自动调用。
+析构函数：析构函数在对象销毁时执行清理工作。在 Python 中，析构函数名称为 \_\_del\_\_，在对象不再被引用时自动调用。
+这些是面向对象编程中的基本概念。理解这些概念并通过实践应用它们将帮助你编写更加清晰、灵活和易于维护的代码。
+\end{enumerate}
+\subsection{面向对象编程的简单代码实现}
+\begin{enumerate}
+ 
+
+\item 定义一个简单的类：
+\begin{lstlisting}[caption={示例Python代码}]
+class Car:
+    def __init__(self, color, speed):
+        self.color = color
+        self.speed = speed
+    
+    def accelerate(self, increment):
+        self.speed += increment
+\end{lstlisting}
+    
+
+这里我们定义了一个名为 Car 的类。它有一个构造函数 \_\_init\_\_，用于初始化汽车的颜色和速度属性，并且有一个名为 accelerate 的方法，用于增加汽车的速度。
+
+\item 创建对象并访问属性、调用方法：
+\begin{lstlisting}[caption={示例Python代码}]
+my_car = Car("red", 60)
+print(my_car.color)  # 输出：red
+my_car.accelerate(20)
+print(my_car.speed)  # 输出：80
+\end{lstlisting}
+我们创建了一个 Car 类的实例 my\_car，并访问了它的 color 属性，然后调用了 accelerate 方法来增加速度，并输出了最新的速度。
+
+\item 继承和方法重写：
+\begin{lstlisting}[caption={示例Python代码}]
+class ElectricCar(Car):
+    def __init__(self, color, speed, battery_capacity):
+        super().__init__(color, speed)
+        self.battery_capacity = battery_capacity
+    
+    def accelerate(self, increment):
+        increment *= 2  
+        super().accelerate(increment)
+\end{lstlisting}
+这里我们定义了一个继承自 Car 类的 ElectricCar 类。它除了继承了父类的属性和方法外，还增加了电动车特有的属性 battery\_capacity，并且重写了父类的 accelerate 方法。
+
+\item 创建子类对象并访问属性、调用方法：
+\begin{lstlisting}[caption={示例Python代码}]
+my_electric_car = ElectricCar("blue", 70, 100)
+print(my_electric_car.color)           # 输出：blue
+print(my_electric_car.battery_capacity) # 输出：100
+my_electric_car.accelerate(20)
+print(my_electric_car.speed)  # 输出：110
+\end{lstlisting}
+我们创建了一个 ElectricCar 类的实例 my\_electric\_car，并访问了它的继承属性 color 和新增属性 battery\_capacity，然后调用了重写的 accelerate 方法，加速后输出了最新的速度。
+\end{enumerate}
+这些示例帮助你更直观地理解了面向对象编程的基本概念和实际应用。
+\subsection{导入类}
+\subsubsection{导入单个类}
+导入单个类的知识点主要涉及使用 from module import Class 的语法结构。这种方法允许你从一个模块中导入特定的类，而不必导入整个模块。下面是一个简单的例子：
+
+假设有一个名为 animal.py 的模块，其中定义了一个 Animal 类：
+\begin{lstlisting}[caption={示例Python代码}]
+# animal.py
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} says something"
+\end{lstlisting}
+
+现在，如果你只想导入 Animal 类而不导入整个 animal 模块，可以使用以下方式：
+\begin{lstlisting}[caption={示例Python代码}]
+from animal import Animal
+
+# 创建一个 Animal 的实例
+my_animal = Animal("Bob")
+
+# 调用实例方法
+print(my_animal.speak())  # 输出：Bob says something
+\end{lstlisting}
+这样，你就可以只导入需要的类，而不必导入整个模块，提高了代码的清晰度和可读性。
+\subsubsection{多个类和模块}
+
+在一个模块中存储多个类是很常见的，特别是当这些类之间有一定的关联性或者功能上的相关性时。在 Python 中，一个模块可以包含多个类的定义，下面是相关知识点的总结：
+\begin{enumerate}
+\item 在模块中定义多个类
+你可以在同一个 Python 模块中定义多个类。例如，一个名为 animals.py 的模块可以包含多个动物类的定义：
+\begin{lstlisting}[caption={示例Python代码}]
+# animals.py
+
+class Dog:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} says Woof!"
+
+class Cat:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} says Meow!"
+\end{lstlisting}       
+\item 导入多个类
+要在其他文件中使用这个模块中的多个类，可以使用 import 语句导入整个模块，然后使用模块名加点操作符来访问其中的类：
+\begin{lstlisting}[caption={示例Python代码}]
+import animals
+
+my_dog = animals.Dog("Buddy")
+my_cat = animals.Cat("Whiskers")
+
+print(my_dog.speak())  # 输出：Buddy says Woof!
+print(my_cat.speak())  # 输出：Whiskers says Meow!
+\end{lstlisting}
+\end{enumerate}
+命名空间和避免命名冲突
+使用模块名加点操作符来访问类有助于避免命名冲突。如果不同模块中有相同名称的类，可以通过使用不同的模块名来区分它们。
+
+代码组织和可维护性
+将相关的类放在同一个模块中可以提高代码的组织性和可维护性。这样，当你需要查找或修改特定功能的类时，可以更容易地定位到它们所在的模块。
+
+总结
+在一个模块中存储多个类是一种良好的代码组织方式，可以提高代码的可读性、可维护性，并且有助于避免命名冲突。
+\subsubsection{导入模块的所有类}
+在 Python 中，导入模块中的所有类可以通过不同的方法实现。下面是一些常见的方式：
+\begin{enumerate}
+    
+
+ 
+ \item 导入整个模块 最简单的方法是导入整个模块，然后使用点操作符访问其中的类。例如，如果有一个名为 animals.py 的模块包含多个动物类的定义：
+\begin{lstlisting}[caption={示例Python代码}]
+import animals
+
+my_dog = animals.Dog("Buddy")
+my_cat = animals.Cat("Whiskers")
+
+print(my_dog.speak())  # 输出：Buddy says Woof!
+print(my_cat.speak())  # 输出：Whiskers says Meow!
+\end{lstlisting}
+\item 使用 from-import 语句
+另一种方法是使用 from module import * 的语法，这样可以导入模块中的所有内容，包括类、函数等。但是，这种方式不太推荐，因为它会导入模块中的所有符号，可能会引起命名冲突，降低代码的可读性。
+\begin{lstlisting}[caption={示例Python代码}]
+from animals import *
+
+my_dog = Dog("Buddy")
+my_cat = Cat("Whiskers")
+
+print(my_dog.speak())  # 输出：Buddy says Woof!
+print(my_cat.speak())  # 输出：Whiskers says Meow!
+\end{lstlisting}
+\item 使用 all 属性
+在模块中，可以定义一个 \_\_all\_\_ 属性，指定需要导出的符号（如类、函数等）。这样，当使用 from module import * 语句时，只会导入 \_\_all\_\_ 中指定的符号。
+\begin{lstlisting}[caption={示例Python代码}]
+# animals.py
+
+__all__ = ['Dog', 'Cat']
+
+class Dog:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} says Woof!"
+
+class Cat:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} says Meow!"
+from animals import *
+
+my_dog = Dog("Buddy")
+my_cat = Cat("Whiskers")
+
+print(my_dog.speak())  # 输出：Buddy says Woof!
+print(my_cat.speak())  # 输出：Whiskers says Meow!
+\end{lstlisting}
+\end{enumerate}
+总结
+虽然可以使用 from module import * 导入模块中的所有类，但是这种做法不太推荐。更好的做法是使用 import module 或者在模块中定义 \_\_all\_\_ 属性，明确指定需要导出的符号，以提高代码的可读性和可维护性，并避免命名冲突。
+\subsubsection{导入模块的别名}
+给模块起别名：使用 import module\_name\ as alias 语法为导入的模块指定一个别名，以简化在代码中的引用。
+\begin{lstlisting}[caption={示例Python代码}]
+import module_name as alias
+
+alias.some_function()
+\end{lstlisting}
+给类或函数起别名：也可以给导入的特定类或函数起别名，以减少输入量或避免命名冲突。
+\begin{lstlisting}[caption={示例Python代码}]
+from module_name import SomeClass as AliasClass, some_function as alias_func
+
+obj = AliasClass()
+alias_func()
+\end{lstlisting}
+示例
+\begin{lstlisting}[caption={示例Python代码}]
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier as RFC
+
+data = pd.read_csv('data.csv')
+model = RFC()
+\end{lstlisting}
+在这个示例中，pd 是 pandas 模块的别名，RFC 是 RandomForestClassifier 类的别名。这种方式使代码更简洁清晰。
+
+总结
+导入模块和给模块、类、函数起别名是 Python 编程中的常见技巧。合理利用这些技巧可以使代码更加简洁、可读，并且有助于避免命名冲突。
+\section{文件}
+\subsection{从文件中读取数据}
+当你需要从文件中读取数据时，通常会有几种常见的方法。这些方法涵盖了不同的需求，可以根据你的具体情况选择适合的方法。
+\begin{enumerate}
+    \item 一次性读取整个文件内容
+    这个示例演示了如何打开一个文件，读取其全部内容，然后关闭该文件。使用with语句的好处是它会自动管理文件的打开和关闭，即使在读取文件时发生异常也能确保文件最终被关闭。
+    \begin{lstlisting}[caption={示例Python代码}]
+        file_path = "example.txt"  # 指定文件路径
+        # 使用with语ed句打开文件，确保文件操作完毕后自动关闭
+        with open(file_path, "r") as file:
+            content = file.read()  # 读取文件的全部内容到字符串
+            print(content)  # 打印读取的内容file_path = "example.txt"
+    with open(file_path, "r") as file:
+        content = file.read()
+        print(content)
+    \end{lstlisting}
+    这里，file.read()方法读取文件的全部内容，并将其作为一个大的字符串返回。这种方法适合于文件内容不大，能够轻松地装入内存的情况。
+    \item 逐行读取文件内容
+    逐行读取文件内容通常用于文件较大或者你想逐行处理文件内容的场景。这种方法可以有效管理内存使用，特别是对于大文件。
+    \begin{lstlisting}[caption={示例Python代码}]
+        file_path = "example.txt"  # 指定文件路径
+        # 使用with语句打开文件
+        with open(file_path, "r") as file:
+            line = file.readline()  # 读取文件的第一行
+            while line:
+                print(line.strip())  # 打印读取的行，使用strip()去除尾部的换行符
+                line = file.readline()  # 继续读取下一行
+    \end{lstlisting}        
+    这个例子中，file.readline()方法每次调用时读取文件的一行。通过在循环中调用这个方法，可以逐行遍历整个文件。使用.strip()方法去除每行末尾的换行符是一个好习惯，这样可以在处理文本时避免不必要的空白字符问题。 
+    \item 一次性读取所有行到列表
+    当你需要处理文件的每一行，但又希望保持这些行的序列关系时，可以使用readlines()方法。这个方法读取整个文件的所有行，并将它们作为一个字符串列表返回。
+    \begin{lstlisting}[caption={示例Python代码}]
+    file_path = "example.txt"  # 指定文件路径
+    # 使用with语句打开文件
+    with open(file_path, "r") as file:
+    lines = file.readlines()  # 读取文件的所有行到列表
+    for line in lines:
+        print(line.strip())  # 遍历列表，打印每行内容，同时使用strip()去除尾部的换行符
+    \end{lstlisting}
+    这里，file.readlines()方法一次性读取文件的所有行，并将它们存储为列表中的元素。然后通过一个循环，你可以逐一处理这些行，比如打印输出，同时使用.strip()方法移除每行字符串末尾的换行符。 
+\end{enumerate}
+\subsection{写入文件}
+\begin{itemize}
+ \item 写入单行内容
+如果你只需要向文件中写入一行内容，可以使用write()方法。
+\begin{lstlisting}[caption={示例Python代码}]
+file_path = "example.txt"  # 指定文件路径
+# 使用with语句打开文件，以写入模式（"w"）打开
+with open(file_path, "w") as file:
+    file.write("Hello, World!\n")  #
+\end{lstlisting}
+    
+ 向文件中写入一行内容
+这个例子中，file.write()方法将指定的字符串写入文件中。需要注意的是，在字符串末尾添加了换行符\verb|\|n，以确保每次写入的内容都是单独的一行。
+\item 写入多行内容
+如果你需要向文件中写入多行内容，可以使用writelines()方法。这个方法接受一个字符串列表作为参数，将列表中的每个字符串写入文件中。
+\begin{lstlisting}[caption={示例Python代码}]
+file_path = "example.txt"  # 指定文件路径
+lines = ["Line 1\n", "Line 2\n", "Line 3\n"]  # 字符串列表，每个字符串表示一行内容
+# 使用with语句打开文件，以写入模式（"w"）打开
+with open(file_path, "w") as file:
+    file.writelines(lines)  # 向文件中写入多行内容
+\end{lstlisting}
+    
+
+在这个例子中，file.writelines()方法接受一个字符串列表lines，然后将列表中的每个字符串写入文件。同样，每个字符串末尾都包含换行符\verb|\| n，以确保每行内容单独成行。
+\item 追加内容到文件末尾
+如果你希望将内容追加到文件的末尾，而不是覆盖原有内容，可以使用追加模式（“a”）打开文件，并使用write()方法写入内容。
+\begin{lstlisting}[caption={示例Python代码}]
+file_path = "example.txt"  # 指定文件路径
+# 使用with语句打开文件，以追加模式（"a"）打开
+with open(file_path, "a") as file:
+    file.write("Additional line\n")  # 向文件末尾追加一行内容
+\end{lstlisting}
+在这个例子中，我们使用了追加模式（“a”）打开文件，这样会将文件指针移到文件末尾。然后我们使用write()方法将新的内容追加到文件末尾。
+\end{itemize}
+
+当涉及到写入文件时，确实有些要点需要特别注意。让我来说清楚一些关键的内容：
+
+写入模式： 在打开文件时，你需要选择适当的模式。常见的模式包括：
+
+"w"：覆盖模式，会清空文件内容并写入新内容。
+"a"：追加模式，会将新内容追加到文件末尾而不覆盖原有内容。
+换行符 \verb|\| n： 在写入文件时，特别是使用write()或writelines()方法时，要注意每行内容末尾是否需要添加换行符\verb|\| n。这个符号用来确保每行内容单独成行。
+
+文件不存在和编码问题： 写入文件时，如果文件不存在会自动创建；如果文件已存在但你没有指定追加模式，会覆盖原有内容。另外，特别关注处理文件编码，避免出现乱码或其他编码相关问题。
+
+关闭文件： 和读取文件一样，写入文件后要及时关闭文件，以释放资源并确保内容被正确保存到文件中。
+
+通过选择正确的写入模式和注意以上要点，你就能够有效地处理文件写入操作，确保数据被正确地写入到文件中。
+\subsection{文件的异常}
+\subsubsection{try-except-else}
+try-except-else 代码块用于捕获可能引发异常的代码段，并在没有引发异常时执行一些额外的操作。它的结构如下：
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    # 可能引发异常的代码段
+    # 如果没有引发异常，将执行 else 代码块中的代码
+except ExceptionType:
+    # 异常处理代码块
+else:
+    # 如果没有引发异常，将执行的额外代码块
+在这个结构中：
+\end{lstlisting}
+try 代码块包含了你想要监视的代码段，可能会引发异常。
+except 代码块用于捕获可能发生的异常，并提供相应的处理逻辑。你可以指定特定的异常类型，也可以使用通用的 Exception 类来捕获所有类型的异常。
+else 代码块包含了在没有引发异常时执行的额外代码。如果 try 代码块中的代码没有引发任何异常，则会执行 else 代码块中的内容。
+try-except-else 结构的好处在于，它可以帮助你区分代码中出现异常和代码正常执行的情况，并且可以使异常处理与额外代码的逻辑清晰分离。
+
+下面是一个简单的示例，演示了 try-except-else 代码块的用法：
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    number = int(input("请输入一个整数: "))
+except ValueError:
+    print("输入错误：请输入一个有效的整数！")
+else:
+    print("你输入的整数是:", number)
+\end{lstlisting}
+在这个示例中，try 代码块尝试将用户输入的字符串转换为整数。如果用户输入的不是一个有效的整数，则引发 ValueError 异常，被 except 代码块捕获并打印错误消息。如果用户输入的是一个有效的整数，则 else 代码块中的内容会被执行，打印出用户输入的整数。
+\subsubsection{文件操作异常}
+1. FileNotFoundError
+当文件不存在时会引发此异常。可能的原因包括文件路径错误或文件被移动或删除。
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    with open("nonexistent_file.txt", "r") as file:
+        content = file.read()
+        print(content)
+except FileNotFoundError:
+    print("文件不存在！")
+\end{lstlisting}
+
+2. PermissionError
+尝试操作没有权限的文件时会引发此异常，例如，尝试写入只读文件或者尝试读取超出程序权限的文件。
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    with open("/root/sensitive_file.txt", "r") as file:
+        content = file.read()
+        print(content)
+except PermissionError:
+    print("没有权限访问该文件！")
+\end{lstlisting}
+3. IOError
+这是一个通用的文件操作错误，可能由多种原因引起，比如磁盘空间不足、文件被其他程序锁定、文件名无效等。
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    with open("disk_full.txt", "w") as file:
+        file.write("Data")
+except IOError:
+    print("IO错误：无法写入文件！")
+\end{lstlisting}
+\subsubsection{文件内容异常}
+1. 数据格式错误
+当尝试解析文件中的数据时，可能会遇到数据格式不正确的情况。
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    number = int("abc")
+    print(number)
+except ValueError:
+    print("无法将字符串转换为数字！")
+\end{lstlisting}
+
+2. 数据一致性错误
+文件中的数据可能与预期不符合，可能导致程序出现错误或者产生不正确的结果。
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    with open("data.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            # 假设每行应该包含3个字段，但实际上缺少了一个字段
+            fields = line.split(',')
+            if len(fields) != 3:
+                print("数据格式错误：", line)
+except IOError:
+    print("IO错误：无法读取文件！")
+\end{lstlisting}
+3. 编码问题
+如果文件使用了不同的编码方式，或者文件中包含了无法识别的编码字符，可能会导致编码错误。
+\begin{lstlisting}[caption={示例Python代码}]
+try:
+    with open("encoded_file.txt", "r", encoding="utf-8") as file:
+        content = file.read()
+        print(content)
+except UnicodeDecodeError:
+    print("文件编码错误！")
+\end{lstlisting}
+\subsection{储存数据}
+在 Python 中，存储数据通常涉及文件操作。Python 提供了丰富的文件操作功能，使得我们可以轻松地将数据存储到文件中，并在需要时读取出来。下面是一些关于文件数据存储的基本概念和示例：
+
+\subsubsection{文本文件存储数据}
+在 Python 中，使用内置的 open() 函数可以创建或打开一个文件。你可以指定文件名以及打开文件的模式（读取、写入、追加等）。在这个文件对象上，你可以使用不同的方法来读取或写入数据。
+
+写入数据到文本文件
+\begin{lstlisting}[caption={示例Python代码}]
+# 打开一个文本文件以进行写入
+with open("data.txt", "w") as file:
+    # 写入文本数据
+    file.write("Hello, World!\n")
+    file.write("This is a Python file.")
+\end{lstlisting}
+
+从文本文件读取数据
+\begin{lstlisting}[caption={示例Python代码}]
+# 打开一个文本文件以进行读取
+with open("data.txt", "r") as file:
+    # 读取文件内容
+    content = file.read()
+    print(content)
+\end{lstlisting}
+\subsubsection{二进制文件存储数据}
+有时候，我们需要存储非文本数据，比如图像、音频、视频等。这时候就需要使用二进制模式来处理文件。
+
+写入数据到二进制文件
+\begin{lstlisting}[caption={示例Python代码}]
+
+# 以二进制模式打开文件进行写入
+with open("binary_data.bin", "wb") as file:
+    # 写入二进制数据
+    file.write(b"\x48\x65\x6C\x6C\x6F\x2C\x20\x57\x6F\x72\x6C\x64\x21")
+\end{lstlisting}
+从二进制文件读取数据
+\begin{lstlisting}[caption={示例Python代码}]
+# 以二进制模式打开文件进行读取
+with open("binary_data.bin", "rb") as file:
+    # 读取二进制数据
+    data = file.read()
+    print(data)
+\end{lstlisting}    
+\subsubsection{使用 JSON 存储数据}
+JSON（JavaScript Object Notation）是一种轻量级的数据交换格式，常用于在不同系统之间传递和存储数据。
+
+将数据写入 JSON 文件
+\begin{lstlisting}[caption={示例Python代码}]
+    import json  # 导入 JSON 模块
+
+    # 数据
+    data = {
+        "name": "John",    # 姓名为 John
+        "age": 30,         # 年龄为 30
+        "city": "New York" # 城市为纽约
+    }
+    
+    # 写入 JSON 文件
+    with open("data.json", "w") as json_file:
+        json.dump(data, json_file)  # 使用 json.dump() 方法将数据写入 JSON 文件
+\end{lstlisting}
+import json：导入 Python 中的 JSON 模块，这个模块提供了处理 JSON 数据的功能。
+data 字典：定义了一个包含个人信息的字典，包括姓名、年龄和城市。
+with open("data.json", "w") as json\_file:：使用 open() 函数以写入模式打开文件 "data.json"，并将文件对象赋值给 json\_file。这里 "data.json" 是要写入的文件名，"w" 表示以写入模式打开文件，如果文件不存在则创建新文件，如果文件已存在则覆盖文件内容。
+json.dump(data, json\_file)：使用 json.dump() 方法将 data 字典中的数据写入到 JSON 文件 data.json 中。json.dump() 方法接受两个参数，第一个参数是要写入的数据，第二个参数是文件对象。
+
+从 JSON 文件读取数据
+\begin{lstlisting}[caption={示例Python代码}]
+    # 从 JSON 文件读取数据
+    with open("data.json", "r") as json_file:  # 以只读模式打开 JSON 文件
+        loaded_data = json.load(json_file)     # 使用 json.load() 方法加载 JSON 文件中的数据并存储到 loaded_data 变量中
+        print(loaded_data)                     # 打印加载的数据
+    \end{lstlisting}
+
+        with open("data.json", "r") as json\_file:：使用 open() 函数以只读模式打开 JSON 文件 "data.json"，并将文件对象赋值给 json\_file。这里 "data.json" 是要读取的文件名，"r" 表示以只读模式打开文件。
+        json.load(json\_file)：使用 json.load() 方法加载 JSON 文件中的数据，并将其存储到 loaded\_data 变量中。json.load() 方法接受一个文件对象作为参数，用于读取 JSON 数据并将其解析为 Python 对象（通常是字典或列表）。
+        print(loaded\_data)：打印加载的数据，这里是一个包含之前写入到 JSON 文件中的数据的字典。
+
+\section{matplotlib}
+\subsection{常见类型的图表}
+\begin{itemize}
+    
+
+    \item 散点图：散点图用于显示两个变量之间的关系，其中每个点代表一个观察值。你可以使用 scatter() 函数来创建散点图。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.scatter(x_data, y_data)
+\end{lstlisting}
+\item 柱状图：柱状图用于比较不同类别或组之间的数据。你可以使用 bar() 函数来创建垂直柱状图，或者使用 barh() 函数创建水平柱状图。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.bar(categories, values)  # 垂直柱状图
+# 或
+plt.barh(categories, values)  # 水平柱状图
+\end{lstlisting}
+\item 直方图：直方图用于显示数据的分布情况。你可以使用 hist() 函数创建直方图。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.hist(data, bins=10)  # bins 参数指定直方图的箱数
+\end{lstlisting}
+\item 饼图：饼图用于显示数据的相对比例。你可以使用 pie() 函数创建饼图。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.pie(sizes, labels=labels, autopct='%1.1f%%')  # autopct 参数用于显示百分比
+\end{lstlisting}
+\item 箱线图：箱线图用于显示数据的分布情况和离群值。你可以使用 boxplot() 函数创建箱线图。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.boxplot(data)
+\end{lstlisting}
+\end{itemize}
+\subsection{自定义图表}
+\begin{itemize}
+\item 颜色和线型：你可以在 plot() 函数中使用 color 参数来指定线条的颜色，使用 linestyle 参数来指定线条的样式。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.plot(x_data, y_data, color='red', linestyle='--')
+\end{lstlisting}
+\item 标记：你可以使用 marker 参数为数据点添加标记。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.plot(x_data, y_data, marker='o')  # 添加圆形标记
+\end{lstlisting}
+\item 图例：你可以使用 legend() 函数添加图例，并使用 label 参数指定每条线的标签。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.plot(x1_data, y1_data, label='Line 1')
+plt.plot(x2_data, y2_data, label='Line 2')
+plt.legend()
+\end{lstlisting}
+
+\item  添加文本注释：你可以使用 text() 函数在图表上添加文本注释。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.text(x, y, 'Text')  # 在指定位置添加文本注释
+\end{lstlisting}
+\item  网格线：你可以使用 grid() 函数添加网格线。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.grid(True)  # 添加网格线
+\end{lstlisting}
+\item 箭头：你可以使用 arrow() 函数在图表上添加箭头。
+\begin{lstlisting}[caption={示例Python代码}]
+from matplotlib.patches import FancyArrow
+arrow = FancyArrow(x1, y1, dx, dy, width=0.1, color='red')
+plt.gca().add_patch(arrow)  # 添加箭头到当前图表
+\end{lstlisting}
+ \item 坐标轴范围：你可以使用 xlim() 和 ylim() 函数设置坐标轴的范围。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.xlim(x_min, x_max)  # 设置 x 轴范围
+plt.ylim(y_min, y_max)  # 设置 y 轴范围
+\end{lstlisting}
+\item  标题和标签：你可以使用 title() 和 xlabel() 函数添加标题和 x 轴标签。
+\begin{lstlisting}[caption={示例Python代码}]
+\begin{lstlisting}[caption={示例Python代码}]
+plt.title('My Custom Title')
+plt.xlabel('x label')
+\end{lstlisting}
+你还可以通过调整标题的字体大小、颜色等属性来进一步美化标题，例如：
+\begin{lstlisting}[caption={示例Python代码}]
+plt.title('My Custom Title', fontsize=16, color='blue')
+\end{lstlisting}
+\end{itemize}
+\subsection{颜色映射}
+
+\subsubsection{离散颜色映射（Discrete Colormaps）}
+离散颜色映射是指将数据分成若干个离散的区间，并为每个区间分配一个颜色。
+
+常见的离散颜色映射包括 ‘viridis’、‘plasma’、‘inferno’ 和 ‘magma’ 等，它们在数据可视化中经常被使用。如：
+\begin{itemize}
+    \item Viridis:
+
+    Viridis 是一种绿色主导的颜色映射，被广泛认为是用于数据可视化的优秀选择。它在颜色上具有良好的线性变化，从浅绿色到深绿色，能够清晰地表现数据值的增加或减少。
+   \item  Plasma:
+    
+    Plasma 是一种带有紫色和橙色的颜色映射。它的特点是色彩丰富，有着明显的色调变化，从深紫色到鲜艳的橙色，使得数据的不同范围能够在图像中清晰可见。
+    \item Inferno:
+    
+    Inferno 是一种暖色调的颜色映射，主要由黄色和红色组成。它的色调变化相对较为平滑，适合用于显示数据的变化趋势，特别是在高温度或高数值的情况下。
+    \item Magma:
+    
+    Magma 是一种深紫色到鲜艳橙色的颜色映射，类似于Plasma，但色调略有不同。它在数据的可视化中能够有效地区分不同数值的区域，并在图像中产生明显的对比度。
+\end{itemize}
+
+分类色板（categorical palettes），它们为不同的类别提供不同的颜色。下面是一些常用的离散颜色映射的例子：
+\begin{itemize}
+
+
+    \item astel:
+
+Pastel 色板使用了柔和的、带有粉色调的颜色，适合用于表示某些轻松或女性化的主题。
+\item Dark:
+
+Dark 色板使用了较深的颜色，通常用于强调或者在较暗的背景上提供良好的对比度。
+\item  Set1:
+
+Set1 色板包含了一组明亮而且容易区分的颜色，适合用于区分不同的类别或者组。
+\item Accent:
+
+Accent 色板也是一组明亮的颜色，但更适合用于突出显示单个元素或者类别。
+\item Paired:
+
+Paired 色板提供了一组成对的颜色，每对颜色用于表示相关的但不同的类别。
+\item Set3:
+
+Set3 色板包含了12种不同的颜色，适合用于需要区分多个类别或组的情况。
+\end{itemize}
+\begin{lstlisting}[caption={示例Python代码}]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# 数据
+x = np.random.rand(100)
+y = np.random.rand(100)
+categories = np.random.randint(0, 5, size=100)  # 随机生成离散的类别
+
+# 颜色映射
+cmap = plt.cm.get_cmap('Set1', 5)  # 使用 Set1 色板，总共有5种颜色
+
+# 创建散点图
+plt.scatter(x, y, c=categories, cmap=cmap)
+
+# 添加颜色条
+plt.colorbar(label='Category')
+
+# 添加标题和标签
+plt.title('Discrete Color Mapping Example')
+plt.xlabel('X')
+plt.ylabel('Y')
+
+# 显示图像
+plt.show()
+\end{lstlisting}
+在代码示例中，我们使用了 scatter() 函数的 c 参数来指定每个数据点所属的类别。然后，我们使用选择的颜色映射（比如 ‘Set1’）将这些类别映射到一组离散的颜色上。这样，每个类别都会对应到颜色映射中的一个特定颜色，从而确定了每个数据点的颜色。
+
+在代码示例中，我们指定了 cmap 参数为 ‘Set1’，这个颜色映射总共包含了5种不同的颜色。因此，数据点的类别值会被映射到这5种颜色中的某一种，每个类别对应一种颜色。这样，散点图中的每个数据点就可以根据其所属的类别显示出对应的颜色，使得不同类别的数据点能够在图像中被有效地区分开来。
+\subsubsection{连续颜色映射（Continuous Colormaps）}
+连续颜色映射是指在数据范围内创建连续的颜色渐变，通常用于呈现数据的变化趋势。
+你可以使用 LinearSegmentedColormap 类来创建自定义的连续颜色映射，只需提供颜色和它们所处位置的列表即可。
+在自定义连续颜色映射时，你可以根据需求定义任何你想要的颜色渐变，从而更好地展现数据的变化。
+\begin{itemize}
+ \item 定义颜色映射：
+\begin{lstlisting}[caption={示例Python代码}]
+# 定义颜色列表，包括颜色和它们所处位置
+colors = [(position1, color1), (position2, color2), ...]
+\end{lstlisting}
+在这里，position1、position2等是颜色在颜色映射中的位置，取值范围在0到1之间，表示颜色的相对位置。color1、color2等是颜色值，可以使用RGB元组、十六进制值或颜色名称。
+
+ \item 创建颜色映射对象：(后面会详细说明)
+ \begin{lstlisting}[caption={示例Python代码}]
+cmap_custom = LinearSegmentedColormap.from_list('custom_cmap', colors)
+ \end{lstlisting}
+这里，from\_list() 方法接受两个参数：颜色映射的名称（例如 'custom\_cmap'）和颜色列表（即上一步定义的 colors）。
+
+\item 应用颜色映射到图像或数据：
+plt.imshow(data, cmap=cmap\_custom)
+这里，imshow() 方法用于绘制图像或数据，参数 cmap 指定了要使用的颜色映射。通常需要c参数，去定数据值与颜色映射中的位置之间的对应关系。
+
+
+ \item 可选：添加颜色条（colorbar）：
+plt.colorbar()
+这一步是可选的，它会在绘图中添加一个颜色条，以显示颜色映射中颜色与数据值之间的对应关系。
+\end{itemize}
+\begin{lstlisting}[caption={示例Python代码}]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# 数据
+x = np.random.rand(100)
+y = np.random.rand(100)
+z = np.random.rand(100) * 100  # 随机生成0到100之间的连续数据
+
+# 创建散点图
+plt.scatter(x, y, c=z, cmap='viridis')
+
+# 添加颜色条
+plt.colorbar(label='Values')
+
+# 添加标题和标签
+plt.title('Continuous Color Mapping Example')
+plt.xlabel('X')
+plt.ylabel('Y')
+
+# 显示图像
+plt.show()
+\end{lstlisting}
+\subsubsection{创建颜色映射对象}
+\begin{lstlisting}[caption={示例Python代码}]
+# 自定义颜色映射函数
+def custom_cmap(value):
+    # 自定义的颜色映射函数，这里简单地示例了一种颜色映射方式
+    # 你可以根据自己的需求来定义颜色映射函数
+    # 这里的例子是简单的线性映射，值越小颜色越青，值越大颜色越黄
+    return plt.cm.viridis(value / 100)  
+
+# 创建散点图，指定自定义颜色映射函数
+plt.scatter(x, y, c=z, cmap=custom_cmap)
+\end{lstlisting}
+定义函数 custom\_cmap(value)，其中 value 是输入的数据值，范围通常是 [0, 100]。
+
+plt.cm.viridis 是 Matplotlib 提供的一个预定义的颜色映射，这里使用的是 Viridis 颜色映射，它将值映射到从深蓝色到亮黄色的范围。
+
+value / 100 用于将输入值进行归一化，将其缩放到 [0, 1] 的范围内。这是因为大多数颜色映射函数，包括 Viridis，都是在 [0, 1] 的范围内定义的。
+
+最终，custom\_cmap() 函数返回的是经过 Viridis 颜色映射处理后的颜色值，其取决于输入值的归一化结果。这样，较小的值会映射到 Viridis 颜色映射的蓝色部分，较大的值则映射到黄色部分，从而实现了线性映射的效果。
+\begin{lstlisting}[caption={示例Python代码}]
+# 自定义颜色映射
+colors = [(0, 'blue'),   # 蓝色
+          (0.5, 'green'), # 绿色
+          (1, 'red')]     # 红色
+custom_cmap = LinearSegmentedColormap.from_list('custom_cmap', colors)
+
+# 创建散点图，指定自定义颜色映射
+plt.scatter(x, y, c=z, cmap=custom_cmap)
+\end{lstlisting}
+定义颜色列表：使用一个列表 colors 来定义自定义颜色映射，其中每个元组包含一个位置（0 到 1 的范围）和相应的颜色（例如 'blue'、'green' 和 'red'）。这些颜色分别表示在映射中的不同位置要显示的颜色。
+
+创建自定义颜色映射：通过 LinearSegmentedColormap.from\_list() 函数创建一个 LinearSegmentedColormap 类型的自定义颜色映射 custom\_cmap。该函数接收两个参数：颜色映射的名称（字符串形式）和颜色列表 colors。
+
+应用自定义颜色映射：在 plt.scatter() 函数中，通过指定 cmap 参数为自定义的 custom\_cmap 来应用该颜色映射到散点图中。c 参数指定数据点的颜色，根据 custom\_cmap 来映射数据点的颜色。
+
+这样定义的颜色映射可以为散点图提供从蓝色到绿色再到红色的连续颜色变化，为数据可视化增添色彩。
+\subsection{子图}
+
+
+\subsubsection{fig.add\_axes函数}
+fig.add\_axes() 是用于在 matplotlib 中创建图形对象上添加新坐标轴的方法。它允许用户手动添加坐标轴，并且可以自定义它们的位置和大小。基本的语法是：
+\begin{lstlisting}[caption={示例Python代码}]
+ax = fig.add_axes([left, bottom, width, height])
+\end{lstlisting}
+其中，left、bottom、width 和 height 分别代表新添加的坐标轴的左侧位置、底部位置、宽度和高度。这些值的范围是从 0 到 1，表示相对于图形大小的比例。
+除了位置和大小之外，fig.add\_axes() 还可以通过其他参数来自定义坐标轴，例如：
+xticklabels：设置 x 轴刻度标签的显示方式。
+yticklabels：设置 y 轴刻度标签的显示方式。
+xlim：设置 x 轴的范围。可以使用xticklabels=[]来抑制刻度输出
+ylim：设置 y 轴的范围。
+其他与坐标轴相关的属性，如轴标签、轴标题等，可以在创建坐标轴后通过 ax 对象进行设置。
+通过 fig.add\_axes()，用户可以实现更加灵活和自定义化的图形布局，特别是在需要非标准化布局或者添加额外的坐标轴时。
+\begin{lstlisting}[caption={示例Python代码}]
+import matplotlib.pyplot as plt
+
+# 创建一个空白的图形对象
+fig = plt.figure()
+
+# 在图形对象上添加新的坐标轴
+ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.4],  ylim=(-12, 12))  # [left, bottom, width, height]
+ax2 = fig.add_axes([0.1, 0.5, 0.8, 0.4],xticklabels=[], ylim=(-12, 12))  # 添加另一个坐标轴，位置稍微上移
+
+# 在每个坐标轴上绘制一些内容
+ax1.plot([1, 2, 3], [4, 5, 6], 'r--')
+ax2.plot([1, 2, 3], [6, 5, 4], 'g-')
+
+# 显示图形
+plt.show()
+\end{lstlisting}
+实现了图的拼接操作
+\subsubsection{简易网格子图}
+本结的方法有很多，但是其他方法没有那些必要
+子图：你可以使用 subplot() 函数在同一画布上创建多个子图。该函数接受三个参数：行数、列数和子图编号。
+\begin{lstlisting}[caption={示例Python代码}]
+plt.subplot(2, 1, 1)  # 创建一个 2x1 的子图布局，并选择第一个子图
+plt.plot(x1_data, y1_data)
+
+plt.subplot(2, 1, 2)  # 选择第二个子图
+plt.plot(x2_data, y2_data)
+\end{lstlisting}
+这个比较常见在matlab中也比较常见
+\subsubsection{plt.GridSpec}
+matplotlib 中的 plt.GridSpec 函数用于在图中指定网格的几何布局，以便放置子图。让我们来详细讨论一下这个函数的用法。
+\begin{enumerate}
+    \item  创建网格布局：
+首先，您需要设置网格的行数和列数。这是使用 plt.GridSpec(nrows, ncols) 完成的。例如，如果您想要一个 3x3 的网格，可以这样创建：
+Python
+\begin{lstlisting}[caption={示例Python代码}]
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+# 创建一个图像窗口，并将其分成3行3列的网格
+fig = plt.figure()
+gs = gridspec.GridSpec(3, 3)
+\end{lstlisting}
+这将创建一个 3x3 的网格，您可以在其中放置子图。
+    \item 调整子图布局参数（可选）：
+您可以通过设置一些参数来调整子图的布局。这些参数包括：
+left、right、top、bottom：子图的位置相对于图像宽度或高度的比例。
+wspace：子图之间的宽度空间，作为平均轴宽度的一部分。
+hspace：子图之间的高度空间，作为平均轴高度的一部分。
+width\_ratios：定义列的相对宽度。
+height\_ratios：定义行的相对高度。
+    \item 切片语法来选择网格中的特定子图:
+  使用切片语法来选择网格中的特定子图。例如，要在第一行的前两列放置一个子图，可以这样：
+    Python
+    \begin{lstlisting}[caption={示例Python代码}]
+    ax1 = plt.subplot(gs[0, 0:2])
+    #或者fig.add_subplot(gs[0,0:2])
+    \end{lstlisting}s
+    这将在第一行的前两列创建一个子图。
+\end{enumerate}
+\subsection{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

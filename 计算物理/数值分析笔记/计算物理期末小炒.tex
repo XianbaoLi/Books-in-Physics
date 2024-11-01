@@ -1,0 +1,1271 @@
+\documentclass[UTF8,5pt,a4paper]{ctexart} % 使用ctexart类以便使用更小的字体
+% 使用geometry包来设置页边距
+\usepackage[a4paper, margin=0.1in]{geometry}
+% \usepackage{draftwatermark}
+% \SetWatermarkText{请勿外传，持续更新}
+% \SetWatermarkScale{1}    % 设置水印大小，默认为1
+% % \SetWatermarkColor{0.7,0.7,0.7}
+% \SetWatermarkScale{0.5}    % 设置水印大小，默认为1
+% % \SetWatermarkColor{0.7,0.7,0.7}
+% % 使用amsmath包来使用数学公式
+\usepackage{amsmath}
+\usepackage{amssymb}
+% 使用multicol包来创建多列布局
+\usepackage{multicol}
+\setlength{\columnsep}{0.1cm} % 设置列间距
+\setlength{\columnseprule}{0.4pt} % 设置列间分界线
+
+%使用titlesec包来调整标题间距
+\usepackage{titlesec}
+\titleformat*{\section}{\tiny}
+\titleformat*{\subsection}{\tiny}
+\titleformat*{\subsubsection}{\tiny}
+\titlespacing*{\section}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\everymath{\textstyle}
+%使用setspace包来设置行间距
+\usepackage{setspace}
+\setstretch{0.5} % 设置行间距为0.5
+% \author{李先宝 \and  谢任林*0.1}
+\date{}
+\title{计算物理期末复习讲义}
+\begin{document}% 设置一级标题
+% \maketitle
+\tiny % 将整个文档的字体大小设置为最小
+\begin{multicols}{4}
+    \section{基础知识}
+    定义 机器精度对应的数字，记做$\varepsilon_\mathrm{mach}$,是1和比 1大的最小浮点数之间的距离.
+对于 IEEE 双精度浮点表示，
+$\varepsilon_\mathrm{mach}=2^{-52}$
+
+IEEE 舍入最近法则
+
+对于浮点精度，如果在二进制数右边的第 53 位是 0,则向下舍去(在第 52 位后面截断)。如果第 53 位是 1,则向上进位(在第 52 位上加 1),除了在 1 右边的所有已知位都是0,在这种情况下当且仅当第52位是1时在第52位上加1.
+
+定义  将 IEEE 双精度浮点数字记做 $x$,利用舍入最近法则记做 $fl(x)$.
+
+定义  令$x$,是计算版本$x$的精确度量，则
+绝对误差$=|x_\epsilon-x|$
+相对误差$= \frac | x_{\epsilon }- x| {| x| }$ (若 $x$ 的 度 量 存 在 , 即  $x\neq 0)$
+
+相对舍入误差
+
+在IEEE 机器算术模型中，fl(x)的相对舍入误差不会比机器精度的一半大：
+
+由于截断和舍人的存在，计算机算术有时可以给出令人惊讶的结果.例如，如果一个具有双精度的计算机利用 IEEE 舍人最近法则保存 9.4,然后减去 9,然后再减去 0.4,结果竟然不是 0! 在这个过程中发生了如下情形：首先，9.4 如前所示被保存为$9.4+0.2\times2^{-49}.$当减去 9 的时候(注意到在计算机中 9 的表示没有任何误差),结果是$ 0.4+0.2×2^{-49}$ 现在要求计算机减去 $0.4$对应的机器数 $fl(0.4)=0.4+0.1×2^-52$,这会留下
+$0.2\times2^{-49}-0.1\times2^{-52}=0.1\times2^{-52}(2^{4}-1)=3\times2^{-53}$
+而不是 0. 这个数字很小，和 $\varepsilon_\mathrm{mach}$量级相同，但是它们不是 0.
+$\frac{|\mathrm{fl}(x)-x|}{|x|}\leq\frac12\varepsilon_{\mathrm{mach}}$ 
+
+$\begin{aligned}
+    &\text{例:}9.4=(1001.\overline{0110})_{2}\\
+    &fl(9.4) =9.4+0.1\cdot2^{-48}
+    \end{aligned}$
+\section{非线性方程求解}
+\subsection{二分法}
+假设$[a,b]$是初始区间，在 $n$ 次二分之后，得到的最终区间$[a_n,b_n]$的长度为$(b-a)/2^n.$ 选择中点$x_c=(a_n+b_n)/2$作为解的最优估计值，与真实值之间的误差不会超过区间长度的一半。总之，$n$步二分法操作后，我们得到
+
+求解误差$=|x_c-r|<\frac{b-a}{2^{n+1}}$
+
+以及函数计算次数$=n+2$
+
+一种合理的衡量二分法效率的方法是看二分法每次计算函数值能够使精度提高多少.
+在每一步中，即每次函数计算后，解的不确定性都会减少一半.
+
+定义 ：如果误差小于 0.5$\times10^{-p}$,解精确到小数点后 $p$位.
+
+%  用二分法求解函数 $f(x)=\cos x-x$ 在区间$[0,1]$上的解，精确到小数点后 6 位.
+
+% 首先确定需要多少次二分才能达到需要的精度. 
+% 根据公式n 次后的误差为$(b-
+% a)/2^{n+1}=1/2^{n+1}$.
+% 参考精确到小数点后$p$位的定义，我们需要满足
+% $$\frac1{2^{n+1}}<0.5\times10^{-6}$$
+% $$n>\frac6{\log_{10}2}\approx\frac6{0.301}=19.9$$
+% 因而，需要 $n=20$ 步的迭代.
+\subsection{不动点迭代法}
+\begin{eqnarray*}
+\fbox{$\begin{aligned}\text{不动点迭代}\\x_{0}&=\text{初始估计}\\x_{i+1}&=g(x_{i}),\text{其中}i=0,1,2,\cdots\end{aligned}$}
+\end{eqnarray*}
+定理：假设函数 $g$ 是连续可微函数,$g(r)=r$,$S=|g^{\prime}(r)|<1$,则不动点迭代对于一个足够接近 $r$的初始估计,以速度 $S$ 线性收敛到不动点
+\subsection{精度的极限}
+定义  假设$f$是一个函数，r是一个根，意味着满足$f(r)=0.$假设$x_a$是$r$的近似
+值。对于根求解问题，近似 $x_a$ 的后向误差是$\left|f(x_a)\right|$, 前向误差是$\left|r-x_a\right|.$
+
+定义 假设$r$是可微函数$f$的根；也就是说，假设$f(r)=0.$则如果$0=f(r)=$ $f^{\prime}(r)=f^{\prime\prime}(r)=\cdots=f^{(m-1)}(r)$,但是$f^{m}(r)\neq0$,我们说函数$f$在$r$点具有$m\textbf{ 重 根 }.$当多重性大于 1,我们说函数$f$在$r$点具有重根。当多重性等于 1时，根被称为单根.
+
+由于函数在多根附近十分平缓，前向和后向误差之间在近似解的附近存在很大的不一致。后向误差在垂直方向进行度量,通常比在水平方向度量的前向误差要小得多。
+
+根的敏感性问题。假设问题是找到 $f(x)=0$ 的根 $r$,但是对输入做了一个小变化$\varepsilon g(x)$,其中$\varepsilon$ 很
+小. 令$\Delta r$是对应根中的变化，因而
+$$f(r+\Delta r)+\varepsilon g\left(r+\Delta r\right)=0$$
+\boxed{\begin{aligned}\Delta r\approx-\frac{\varepsilon g(r)}{f'(r)}
+\end{aligned}}
+$\text{误差放大因子}=\frac{\text{相对前向误差}}{\text{相对后向误差}}$
+\begin{align}
+    \text{误差放大因子} &= \left|\frac{\Delta r/r}{\varepsilon g(r)/g(r)}\right| \\
+    &= \left|\frac{-\varepsilon g(r)/(rf^{\prime}(r))}{\varepsilon}\right| = \frac{|g(r)|}{|rf^{\prime}(r)|}
+\end{align}
+\subsection{牛顿迭代法}
+\begin{equation*}
+\fbox{$\begin{aligned}\text{牛顿迭代法}\\x_{0}&=\text{初始估计}\\x_{i+1}&=x_{i}-f(x_{i})/f^{\prime}(x_{i}),\\\text{其中}i=0,1,2,\cdots\end{aligned}$}
+\end{equation*}
+
+二次收敛定理：令$f$是二阶连续可微函数，$f(r)=0.$如果$f^\prime(r)\neq0$,则牛顿方法局部二次收敛到$r.$第$i$步的误差$e_i$满足
+
+$\lim_{i\to\infty}\frac{e_{i+1}}{e_i^2}=M$
+
+n重根线性收敛定理  假设在区间[a,b]上，(m+1)阶连续可微函数 $f$ 在$r$点有一个$m$ 阶多重
+根，则牛顿方法局部收敛到$r$,第$i$步误差$e_\mathrm{i}$满足
+
+$\lim_{i\to\infty}\frac{e_{i+1}}{e_i}=S$
+
+其中 S=(m-1)/m.即以S线性收敛到$r$
+
+定理  如果在[a,b]区间上$f$ 是($m+1$)阶连续函数，包含$m>1$ 的多重根，则改
+进的牛顿方法
+$$x_{i+1}=x_i-\frac{mf(x_i)}{f'(x_i)}$$
+收敛到r，并具有二次收敛速度。
+% \subsection{割线法}
+% 割线方法
+% $x_{0},x_{1}=初始估计$
+% $$\\x_{i+1}=x_{i}-\frac{f(x_{i})(x_{i}-x_{i-1})}{f(x_{i})-f(x_{i-1})},\:i=1,2,3,$$
+% 割线方法以超线性的速度收敛到一个单根，意味着
+% 它在线性和二次收敛方法之间
+
+\section{方程组与矩阵的分解}
+\subsection{LU分解要用到的几个性质}
+\[
+\begin{aligned}
+& \text{令 } L_{ij}(-c) \text{ 表示下三角矩阵，其主对角线上的元素为 } 1 \\
+& \text{，在 } (i, j) \text{ 位置上的元素为 } -c. \text{ 则 } A \to L_{ij}(-c)A \\
+& \text{ 表示行运算“从第 } i \text{ 行中减去第 } j \text{ 行的 } c \text{ 倍”}
+\end{aligned}
+\]
+
+\[
+L_{ij}(-c)^{-1} = L_{ij}(c)
+\]
+如下矩阵的乘积成立
+
+$\begin{aligned}\\&\begin{bmatrix}1&&\\c_1&1&\\&&1\end{bmatrix}\begin{bmatrix}1&&\\&1&\\c_2&&1\end{bmatrix}\begin{bmatrix}1&&\\&1&\\&c_3&1\end{bmatrix}=\begin{bmatrix}1&&\\c_1&1&\\c_2&c_3&1\end{bmatrix}\end{aligned}$
+\subsection{误差来源}
+
+定义向量 \( x=(x_1,\cdots,x_n) \) 的无穷范数或者最大范数为 \( \| x \|_\infty = \max |x_i|, \quad i=1,\cdots,n \)，即 \( x \) 所有元素中的最大绝对值。
+$$
+\begin{aligned}
+    & \text{定义：令 } x_a \text{ 是线性方程组 } Ax=b \text{ 的近似解。}\\
+    &\text{余项是向量 } r=b-Ax_a. \\
+    & \text{后向误差是余项的范数 } \| b - Ax_a \|_\infty, \\
+    & \text{前向误差是 } \| x - x_a \|_\infty.
+    \end{aligned}$$
+
+    把余项表示为$r=b-Ax_a.$系统$Ax=b$的相
+对后向误差定义为
+$\frac{\parallel r\parallel_\infty}{\parallel b\parallel_\infty}$
+方程组相对前向误差定义为
+$\frac{\parallel x-x_a\parallel_\infty}{\parallel x\parallel_\infty}$
+
+$$\text{误差放大因子}=\frac{\text{相对前向误差}}{\text{相对后向误差}}=\frac{\frac{\parallel x-x_a\parallel_\infty}{\parallel x\parallel_\infty}}{\frac{\parallel r\parallel_\infty}{\parallel b\parallel_\infty}}$$
+$$\begin{aligned}&\text{定义 方阵 }A\text{ 的条件数 cond}(A)\\
+&\text{为 求解 }Ax=b\text{ 时,对于所有右侧向量 }b\text{,可能出}\\
+&\text{现的最大误差放大因子}\end{aligned}.$$
+定义$n\times n$矩阵 A 的矩阵范数$\parallel A\parallel_{\infty}=$每行元素绝对值之和的最大值
+即每行元素绝对值求和，并把$n$行求和的最大值作为矩阵 A 的范数.
+$$\begin{aligned}\text{定理 }\quad n\times n\text{ 矩阵 A 的条件数是}\\\mathrm{cond}(A)&=\parallel A\parallel\parallel A^{-1}\parallel\end{aligned}$$
+\subsection{QR分解}
+格拉姆-施密特正交的结果可以通过引人新的符号写成矩阵形式，定义$A_j$是矩阵$A$的第$j$个列矢量$r_{jj}=\left\|y_{j}\right\|_{2},r_{ij}=q_{i}^{\mathrm{T}}A_{j}$,
+则格拉姆-施密特正交可改写为
+
+
+$A_1=r_{11}q_1$
+
+$A_2=r_{12}q_1+r_{22}q_2$
+
+一般情况
+$$A_j=r_{1j}q_1+\cdots+r_{j-1,j}q_{j-1}+r_{jj}q_j$$
+因而，格拉姆-施密特正交的结果可以写做矩阵形式：$A=QR$
+\begin{align*}
+    A &= (A_1\mid\cdots\mid A_n) \\
+    Q &= (q_1\mid\cdots\mid q_n) \\
+    R &= \begin{bmatrix}r_{11}&r_{12}&\cdots&r_{1n}\\&r_{22}&\cdots&r_{2n}\\&&\ddots&\vdots\\&&&r_{nn}\end{bmatrix}
+    \end{align*}
+    
+\subsection{雅克比迭代方法}
+定义 $n\times n$ 的矩阵 $A=(a_i)$是严格对角占优矩阵，要求对于每个 1$\leqslant i\leqslant n$, $|a_{i}|>\sum_{j\neq i}|a_{ij}|$ .换句话说，对角线元素在对应行占优，其对应值在数量上比该行其他元素的和还要大.
+
+定理  如果$n\times n$矩阵$A$是严格对角占优矩阵，则(1)$A$是非奇异矩阵，(2)对于所有向
+量$b$和初始估计，对$Ax=b$应用雅可比方法都会收敛到(唯一)解。
+
+雅可比方法是不动点迭代的一种形式，令$D$表示$A$的主对角线矩阵，$L$表示矩阵 A 的下三角矩阵(主对角线以下的元素),$U$表示上三角矩阵(主对角线以上的元素),则$A=L+D+U$,求解的方程变为$Lx+Dx+Ux=b.$注意，这里对于$L$和$U$的使用和 LU 分解中不同，当前$L$ 和$U$ 的主对角线元素都是零. 方程组 $Ax=b$ 可以写成如下不动点迭代形式：
+$$\begin{aligned}Ax&=b\\(D+L+U)x&=b\\x&=D^{-1}\left(b-(L+U)x\right)\end{aligned}$$
+也即
+\begin{equation*}
+    \begin{aligned}
+    \fbox{$
+    \begin{aligned}
+    \text{雅克比迭代方法} \\
+    x_{0}=\text{初始向量} \\
+    x_{k+1}=D^{-1}\left(b-(U+L)x_{k}\right)
+    \end{aligned}$}
+    \end{aligned}
+    \end{equation*}
+    
+\subsection{高斯塞尔德和SOR方法}
+和雅可比方法紧密相关的迭代方法是高斯-塞德尔(Gauss-Seidel)方法. 高斯-塞德尔方法和雅可比方法的唯一差异是在前者中，最近更新的未知变量的值在每一步中都使用，即使更新发生在当前步骤。
+高斯-塞德尔方法可以写成矩阵形式，并和不动点迭代一致，其中将方程($L+D+U)x=b$
+拆为
+$(L+D)x_{k+1}=-Ux_{k}+b$
+\begin{equation*}
+    \begin{aligned}
+    \fbox{$
+    \begin{aligned}
+    \text{高斯塞尔德方法} \\
+    x_{0}=\text{初始向量} \\
+    x_{k+1}=D^{-1}\left(b-Ux_{k}-Lx_{k+1}\right)
+    \end{aligned}$}
+    \end{aligned}
+    \end{equation*}
+    
+正如雅可比和高斯-塞德尔方法，另一种导出 SOR 的方法是将该系统看做不动点迭代
+问题 $Ax=b$ 可以写成($L+D+U)x=b$,乘上 $\omega$并重新组织方程，
+
+\begin{align*}
+   & (\omega L+\omega D+\omega U)x = \omega b\\
+    &(\omega L+D)x= \omega b-\omega Ux+(1-\omega)Dx
+\end{align*}
+
+也即
+
+\fbox{$
+\begin{aligned}
+&\text{连续过松弛（SOR）} \\
+&x_{0} = \text{初始向量}, \\
+&x_{k+1} = Ax_k+ \omega(D+\omega L)^{-1}b\\
+&A=(\omega L+D)^{-1}[(1-\omega)D-\omega U] 
+\end{aligned}
+$}
+
+通常我们需要寻找谱半径最小的$\omega$，保证收敛速度较快。
+
+
+
+
+
+
+\section{插值}
+
+在$[a,b]$区间上满足$P_{n-1}(x_i)=f(x_i)=y_i,i=1,1,...,n$的插值多项式存在且唯一
+
+\subsection{拉格朗日插值}：
+\begin{align*}L_n(x)=\sum_{i=1}^nl_i(x)y_i,\\
+    l_i(x)=\frac{\omega_{n}(x)/(x-x_i)}{\omega'_{n}(x_{i})}\\
+    \text{记}\omega_{n}(x)=\prod_{i=1}^n(x-x_i)
+\end{align*}
+
+插值误差：
+\begin{align*}
+    R_{n-1}(x) &= \frac{f^{(n)}(\xi)}{(n)!}\omega_{n}(x), \\
+    R_{n-1}(x) &\leq \frac{M}{(n)!}|\omega_{n}(x)|, \\
+    \xi &= \xi(x) \in [a,b].
+    \end{align*}
+\subsection{牛顿插值}
+$$
+\begin{array}{c|ccccc}
+    0 & 1 &&&& \\
+    & & \frac{1}{2} &&& \\
+    2 & 2 &&& \frac{1}{2} & \\
+    & &  2 &&& -\frac{1}{2} \\
+    3 & 4 &&& 0 & \\
+    & & 2 &&& \\
+    1 & 0 &&&& \\
+    \end{array}
+    $$
+得到的 3 阶多项式如下：
+$$\begin{aligned}
+&P_3(x)=1+\frac12(x-0)+\frac12(x-0)(x-2)\\
+&-\frac12(x-0)(x-2)(x-3)
+\end{aligned}$$
+注意到$P_{_3}(x)=P_{_2}(x)-\frac{1}{2}(x-0)(x-2)(x-3)$,因而在新的多项式中可以部分重用原来
+的多项式.
+比较在拉格朗日多项式中加人新点以及在差商多项式中加人新点的情况，我们发现非常有趣的现象。当在拉格朗日多项式中加人一个新点时，必须从头开始计算，前面所有的计算都不能用。而另一方面，在差商形式中，我们保留前面的工作，仅仅在多项式中加人一个新项.因而，差商形式具有“实时更新”的性质，而拉格朗日多项式则没有这样的性质.
+\subsection{插值误差}
+假设$P(x)$是$n-1$或者更低阶的插值多项式，其拟合$n$个点$(x_1,y_1),\cdots$
+$(x_n,y_n).$插值误差是
+\begin{align*}
+&f(x)-P(x)=\\
+&\frac{(x-x_1)(x-x_2)\cdots(x-x_n)}{n!}f^{(n)}(c)
+\end{align*}
+其中 在最小和最大的$n+1$数字$x,x_1,...,x_n$之间
+% 在$[a,b]$上至少有$n+2$个零点，$\varphi^(n+1)(t)$在$[a,b]$上至少有1个零点$\xi$,
+% $\varphi ^{( n+ 1) }( \xi ) = f^{( n+ 1) }( \xi ) - 0- K( x) ( n+ 1) ! = 0$, $K( x) = \frac {f^{( n+ 1) }( \xi ) }{( n+ 1) ! }$, $M_{n+ 1}= \max _{a\leq x\leq b}\left | f^{( n+ 1) }( x) \right |$
+% $\begin{aligned}R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\omega_{n+1}(x)\leq\frac{M_{n+1}}{(n+1)!}|\omega_{n+1}(x)|,\xi=\xi(x)\in[a,b]\end{aligned}$
+% 牛顿插值：均差：$f[x_0,x_k]=\frac{f(x_k)-f(x_0)}{x_k-x_0},f[x_0,x_1,x_2]=\frac{f[x_0,x_2]-f[x_0,x_1]}{x_2-x_1}$ $f[x_0,x_1,...,x_k]=\sum_{i=0}^k\frac{f(x_i)}{\omega_{k+1}^{\prime}(x_i)}$,均差具有节点对称性，与节点次序无关$f(x)=f(x_0)+f[x_0,x_1](x-x_0)+\cdotp\cdotp\cdotp+f[x_0,x_1,...,x_n](x-x_0)(x-x_1)\cdotp\cdotp\cdotp(x-x_{n-1})$
+% $\left|+f[x,x_{0},x_{1},...,x_{n}](x-x_{0})(x-x_{1})\cdots(x-x_{n})\right.$
+% $\left|N_n(x)=f(x_0)+f[x_0,x_1](x-x_0)+\cdots+f[x_0,x_1,...,x_n](x-x_0)(x-x_1)\cdots(x-x_{n-1})\right.$
+% 插值余项：$R_n(x)=f[x,x_0,x_1,...,x_n]\omega_{n+1}(x)$,因此$f[x,x_0,x_1,...,x_n]=\frac{f^{(n+1)}(\xi)}{(n+1)!}$
+\subsection{切比雪夫插值法}
+\subsubsection{基础概念}
+定理 选择实数$-1\leqslant x_1,\cdots,x_n\leqslant1$,使得
+
+$\max_{-1\leq x\leq1}\left|\left(x-x_{1}\right)\cdots\left(x-x_{n}\right)\right|$
+
+尽可能小，则
+$$x_i=\cos\frac{(2i-1)\pi}{2n},\quad i=1,\cdots,n$$
+对应的最小值是$1/2^{n-1}.$实际上，通过
+$$(x-x_1)\cdotp\cdotp\cdotp(x-x_n)=\frac1{2^{n-1}}T_n(x)$$
+可以得到极小值，其中$T_n(x)$表示 $n$阶切比雪夫多项式.
+
+如果区间[-1,1]中的 $n$ 个插值基点选在 $n$ 阶切比雪夫插值多项式$T_n(x)$根的位置，
+误差可以被最小化.这些根如下
+
+$x_i=\cos\frac{\mathrm{odd}\pi}{2n}$
+其中“odd”表示 $1\sim2n-1$ 之间的奇数,然后就可以保证对于区间$[-1,1]$中所有$x$的绝对值小于$1/2^{n-1}$.
+
+选择切比雪夫的根作为插值的基点，在区间[-1,1]中尽可能均匀地分散了插值误
+差。我们将使用切比雪夫根作为为基点的插值多项式叫做切比雪夫插值名项式
+
+切比雪夫多项式的定义如下
+\begin{align*}
+& T_{n+1}(x)=2xT_{n}(x)-T_{n-1}(x),\\
+&T_{0}(x) =1 ,T_{1}\left(x\right) =x \\
+&T_{2}(x) =2x^{2}-1 ,T_{3}(x) =4x^{3}-3x \\
+&T_4(x)=8x^4-8x^2+1\\&T_5(x)=16x^5-20x^3+5x
+\end{align*}
+
+\begin{equation*}
+    \begin{bmatrix}
+    T_0 \\
+    T_1 \\
+    T_2 \\
+    T_3 \\
+    T_4 \\
+    T_5
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 & 0 & 0 \\
+    -1 & 0 & 2 & 0 & 0 & 0 \\
+    0 & -3 & 0 & 4 & 0 & 0 \\
+    1 & 0 & -8 & 0 & 8 & 0 \\
+    0 & 5 & 0 & -20 & 0 & 16
+    \end{bmatrix}
+    \begin{bmatrix}
+    1 \\
+    x \\
+    x^2 \\
+    x^3 \\
+    x^4 \\
+    x^5
+    \end{bmatrix}
+    \end{equation*}
+
+
+
+    \begin{equation*}
+        \begin{aligned}
+            \text{转换矩阵} & \quad \text{记为矩阵形式 } T = CX \\
+            & C = \begin{bmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 \\
+            -1 & 0 & 2 & 0 & 0 & 0 \\
+            0 & -3 & 0 & 4 & 0 & 0 \\
+            1 & 0 & -8 & 0 & 8 & 0 \\
+            0 & 5 & 0 & -20 & 0 & 16
+            \end{bmatrix}  \\
+            & \quad \text{- 对 } C \text{ 求逆，即可得到 } \mathbf{X = C^{-1} T} \\
+            & \text{其中 }\\
+            & C^{-1} = \begin{bmatrix}
+            1 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 & 0 & 0 \\
+            \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 & 0 \\
+            0 & \frac{3}{4} & 0 & \frac{1}{4} & 0 & 0 \\
+            \frac{3}{8} & 0 & \frac{1}{2} & 0 & \frac{1}{8} & 0 \\
+            0 & \frac{5}{8} & 0 & \frac{5}{16} & 0 & \frac{1}{16}
+            \end{bmatrix} 
+        \end{aligned}
+    \end{equation*}
+    \subsubsection{区间的变化}
+对于$x$在$[a,b]$上，可通过如下代换
+\begin{equation*}
+t=2\frac{x-\frac{b+a}{2}}{b-a}
+\end{equation*}
+得到
+
+\fbox{$
+\begin{aligned}
+&\text{在区间} [a,b]\text{上有插值节点}, \\
+&x_{i} = \frac{b+a}{2} + \frac{b-a}{2} \cos \frac{(2i-1)\pi}{2n}, \\
+&\quad i = 1, \cdots, n. \\
+&\text{不等式} \\
+&\quad |(x-x_{1})(x-x_{2})\cdots(x-x_{n})| \\
+&\leqslant \frac{\left(\frac{b-a}{2}\right)^{n}}{2^{n-1}}
+\end{aligned}
+$}
+
+ 在区间$[0,\pi/2]$找出4 个切比雪夫基点进行插值，找出切比雪夫插值误差的
+上界，在区间中$f(x)=$sin$x.$
+$$
+\frac{\frac{\pi}{2}}{2} \cos\left(\frac{\text{odd}\pi}{8}\right) + \frac{\frac{\pi}{2}}{2}
+$$
+或者
+$$\begin{aligned}
+    x_{1} & = \frac{\pi}{4} + \frac{\pi}{4}\cos\frac{\pi}{8}, \quad x_{2} = \frac{\pi}{4} + \frac{\pi}{4}\cos\frac{3\pi}{8}, \\
+    x_{3} & = \frac{\pi}{4} + \frac{\pi}{4}\cos\frac{5\pi}{8}, \quad x_{4} = \frac{\pi}{4} + \frac{\pi}{4}\cos\frac{7\pi}{8}
+    \end{aligned}$$
+当 \( 0 \leqslant x \leqslant \frac{\pi}{2} \) 时，插值误差的最坏情况是
+$$\begin{aligned}
+&\left| \sin x - P_{3}(x) \right| \\
+&= \frac{\left| (x - x_{1})(x - x_{2})(x - x_{3})(x - x_{4}) \right|}{4!} \\
+&\left| f^{(4)}(c) \right| \\
+&\leqslant \frac{\left\lfloor \frac{\frac{\pi}{2} - 0}{2} \right\rfloor^{4}}{4!2^{3}}1 \approx 0.00198
+\end{aligned}
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{最小二乘法}
+\subsection{最小二乘法线方程}
+
+最小二乘的法线方程
+
+对于不一致系统
+$$Ax=b$$
+求解
+
+\[
+\boxed{A^{\mathrm{T}} A \overline{x} = A^{\mathrm{T}} b}
+\]
+
+得到的$\overline{x}$,就是最小二乘解，它可以最小化余项 $r=b-Ax$ 的欧氏长度
+\subsection{QR分解实现最小二乘法}
+令$A$是$m\times n$矩阵，其中$m\geqslant n.$为了最小化$\parallel Ax-b\parallel_2$,
+使用正交矩阵保度规的性质 重写为$\parallel QRx-b\parallel_2=\parallel Rx-Q^{\mathrm{T}}b\parallel_2.$ 欧几里得范数中的向量是
+\begin{equation*}
+    \begin{bmatrix}
+    e_1 \\
+    \vdots \\
+    e_n \\
+    e_{n+1} \\
+    \vdots \\
+    e_m
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    r_{11} & r_{12} & \cdots & r_{1n} \\
+           & r_{22} & \cdots & r_{2n} \\
+           &        & \ddots & \vdots \\
+           &        &        & r_{nn} \\
+    0      & \cdots & \cdots & 0 \\
+    \vdots &        &        & \vdots \\
+    0      & \cdots & \cdots & 0
+    \end{bmatrix}
+    \begin{bmatrix}
+    x_1 \\
+    \vdots \\
+    x_n
+    \end{bmatrix}
+    -d
+    \end{equation*}
+
+    \begin{equation*}     
+        d =\begin{bmatrix}
+            d_1 \
+            \cdots \
+            d_n \
+            d_{n+1} \
+            \cdots \
+            d_m
+            \end{bmatrix}^{T}
+        \end{equation*}
+其中 $d=Q^{\mathrm{T}}b.$ 假设 $r_i\neq0$,则误差向量$e$ 上面的部分$(e_1,\cdotp\cdotp\cdotp,e_n)$可以通过回代变为 0. 选择
+$$
+\boxed{
+\begin{aligned}
+    & m \times n\text{不一致系统} \\
+    & Ax=b \\
+    & \text{找出完全 QR 分解} A=QR\text{，令} \\
+    & \hat{R} \text{ 是 } R \text{ 的上 } n \times n \text{ 子矩阵，} \\
+    & \hat{d} \text{ 是 } d = Q^{\mathrm{T}}b \text{ 的前 } n \text{ 个元素。} \\
+    & \text{求解 } \hat{R} \overline{x} = \hat{d} \text{ 得到最小二乘解 } \overline{x}.
+\end{aligned}
+}
+ $$
+% 使用完全 QR 分解求解最小二乘问题
+% $$\begin{bmatrix}1&-4\\2&3\\2&2\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}-3\\15\\9\end{bmatrix}$$
+% 例我们需要求解$Rx=Q^\mathrm{T}b$,或者
+% $$\begin{bmatrix}3&2\\0&5\\...\\0&0\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}15\\9\\....\\3\end{bmatrix}$$
+% $$\begin{bmatrix}1&&-4\\2&&3\\2&&2\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}-3\\15\\9\end{bmatrix}$$
+% 最小二乘误差是$\|e\|_2=\|(0,0,3)\|_2=3.$ 使得上部分相等得到
+% $$\begin{bmatrix}3&2\\0&5\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}15\\9\end{bmatrix}$$
+% 其对应解是$\overline{x}_1=3.8,\overline{x}_2=1.8.$ 
+与经典格拉姆-施密特唯一不同的是，$A_j$被 y 在最内层循环中替换.从几何上来讲， 例如当减去$A_j$在$q_2$方向的投影时，应该减去$A_j$的余项 y 的投影，在余项中$q_{1}$部分已经减掉了，而不是将$A_j$自己投在$q_2$上. 
+
+$\begin{aligned}&\text{定理 }4(\text{豪斯霍尔德反射子)令 }x\text{ 和}w\text{ 是向量,}\parallel x\parallel_2=\parallel w\parallel_2,\\
+    &\text{ 并定义 }v=w-x.\\
+    &\text{ 则 }H=I-2vv^{\mathrm{T}}/v^{\mathrm{T}}\text{ 是对称正交矩阵,并且 }\\
+    &Hx=w.\end{aligned}$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{数值微分和数值积分}
+\subsection{数值微分}
+$$
+\boxed{
+\begin{aligned}
+    & \text{二点前向差分公式} \\
+    & f'(x) = \frac{f(x+h) - f(x)}{h} - \frac{h}{2}f''(c) \\
+    & \text{其中 } c \text{ 在 } x \text{ 和 } x+h \text{ 之间。}
+\end{aligned}
+}
+$$
+$$
+\boxed{
+\begin{aligned}
+    & \text{三点中心差分公式} \\
+    & f'(x) = \frac{f(x+h) - f(x-h)}{2h} - \frac{h^2}{6}f'''(c) \\
+    & \text{其中 } x-h < c < x+h.
+\end{aligned}
+}
+$$
+
+$$
+\boxed{
+\begin{aligned}
+    & \text{二阶导数的三点中心差分公式} \\
+    & f''(x) = \frac{f(x-h) - 2f(x) + f(x+h)}{h^2}\\
+    & - \frac{h^2}{12}f^{(4)}(\epsilon) \\
+    & \text{其中 } \epsilon \text{ 位于 } x-h \text{ 和 } x+h \text{ 之间。}
+\end{aligned}
+}
+$$
+$$
+\boxed{
+\text{外推阶公式}\\
+Q \approx \frac{2^n F(h/2) - F(h)}{2^n - 1}
+}
+$$
+% $$
+% \boxed{
+% \begin{aligned}
+%     & \text{例 应用外推公式对三点中心差分进行外推.} \\
+%     & \text{求 } f'(x) \text{ 的新公式} \\
+%     & F_{4}(x) = \frac{2^{2}F_{2}(h/2) - F_{2}(h)}{2^{2} - 1} \\
+%     &= \left[4 \frac{f(x+h/2) - f(x-h/2)}{h} - \frac{f(x+h) - f(x-h)}{2h}\right] / 3 \\
+%     &= \frac{f(x-h) - 8f(x-h/2) + 8f(x+h/2) - f(x+h)}{6h} \quad (5.16)
+% \end{aligned}
+% }
+% $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{梯形法则}
+考虑1阶的插值多项式 $P_1(x)$通过$(x_0,\quad y_0)$以及$(x_1,\quad y_1)$使用拉格朗日公式
+\begin{equation*}
+    \fbox{$\begin{aligned} 
+    \text{梯形法则}\\
+    \int_{x_{0}}^{x_{1}}f(x) \mathrm{d}x=\frac{h}{2}(y_{0}+y_{1})-\frac{h^{3}}{12}f^{\prime\prime}(c)\\
+    \text{其中} \ h=x_{1}-x_{0}, \ c \ \text{在} \ x_{0} \ \text{和} \ x_{1} \ \text{之间}. \end{aligned}$}
+\end{equation*}
+
+\subsection{辛普森法则}
+除了梯形法则中的一阶公式被替换为了二阶,其他都与梯形法则类似
+\begin{equation*}
+    \fbox{$\begin{aligned}
+        \text{辛普森法则}\\
+        \int_{x_{0}}^{x_{2}}f\left(x\right)dx=\frac{h}{3}\left(y_{0}+4y_{1}+y_{2}\right)\\-\frac{h^{5}}{90}f^{\left(4\right)}\left(c\right)\\
+        \text{其中} \ h=x_{2}-x_{1}=x_{1}-x_{0}, \\ c \ \text{在} \ x_{0} \ \text{和} \ x_{2} \ \text{之间}.
+    \end{aligned}$}
+\end{equation*}
+\subsection{积分公式的精度和辛普森3/8公式}
+定义： 数值积分方法的精度是最大的整数k，使用该积分方法可以得到所有反阶或
+者更低阶多项式积分的精确值。
+
+例如，梯形法则的误差项$-h^3f^{\prime\prime}(c)/12$ 表明，如果 $f(x)$多项式是 1 阶或者更低阶，误差为 0,会得到精确的多项式积分.因而梯形法则的精度是 1,这从几何上来看很显然，因为直线以下的面积通过梯形可以精确计算.
+对于辛普森法则的精度是 3 就不是那么明显，但这正是误差项所表明的这个令人惊讶的结果的几何解释是抛物线和三次样条在三个等间距点上相交，并在相同区间的积分和二次样条的积分一致。
+
+找出 3 阶牛顿-科特斯公式的精度，该公式被称为辛普森 3/8 公式
+$$\int_{x_0}^{x_3}f(x)\:\mathrm{d}x\approx\frac{3h}{8}(y_0+3y_1+3y_2+y_3)$$
+% 仅测试一系列单项式就足够了.我们将把细节留给读者.例如，当$f(x)=x^2$时，我
+% 们检查
+% \begin{align*}
+%     &\frac{3h}{8}(x^2+3(x+h)^2+3(x+2h)^2+(x+3h)^2) \\
+%     &= \frac{(x+3h)^3-x^3}{3}
+% \end{align*}
+% 后者是 $x^2$ 在区间$[x,x+3h]$上的精确积分.等式对于1、$x$、$x^2$、$x^3$ 都成立，但对于 $x^4$
+% 不成立.
+因而，该公式的精度是 3.
+\subsection{复合梯形法则}
+复合梯形法则是连续子区间(或 panel)上的梯形公式的求和.为了近似
+$$\int_{a}^{b}f\left(x\right)\mathrm{d}x$$
+考虑在水平轴上均匀划分的格子
+$$a=x_0<x_1<\cdots<x_{m-2}<x_{m-1}<x_m=b$$
+其中对于所有$i,h=x_{i+1}-x_i$
+\begin{equation}
+    \fbox{$\begin{aligned}
+        & \text{复合梯形法则} \\
+        & \int_{a}^{b}f\left(x\right)dx=\frac{h}{2}\left(y_{0}+y_{m}+2\sum_{i=1}^{m-1}y_{i}\right) \\
+        & -\frac{\left(b-a\right)h^{2}}{12}f^{\prime\prime}\left(c\right) \\
+        & \text{其中} \ h=\frac{b-a}{m},c \ \text{在} \ a \ \text{和} \ b \ \text{之间}
+    \end{aligned}$}
+    \end{equation}
+
+\subsubsection{复合辛普森法则}
+复合辛普森公式也遵循如下策略.考虑在水平轴上均匀划分的区间
+$a=x_0<x_1\stackrel{'}{<}x_2<\cdots<x_{2m-2}<x_{2m-1}<x_{2m}=b$
+其中对于所有$i,h=x_{i+1}-x_{i}.$ 在每个长为 2$h$ 的区间$[x_{2i},x_{2i+2}]$上，$i=0,\cdots,m-1$,完成辛普森方法. 换句话说，被积函数 $f(x)$在每个子区间 $x_{2i}$、$x_{2i+1}$以及 $x_{2i+2}$上使用插值抛物线近似，然后积分并求和。
+\begin{equation}
+    \fbox{$\begin{aligned}
+        & \text{复合辛普森公式} \\
+        & \int_{a}^{b}f\left(x\right)dx=\frac{h}{3}\left[y_{0}+y_{2m}+4\sum_{i=1}^{m}y_{2i-1} \right. \\
+        & \left. +2\sum_{i=1}^{m-1}y_{2i}\right]-\frac{\left(b-a\right)h^{4}}{180}f^{\left(4\right)}\left(c\right) \\
+        & \text{其中} \ c \ \text{在} \ a \ \text{和} \ b \ \text{之间},h=\frac{b-a}{2m}
+    \end{aligned}$}
+    \end{equation}
+    使用复合梯形法则和复合辛普森法则完成 $\int_{0}^{1}\ln x \, dx$ 的四段近似：
+
+    对于区间 $[1,2]$ 上的复合梯形法则，四段意味着 $h = \frac{1}{4}$。近似如下：
+    $$\begin{aligned}
+    &\int_{1}^{2}\ln x \, dx \approx \frac{1/4}{2}\left[y_{0} + y_{4} + 2\sum_{i=1}^{3}y_{i}\right] \\
+    &= \frac{1}{8}\left[\ln 1 + \ln 2 + 2(\ln \frac{5}{4} + \ln \frac{6}{4} + \ln \frac{7}{4})\right]\\
+    & \approx 0.3837
+\end{aligned}
+    $$
+    误差至多为：
+    $$
+    \begin{aligned}
+    &\frac{(b-a)h^2}{12} \left| f''(c) \right|  = \frac{\frac{1}{16}}{12} \cdot \frac{1}{c^2} \\
+    &\leqslant \frac{1}{(16)(12)(1^2)} = \frac{1}{192} \approx 0.0052
+\end{aligned}
+    $$
+    
+    四段辛普森法则设置 $h = \frac{1}{8}$。近似如下：
+    $$
+    \begin{aligned}
+   & \int_{1}^{2}\ln x \, dx \\
+    &\approx \frac{1/8}{3}\left[y_{0} + y_{8} + 4\sum_{i=1}^{4}y_{2i-1} + 2\sum_{i=1}^{3}y_{2i}\right] \\
+    &= \frac{1}{24}\left[\ln 1 + \ln 2 + 4(\ln \frac{9}{8} + \ln \frac{11}{8} + 1)\right.        
+\end{aligned}
+    $$
+
+    $$
+    \begin{aligned}
+    &\left. + (\ln \frac{13}{8} + \ln \frac{15}{8}) + 2(\ln \frac{5}{4} + \ln \frac{6}{4} + \ln \frac{7}{4})\right]\\
+    & \approx 0.386292  
+\end{aligned} $$
+    
+    这与其真实值 0.386 294 在小数点后 5 位一致。事实上，误差不会大于：
+    $$\begin{aligned}
+    &\frac{(b-a)h^4}{180} \left| f^{(4)}(c) \right| = \frac{(1/8)^4}{180} \cdot \frac{6}{c^4} \\
+    &\leqslant \frac{6}{8^4 \cdot 180 \cdot 1^4} \approx 0.000008
+\end{aligned}
+    $$
+
+
+找出复合辛普森法则近似$\int _0^\pi \sin ^2x$d$x$ ,精确到小数点后 6位对应的子区间个数 $m$ 的值.
+我们要求误差满足
+$$\frac{(\pi-0)h^4}{180}\mid f^{(4)}(c)\mid<0.5\times10^{-6}$$
+这里注意一下，精确到小数点后的定义，不知道转非线性方程求解里对于此概念的定义
+
+由于$\sin^2x$ 的四阶导数是一8cos$2x$,我们需要
+$$\frac{\pi h^4}{180}8<0.5\times10^{-6}$$
+或者$h<0.$ 0435.因而$m=\operatorname{ceil}(\pi/(2h))=37$就足够了.
+\subsection{复合中点法则}
+闭牛顿-科特斯方法诸如梯形法则和辛普森法则，需要积分区间端点上的函数值. 一些做积分函数在端点上有可以移除的奇点，使用开牛顿-科特斯方法可以更加容易处理，其中不使用在区间端点上的函数值. 下面的法则可以用于函数 $f$,其二阶导数 $f^\prime\prime$在区间[$a$,$b]$上连续：
+
+\begin{equation*}
+    \fbox{$\begin{aligned} 
+    &\text{复合中点法则}\\
+    &\int_{a}^{b}f\left(x\right)\mathrm{d}x=h\sum_{i=1}^{m}f\left(w_{i}\right)+\frac{\left(b-a\right)h^{2}}{24}f^{\prime\prime}\left(c\right)\\
+    &\text{其中} h=\frac{b-a}{m}, c \text{在} a \text{和} b \text{之间}. \\
+    & \text{是} [a,b] \text{中} m \text{个相等子区间的中点}.
+    \end{aligned}$}
+    \end{equation*}
+    使用复合中点法则，近似$\int_0^1\sin x/x$d$x$ ,$m=10$ 个子区间.
+
+    首先注意，如果对于$x=0$没有特殊的处理，我们不能对该问题直接使用闭方法.可
+    以直接应用中点方法. 中点为$0.05,0.15,\cdotp\cdotp\cdotp,0.95$,所以复合中点法则得到
+    $\int_{0}^{1}f(x)$d$x\approx0.1\sum_{1}^{10}f(m_{i})=0.94620858$
+    精确到小数点后 8 位的解是 0.946 083 07.
+
+    另一个有用的开牛顿-科特斯法则是
+    $$\begin{aligned}&\int_{x_0}^{x_4}f(x)\:\mathrm{d}x\\
+        &=\frac{4h}{3}\bigl[2f(x_1)-f(x_2)+2f(x_3)\bigr]+\frac{14h^5}{45}f^{(4)}(c)
+    \end{aligned}$$
+    其中$h=(x_{4}-x_{0})/4,x_{1}=x_{0}+h,x_{2}=x_{0}+2h,x_{3}=x_{0}+3h$并且$x_0<c<x_{4}.$该法则具有
+    3 阶精度. 
+
+
+    \subsection{龙贝格积分}
+    $\begin{aligned}
+        &h_1 =b-a 
+        &h_{2} =\frac{1}{2}(b-a) 
+        \cdots
+        & h_{j}=\frac{1}{2^{j-1}}(b-a) 
+        \end{aligned}$
+    
+        $R_{11}=\frac{h_{1}}{2}(f(a)+f(b)) $
+            $R_{21}=\frac{1}{2}R_{11}+h_{2}f\Big(\frac{a+b}{2}\Big) $
+            $R_{31}=\frac{1}{2}R_{21}+h_{3}[f(a+\frac{b-a}{4})+f(a+\frac{3}{4}(b-a))]$
+            $R_{41}=\frac{1}{2}R_{31}+h_{4}[f(a+\frac{1}{8}(b-a))+f(a+\frac{3}{8}(b-a))+f(a+\frac{5}{8}(b-a))+f(a+\frac{7}{8}(b-a))]$
+            $R_{j1} = \frac{1}{2}R_{j-1,1}+h_{j}\sum_{i=1} ^{2^{j-2}}f(a+(2i-1)h_{j})$
+      
+            
+
+$R_{22}=\frac{2^2R_{21}-R_{11}}3$
+$R_{32}=\frac{2^2R_{31}-R_{21}}3$
+$R_{42}=\frac{2^2R_{41}-R_{31}}3$
+$R_{33}=\frac{4^2R_{32}-R_{22}}{4^2-1}$
+$R_{43}=\frac{4^2R_{42}-R_{32}}{4^2-1}$
+$R_{53}=\frac{4^2R_{52}-R_{42}}{4^2-1}$
+
+$R_{jk}=\frac{4^{k-1}R_{j,k-1}-R_{j-1,k-1}}{4^{k-1}-1}$
+该表是下三角矩阵并可以向下向后无穷扩展.对于定积分 $M$ 的最优近似是$R_{ij}$,这是到目前为止计算的最右最下项，该近似是 2$j$阶的近似
+\subsection{高斯积分}
+$\begin{aligned}
+    &\int_{-1}^{1}f\left(x\right)\mathrm{d}x\approx\sum_{i=1}^{n}c_{i}f\left(x_{i}\right)\\
+    &c_{i}=\int_{-1}^{1}L_{i}\left(x\right)\mathrm{d}x,i=1,\cdots,n\end{aligned}$
+定理  高斯积分方法,在区间$[-1,1]$上使用 $n$ 阶勒让德多项式,具有 $2n一1 $阶精度
+
+\section{ode}
+\subsection{常微分方程的求解}
+\subsubsection{欧拉法}
+
+\fbox{$\begin{aligned}
+&\text{欧拉方法}\\
+&w_{0}=y_{0}\\
+&w_{i+1}=w_{i}+hf\left(t_{i},w_{i}\right)
+\end{aligned}$}
+
+\subsubsection{显式梯形法}
+\fbox{$\begin{aligned}
+    &\text{显式梯形方法（改进欧拉法）}\\
+    &w_{0}=y_{0}\\
+    &w_{t+1}=w_{i}+\frac{h}{2}(f(t_{i},w_{i})\\
+    &+f(t_{i}+h,w_{i}+hf(t_{i},w_{i})))
+\end{aligned}$}
+
+\subsubsection{K阶泰勒法}
+\fbox{$\begin{aligned}
+    &\text{K阶泰勒方法}\\
+    &w_{0}=y_{0}\\
+    &w_{i+1}=w_{i}+hf\left(t_{i},w_{i}\right)+\frac{h^{2}}{2}f^{\prime}\left(t_{i},w_{i}\right)+\\
+    &\cdots+\frac{h^{k}}{k!}f^{(k)}\left(t_{i},w_{i}\right)\end{aligned}$}
+
+\subsection{初值问题求解器的分析}
+\boxed{
+\begin{aligned}
+& \text{定义：当存在常数 } L \text{（称为利普希茨常数）对矩形 } \\
+&S = [a, b] \times [\alpha, \beta] \text{ 中的每对 } (t, y_1), (t, y_2) \text{ 满足} \\
+& \mid f(t, y_1) - f(t, y_2) \mid \leqslant L \mid y_1 - y_2 \mid \\
+& \text{函数 } f(t, y) \text{ 相对于变量 } y \text{ 在 } S \text{ 上利普希茨连续。}
+\end{aligned}
+}
+
+\boxed{
+\begin{aligned}
+& \text{利普西茨常数对于凸集构成的区间} \\
+& \text{函数 } f \text{ 在区间上对 } \mathbf{y} \text{ 连续可微} \\
+& \text{则偏导数 } \frac{\partial f}{\partial y} \text{ 绝对值的极大值就是利普西茨常数 }\\
+& L = \max \left( \left| \frac{\partial}{\partial y} f(t, y) \right| \right)
+\end{aligned}
+}
+
+\boxed{
+\begin{aligned}
+& \text{定理：假设 } f(t,y) \text{ 在集合 } S = [a,b] \times [\alpha,\beta]\\
+& \text{ 上关于 } y \text{ 是连续的。如果 } Y(t) \text{ 和 } Z(t) \\
+& \text{是微分方程 } y' = f(t,y) \text{ 在 } S \text{ 上的解}\\
+&\text{分别具有初值条件 }\\
+& Y(a) \text{ 和 } Z(a)，\text{则} \\
+& | Y(t) - Z(t) | \leqslant \mathrm{e}^{L(t-a)} | Y(a) - Z(a) |
+\end{aligned}
+}
+从定理可知，$e^L(t-a)$是方程的条件数
+
+
+
+% 例：在区间$x\in[0,1],y\in[-\infty,\infty]$上的函数$y^\prime=$xy+x^3$
+
+% 可以知道其利普西茨常数是1
+
+% 由上定理 知条件 数 为$e^{L(x-a)}$,其 中L=1,a=0
+
+% 于是得到条件数为$e^x$
+
+% 在$x\in[0,1]$上，$e^x\in[1,e]$
+
+% 意义：解中的误差最大为初值误差乘以e，$e\sim1$,因此此问题具有良好的条件 数。
+% 解释：对于初值$Y_0$,此问题的解为$y(x)=(2+Y_0)e^{\frac{x^2}2}-x^2-2$,变换初值
+% $Z_{0}$,则$|y(x)-z(x)|=|Y_0-Z_0|e^{\frac{x^2}2}<|Y_0-Z_0|e$
+
+在区间 \( x \in [0,1], y \in [-\infty, \infty] \) 上的函数 \( y' = xy + x^3 \)，其利普西茨常数是 \( L = 1 \)。
+
+根据定理，条件数为 \( e^{L(x - a)} \)，其中 \( L = 1 \), \( a = 0 \)，因此条件数为 \( e^x \)。
+
+在 \( x \in [0,1] \) 上，\( e^x \in [1, e] \)。
+
+这意味着，解中的误差最大为初值误差乘以 \( e \)，而 \( e \) 大约等于 2.718，因此，这个问题具有良好的条件数。
+
+换句话说，对于初值 \( Y_0 \)，该问题的解为 \( y(x) = (2 + Y_0) e^{\frac{x^2}{2}} - x^2 - 2 \)。如果有另一个初值 \( Z_0 \)，则 \( |y(x) - z(x)| = |Y_0 - Z_0| e^{\frac{x^2}{2}} < |Y_0 - Z_0| e \)。
+
+这样的分析展示了在给定条件下，初始误差如何在解中传播，以及条件数 \( e^x \) 如何评估解的稳定性。
+
+
+
+\boxed{
+\begin{aligned}
+& \text{定理: 假设 } f(t,y) \text{ 对于变量 } y \text{ 具有利普希茨常数 } L,\\
+& \text{ 初值问题的解在 } t_i \text{ 的值为 } y_i, \\
+& \text{ 使用单步 ODE 求解器的近似值是 } w_i, \\
+&\text{ 对于某个常数 } C \text{ （通常可以通过误差项放缩求得）},\\
+& \text{ 局部截断误差 } e_i \leqslant C h^{k+1}. \\
+&\text{ 则对于每个 } a < t_i < b, \\
+&\text{ 求解器的全局截断误差是}\\
+&g_i = |w_i - y_i| \leqslant \frac{C h^k}{L} (e^{L(t_i - a)} - 1).
+\end{aligned}}
+
+
+
+
+粗略来讲，全局误差为局部截断误差的$n$步求和，$n$与 $h$ 成反比例，因此局部截断误差为$h^{k+1}$时，全局截断误差为$h^k$
+误差随$h$的减小而降低，可以取到任意精度
+全局截断误差对$b$有指数依赖，对于比较大的$t_i$，所需的$h$可能会太小而难以使用
+
+欧拉方法求解在区间$x\in[0,1],y\in[-\infty,\infty]$上的初值问题$y^\prime=xy+$
+$x^3$,y(0)=1的全局误差 界
+此函数在[0,1]上的利普西茨常数L=1,其精确解为$y(x)=3e^\frac{x^2}2-x^2-2$
+二 阶 导 数 $y^{\prime \prime }( x) = ( x^2+ 2) e^{\frac {x^2}2}- 2$,其 绝 对 值 在 [ 0, 1] 上 的 界 为 $M= y^{\prime \prime }( 1) =3\sqrt{e}-2$
+% $\frac{3\sqrt{e}-2}2(e-1)h$
+$\begin{aligned}
+    & \text{欧拉方法的局部截断误差 } e \leq \frac{Mh^2}{2}, \\
+    & \text{由上定理可知 } g = \frac{Mh}{2L}(e^L - 1) = \frac{3\sqrt{e} - 2}{2}(e - 1)h.
+    \end{aligned}$
+
+\subsection{龙格家族}
+\boxed{
+\begin{aligned}&\text{中点方法}\\
+    &w_{0}=y_{0}\\
+    &w_{i+1}=w_{i}+hf\left(t_{i}+\frac{h}{2},w_{i}+\frac{h}{2}f\left(t_{i},w_{i}\right)\right)
+\end{aligned}}
+
+
+4阶龙格-库塔方法(RK4)
+
+$$w_{i+1}=w_{i}+\frac{h}{6}\left(s_{1}+2s_{2}+2s_{3}+s_{4}\right)$$
+
+其中
+
+$$\begin{aligned}&s_{1}=f\left(t_{i},w_{i}\right)\\&s_{2}=f\left(t_{i}+\frac{h}{2},w_{i}+\frac{h}{2}s_{1}\right)\\&s_{3}=f\left(t_{i}+\frac{h}{2},w_{i}+\frac{h}{2}s_{2}\right)\\&s_{4}=f\left(t_{i}+h,w_{i}+hs_{3}\right)\end{aligned}$$
+
+
+\section{边值问题}
+% \subsection{打靶法}
+% 通过找出具有相同解的 IVP,使用打靶方法求解 BVP.在这个过程中生成一系列的 IVP,收敛到正确解.这个序列从初始值$y_a$和对斜率$s_a$的初始估计开始. 求解满足初始斜率的 IVP,和边值$y_{b}$进行比较. 通过实验和误差比较，改进初始斜率，直到边值满足。为了给该方法更正式的表达，定义下面的函数：
+\subsection{有限差分法}
+
+使用有限差分求解 BVP
+$$\begin{cases}y^{\prime\prime}=4y\\y(0)=1\\y(1)=3\end{cases}$$
+
+考虑微分方程的离散形式使用二阶导数的中心差分形式（具体要求看题目要求的导数的格式）.在$t_\mathrm{i}$处的有限差分形式如下
+
+$\frac{w_{i+1}-2w_{i}+w_{i-1}}{h^{2}}-4w_{i}=0$
+
+ 或者等价地
+
+$w_{i-1}+(-4h^{2}-2)w_{i}+w_{i+1}=0$
+
+当$n=3$时，区间大小$h=1/(n+1)=1/4$,有三个这样的方程.插人边界条件$w_0=1$,$w_4=3$,我们得到下面的方程组，求解$w_1,w_2,w_3:$
+$$1+(-4h^2-2)w_1+w_2=0$$
+$$w_1+(-4h^2-2)w_2+w_3=0$$
+$$w_2+(-4h^2-2)w_3+3=0$$
+代人$h$ 得到三对角线矩阵方程
+$$\begin{bmatrix}-\dfrac{9}{4}&1&0\\\\1&-\dfrac{9}{4}&1\\\\0&1&-\dfrac{9}{4}\end{bmatrix}\begin{bmatrix}w_1\\w_2\\w_3\end{bmatrix}=\begin{bmatrix}-1\\0\\-3\end{bmatrix}$$
+
+\section{蒙特卡洛}
+特征分布，为来降低理论要求，我们只关注均匀分布和正态分布
+\subsection{产生随机数的方法}
+基本思想：两个数做乘法，高位数字容易预测，低位数字很难预测，说明低位数字随机。
+高位数字容易预测： 当两个数相乘时，乘积的高位数字通常可以通过乘法的近似计算或者估算得出。这是因为高位数字受到数的数量级影响，变化相对较小，预测起来比较容易和准确。
+
+低位数字很难预测： 相比之下，乘积的低位数字往往受到更多影响因素的混合，例如舍入误差、小数位的变化等。这使得低位数字的具体数值变得更为随机和不可预测。
+
+    \boxed{
+    \begin{aligned}
+    &\text{线性同余随机数生成器的公式（LCG）}\\
+    x_i &= (a x_{i-1} + b) \mod m \\
+    u_i &= \frac{x_i}{m}\\
+    \text{其中 }& a \text{为乘子}, b \text{为偏移}, m \text{为模数}\\
+    &\text{一般的重复周期为}m-1
+\end{aligned}}
+
+\boxed{
+\begin{aligned}
+    &\text{最小标准随机数生成器}\\
+x_i &= a \cdot x_{i-1}(\mod m )\\
+u_i &= \frac{x_i}{m}\\
+\text{其中 } &m = 2^{31} - 1, \; a = 7^5 = 16807, \; \\
+b = 0
+\text{形式为 }&2^p-1\text{ 的素数，其中 } p \text{ 为整数，又称作梅森(Mersenne)素数}.
+\end{aligned}
+}
+
+
+
+\boxed{
+    \begin{aligned}
+       &\text {randu生成器}\\
+        x_{i}&=ax_{i-1}\left(\mod m \right)\\
+        u_{i}&=\frac{x_{i}}{m}\\
+        \text{其中}& a=65539=2^{16}+3,m=2^{31}
+    \end{aligned}
+    }
+\subsection{1型蒙特卡罗和2型蒙特卡罗}
+例  用蒙特卡罗 1 型和 2 型方法，计算曲
+线 y=$x^{2}$ 在区间[0,1]内曲线下的面积.
+蒙特卡罗 1 型. 每次试验中，我们都要在[0,1]区间内生成$n$个均匀分布的样本点$x$,并估计函数$y=x^2$的平均值. 
+对于 2 型蒙特卡罗问题，我们在单位矩形[0, $1]\times[0,1]$内生成均匀分布的随机点($x,y)$,然后计算满足条件$y<x^2$的比例。
+
+I-型蒙特卡洛: 通常指的是直接蒙特卡洛方法。这种方法通过从给定的概率分布中生成随机样本，来估计一个函数或者表达式的期望值。它适用于那些可以通过模拟实验来直接估计的问题。例如，通过模拟大量随机路径来估计金融衍生品的定价问题。
+
+II-型蒙特卡洛：这种方法首先对问题进行变换，将其转化为一个易于抽样的形式，然后再使用随机抽样来解决问题。它通常用于那些直接模拟复杂的概率分布比较困难的情况。例如，通过引入辅助变量和条件分布，将复杂的多元分布转化为单变量分布，再进行抽样。
+\boxed{\begin{aligned}
+    &\text{ 1型或 2 型蒙特卡罗模拟具有伪随机数字}\\
+    &\text{Error}\propto n^{-\frac12}
+    \end{aligned}}
+\subsection{指数随机分布公式}
+假设 $F(x)$是需要生成的随机变量对应的概率分布函数. $Q(x)=F^{-1}(x)$是对应的反函数. 若$U$[0,1]是[0,1]区间上的均匀分布的随机数，则$Q(U[0,1])$就是满足分布 $F$ 的随机数. 
+\boxed{\begin{aligned}
+    &x \sim F(x) = 1 - e^{-ax} \\
+    &\Leftrightarrow x = -\frac{\ln(1-u)}{a} \quad \text{其中} \quad u \sim U(0,1)\\
+    &r \sim f(r) = \frac{e^{-\frac{r^2}{2}}}{2} \\
+    &\text{这里的f是概率密度函数}\\
+    &\Leftrightarrow r^2 = -2 \ln(1-u) \quad \text{其中} \quad u \sim U(0,1)
+\end{aligned}}
+\subsection{拟随机数}
+拟随机数的设计是要使得生成的序列是自避(Self-avoiding)的，而不一定要保证独立性。自避定义为。在生成贿机数序列的讨程中，新的数会填充到比较稀疏的区域，而不会聚集到一起.
+
+令d表示将要生成的随机数的维度
+
+1型蒙特卡罗问题(拟随机数)$Error\infty(lnn)^dn^{-1}$
+
+2型蒙特卡罗问题(拟随机数)
+
+Error $\infty n^{- \frac 12- \frac 1{2d}}$
+\section{傅里叶变换}
+DFT的复杂度从$O(n^2)$降到了FFT的$O(nlog_2n)$
+
+例  计算向量$x=[1,0,-1,0]^{\mathrm{T}}$的 DFT.
+
+设$w$ 为 4 次单位根，$\omega = \mathrm{e} ^{- \mathrm{i} 2\pi / n}= \cos ( \pi / 2) -$isin$( \pi / 2) = -$i.  应用 DFT 矩阵，得到
+
+
+$$\begin{bmatrix}y_0\\y_1\\y_2\\y_3\end{bmatrix}=\dfrac{1}{\sqrt{n=4}}\begin{bmatrix}1&1&1&1\\1&\omega&\omega^2&\omega^3\\1&\omega^2&\omega^4&\omega^6\\1&\omega^3&\omega^6&\omega^9\end{bmatrix}\begin{bmatrix}1\\0\\-1\\0\end{bmatrix}$$
+\end{multicols}
+\end{document}

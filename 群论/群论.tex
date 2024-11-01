@@ -1,0 +1,291 @@
+\documentclass[12pt, openany]{ctexbook} % 使用 12pt 字号的 CTeX 书籍类，允许章节从任意页面开始
+\usepackage[dvipsnames,svgnames]{xcolor} % 使用颜色包，支持 dvipsnames 和 svgnames 颜色名称
+\usepackage{note} % 可能是一个自定义包
+\usepackage{longtable} % 长表格支持
+\usepackage{hyperref} % 超链接支持
+\usepackage{matlab} % MATLAB 代码支持
+\usepackage{amsmath} % AMS 数学公式支持
+\usepackage{amsthm} % 定理环境支持
+\numberwithin{equation}{section} % 按 section 编号方程
+\newtheorem{theorem}{定理}[section] % 定义定理环境，按 section 编号
+
+\usepackage{multicol} % 多栏布局支持
+\setlength{\columnsep}{0.1cm} % 设置列间距
+\setlength{\columnseprule}{0.4pt} % 设置列间分界线
+\usepackage[a4paper, margin=1in]{geometry} % 设置 A4 纸张，页面边距为 1 英寸
+\usepackage{indentfirst} % 首段缩进
+\usepackage{setspace} % 行距设置
+\usepackage{titlesec} % 标题格式设置
+\usepackage{natbib} % 参考文献引用
+\usepackage{fancyhdr} % 自定义页眉页脚
+\usepackage{unicode-math} % Unicode 数学字体支持
+\setmathfont{Segoe UI Symbol} % 设置数学字体为 Segoe UI Symbol
+
+\definecolor{formalshade}{rgb}{0.95,0.95,1} % 定义正式文本框背景颜色
+\usepackage{framed} % 框架支持
+\newenvironment{formal}{%
+  \def\FrameCommand{%
+    \hspace{2pt}%
+    {\color{DarkBlue}\vrule width 2pt}%
+    {\color{formalshade}\vrule width 4pt}%
+    \colorbox{formalshade}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \vspace{5pt}% 调整正式文本框上下的间距
+}
+{\endMakeFramed}
+
+% 设置大标题（chapter）格式
+\titleformat{\chapter}
+  {\bfseries\Huge} % 标题字体加粗，设为大号
+  {\thechapter} % 标题编号
+  {1em} % 标题与编号间距
+  {} % 标题文本格式
+
+% 设置小标题（section）格式
+\titleformat{\section}
+  {\bfseries\Large} % 字体加粗，设为大号
+  {\thesection} % 编号
+  {1em} % 标题与编号间距
+  {} % 标题文本格式
+
+\setlength{\parskip}{0.5\baselineskip} % 段落间距设为半个行高
+\setstretch{1.2} % 行间距设为 1.2 倍
+
+\title{群论} % 文档标题
+\author{李先宝} % 作者
+\date{} % 日期为空
+%使用CJKnumber包来实现中文数字编号
+% \usepackage{CJKnumber}
+% \renewcommand{\thechapter}{\CJKnumber{\arabic{chapter}}} % 中文章节编号
+
+\begin{document}
+\maketitle % 生成标题
+\chapter{群}
+% 在这里插入你的内容
+\section{群的基础概念}
+\subsection{群的定义及其基本性质}
+\begin{mydef}{群的定义}
+
+    如果一个非空集合$G$ 上定义了一个二元运算·,满足如下性质：
+
+    (1)封闭性，即对于$\forall a,b\in G$ ,有$a\cdot b\in G$ ;
+
+    (2)结合律，即对于$\forall a,b,c\in G$ ,有$(a\cdot b)\cdot c=a\cdot(b\cdot c)$ ;
+
+    (3)存在$e\in G$ ,使得$\forall a\in G$ ,有$e\cdot a=a\cdot e=a$ ; 
+    
+    (4)对于$\forall a\in G$ ,存在$b\in G$ ,使得$a\cdot b=b\cdot a=e$ , 则称$G$关于运算·构成一个群 (group),记为$(G,\cdot)$ ,或简记为$G$ 。
+\end{mydef}
+群 $G$ 内元素数称之为群的阶数,记作 $|G|$,有限阶的群被称为有限群,无限阶的群被称为无限群。可以得到一阶群当且仅当其元素为恒元。
+
+接下来我介绍一下常见例子
+\begin{enumerate}
+    \item 所有$n维$非奇异（行列式非零）线性变换形成一个群。
+    \item 如果矩阵 $A$ 满足
+    \[
+    \det(\mathbf{A}) = 1,
+    \]
+    我们称矩阵 $A$ 为幺模矩阵。不难看出所有 $n$ 维的幺模矩阵形成一个群，这个
+    群叫做特殊线性群 $C_n$
+    \item 所有的 $n$ 维幺正矩阵$U$,并且相应的行列式
+    $\det\boldsymbol{U}=1$,也形成一个群，称为特殊酉群 $SU(n).$
+    \item 不难看出，三维空间中的坐标转动形成一个群，称为转动群.时
+    间-空间中的坐标的洛伦兹变换也形成一个群，称为洛伦兹群.
+\end{enumerate}
+
+群的基本性质：
+设 $ G $ 是一个群，则满足以下性质：
+
+\begin{itemize}
+    \item $ G $ 的单位元唯一。
+    \item $ G $ 的逆元唯一。
+    \item $\forall a, b \in G$，有 $(ab)^{-1} = b^{-1}a^{-1}$。
+    \item $\forall a \in G$，有 $(a^{-1})^{-1} = a$。
+    \item $\forall a, b, c \in G$，若 $ab = ac$，则 $b = c$。满足消去律
+    \item $\forall a, b, c \in G$，若 $ba = ca$，则 $b = c$。满足消去律
+\end{itemize}
+\begin{mytheo}{重排定理}
+  群 $G$ 中任意元素以相同方式作用在群中所有元素上，得到的所有结果的集合仍是群本身
+
+  即$\forall g_\alpha\in G\Rightarrow g_\alpha G=\{g_\alpha g|g\in G\}=Gg_\alpha=\{gg_\alpha|g\in G\}=G$
+\end{mytheo}
+\section{循环群及有限群}
+\begin{mydef}{循环群}
+  设$G$是一个群，若$\exists a \in G$，使得$\forall b \in G$，都存在$n\in \mathbb{Z}$，满足$a^n=b$。则称$G$是一个循环群，称$a$为群$G$的生成元。
+引入记号$\langle a\rangle=\{a_n\mid n\in\mathbb{Z}\}$,则该循环群可记为$G=\langle a\rangle$
+\end{mydef}
+
+任何循环群都是阿贝尔群
+
+\begin{mydef}{群中元素的阶}
+  若存在 $n\in\mathbb{N}^*$，使得 $a^{n}=e$，则称使得 $a^{n}=e$ 成立的最小的正整数 $n$ 为元素 $a$ 的阶，记作 $\vert a\vert$。
+
+  若对任意 $n\in\mathbb{N}^*$，$a^{n}\neq e$，则称 $a$ 的阶为 $\infty$，记作 $\vert a\vert=\infty$。
+
+
+\end{mydef}
+\begin{mydef}{群的方次数}
+  若\(\{t\in\mathbb{N}^*\mid\forall a\in G,a^{t}=e\}\neq\varnothing\)，(这个集合表示的是所有使得群$G$中任意元素$a$的次幂等于单位元$e$的正整数的集合。)
+  \(t_0=\min\{t\in\mathbb{N}^*\mid\forall a\in G,a^{t}=e\}\)为 \(G\) 的方次数，记作 $\exp(G)$。
+  若\(\{t\in\mathbb{N}^*\mid\forall a\in G,a^{t}=e\}=\varnothing\)，则称 \(G\) 的方次数为 $\infty$，记作 $\exp(G)=\infty$。
+\end{mydef}
+任何群都存在至少一个元素，其阶是有限的$e$。
+
+\begin{mytheo}{循环群的结构}
+设\(G=\langle a\rangle\)。则\(\vert G\vert=\vert a\vert\)，并且
+\[
+G=\begin{cases}
+\{...,a^{-2},a^{-1},e,a,a^{2},a^{3},...\},&|G|=\infty,\\
+\{e,a,a^{2},...,a^{n - 1}\},&|G|<\infty.
+\end{cases}
+\]
+\end{mytheo}
+
+推论：有限群的元素的阶。设\(G\)是有限群，则对任意\(a\in G\)，元素\(a\)的阶是有限的（\(\vert a\vert<\infty\)）。
+
+\begin{mytheo}{}
+  1设\(G\)是有限群。\(G\)是循环群的充分必要条件是存在元素\(a\in G\)，使得元素\(a\)的阶\(\vert a\vert\)等于群\(G\)的阶\(\vert G\vert\)。
+\end{mytheo}
+\section{阿贝尔群}
+
+
+
+
+
+\section{群的子集}
+\subsection{陪集和类}
+\begin{mydef}{子群}
+若$H\subseteq G$且在$G$的群乘法下也构成一个群，则称$H$是$G$的子群.
+\end{mydef}
+\begin{mydef}{陪集}
+  陪集“即由任意固定的$g\in G$与$G$的子群$H$生成的集合，分为两类，记号与定义如下
+
+左陪集：$gH=\{gh|h\in H\}.$
+
+右陪集：$Hg=\{hg|h\in H\}.$
+\end{mydef}
+
+(1)显然陪集内元素数等于子群的阶，因为$h_\alpha\neq h_\beta\Leftrightarrow\begin{cases}gh_\alpha\neq gh_\beta\\h_\alpha g\neq h_\beta g\end{cases}.$
+
+(2)如果$g\in H$那陪集就是$H$本身，重排定理。
+
+(3)陪集通常并不构成一个群：因为通常选择彼此互斥（具体见陪集定理）的陪集，由于有且仅有子群$H$有恒元，故互斥的陪集由于缺少恒元而无法构成一个群。
+\begin{mytheo}{陪集定理}
+  1对于子群$H$的两个左 右 陪集要么完全相同,要么无公共元素.
+\end{mytheo}
+
+
+陪集定理告诉我们：
+
+(1)可以用陪集去分割群：$G=g_eH\cup g_\alpha H\cup g_\beta H\cup\cdots$
+缺哪个元素就用哪个元素生成左陪集加进去就是了，因为陪集里一定有这个元素本身
+
+(2)子群的阶数必为群阶数的因数。这由上述分割考虑到陪集定理及子群的陪集内元素数固定这一事实可以显然推知.
+
+\begin{mydef}{共轭和类}
+  对 $\forall g_\alpha, g_\beta \in G$，若 $\exists g_\gamma \in G$ 使得 $g_\alpha = g_\gamma g_\beta g_\gamma^{-1}$，则称 $g_\alpha, g_\beta$ 共轭，记作 $g_\alpha \sim g_\beta$。
+   
+  进一步，所有相互共轭的元素可构成一个类，即共轭类 
+  \[
+    [g] \equiv \left\{ g_\alpha g g_\alpha^{-1} \mid g_\alpha \in G \right\} \text{，其中 } g \in G。
+  \]
+\end{mydef}
+
+(1) 共轭 显然有对称性$g_\alpha\sim g_\beta\Leftrightarrow g_\beta\sim g_\alpha$ ,
+因为$g_\alpha=g_\gamma g_\beta g_\gamma^{-1}\Rightarrow g_\beta=g_\gamma^{-1}g_\alpha g_\gamma=g_\gamma^{-1}g_\alpha\left(g_\gamma^{-1}\right)^{-1}.$
+此外还具有传递性，即$g_\alpha\sim g_{\beta^{\prime}}g_\beta\sim g_\gamma\Rightarrow g_\alpha\sim g_\gamma.$
+
+(2) 同陪集定理，共轭类同样具有要么完全相同，要么完全不同，但元素个数就不完全相等。
+故可以根据类划分群的元素。
+
+
+(3) 恒元自成一类，在阿贝尔群中所有元素自成一类。
+\begin{mytheo}{}
+  1设有限群 G 的阶为$g,\mathcal{C}_\alpha$是群 G 中的一个类，含$n(\alpha)$个元素，$R_j$和$R_k$ 是类$\mathcal{C}_\alpha$中任意两个元素，证明 G 中满足条件$R_k=PR_jP^-1$的元素$P$的数目为$m(\alpha)=g/n(\alpha).$
+\end{mytheo}
+
+\begin{mypro}
+  群 \( G \) 中所有与 \( R_j \) 对易的元素 \( T_t \) 的集合 \( H = \{T_1, T_2, \cdots, T_{m(\alpha)}\} \) 满足封闭性，因而构成群 \( G \) 的子群，子群阶记作 \( m(\alpha) \)。设 \( S_k \) 满足条件 \( R_k = S_k R_j S_k^{-1} \)，则 \( S_k T_t \) 也满足此条件。反之，满足条件 \( R_k = P R_j P^{-1} \) 的元素 \( P \) 必满足 \( (S_k^{-1} P) R_j (S_k^{-1} P)^{-1} = S_k^{-1} R_k S_k = R_j \)，即 \( S_k^{-1} P \in H \)，\( P \) 属于左陪集 \( S_k H \)。因此，类 \( \mathcal{C}_\alpha \) 中每个元素 \( R_k \) 和子群 \( H \) 或其左陪集 \( S_k H \) 存在一一对应的关系，即 \( m(\alpha) n(\alpha) = g \)。
+\end{mypro}
+
+\subsection{不变子群与商群}
+
+\begin{mydef}{不变子群}
+  设 \( G \) 是一个群，\( H \) 是 \( G \) 的一个子群。如果对于任意 \( g \in G \)，都有：
+  \[
+  gHg^{-1} = H
+  \]
+  或等价地，对于任意 \( h \in H \)，都有：
+  \[
+  ghg^{-1} \in H
+  \]
+  则称 \( H \) 是 \( G \) 的不变子群（或正规子群、标准子群），记作 \( H \triangleleft G \)。
+  \end{mydef}
+
+陪集分解：$
+   \forall g \in G, \quad gH = Hg.
+   $
+
+\begin{mydef}{群中心}
+    设 \( G \) 是一个群。群中心 \( Z(G) \) 定义为与群 \( G \) 中所有元素都交换的元素集合，即：
+    \[
+    Z(G) = \{ z \in G \mid \forall g \in G, zg = gz \}
+    \]
+    群中心 \( Z(G) \) 是 \( G \) 的不变子群（正规子群），并且 \( Z(G) \) 中的元素都是 \( G \) 的中心元素。
+    \end{mydef}
+
+
+    \begin{mydef}{商群}
+      设 \( G \) 是一个群，\( H \) 是 \( G \) 的一个不变子群（正规子群）。商群 \( G/H \) 定义为 \( G \) 中所有左陪集（或右陪集）的集合，并且定义了以下群运算：
+      \[
+      (aH) \cdot (bH) = (ab)H
+      \]
+      其中 \( a, b \in G \)。集合 \( G/H \) 中的元素是 \( G \) 的左陪集，即：
+      \[
+      G/H = \{ aH \mid a \in G \}
+      \]
+      并且商群 \( G/H \) 继承了 \( G \) 的单位元 \( H \)，即：
+      \[
+      1_{G/H} = H
+      \]
+      以及每个元素 \( aH \in G/H \) 的逆元为：
+      \[
+      (aH)^{-1} = a^{-1}H
+      \]
+      \end{mydef}
+
+\section{群同态与群同构}
+
+
+如果两个群可以以某种适当方式一一对应起来，且元素的乘积仍以相同的方式一一对应，则具有这种对应关系的两个群成为同构。
+\begin{mydef}{群的同构}
+  若群$G^\prime$和$G$的所有元素间都按某种规则存在一一对应关系，它们的乘积也按同一规则一一对应，则称两群同构. 用符号表示，若$R$和$S\in G,R^\prime$和$S^{\prime}\in G^{\prime},R^{\prime}\longleftrightarrow R,S^{\prime}\longleftrightarrow S$,必有$R^\prime S^{\prime}\longleftrightarrow RS$,则$G^\prime\approx G$,其中符号“$\longleftrightarrow$”代表一一对应。“$\approx”代表同构$
+ \end{mydef}
+
+
+
+
+
+
+\chapter{群的表示论}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
